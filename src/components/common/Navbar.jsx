@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { FiMenu, FiBell } from "react-icons/fi";
 import { AuthContext } from "../../context/AuthContext";
+import { Link } from "react-router";
 
 const Navbar = ({ toggleMobileSidebar }) => {
   const { user } = useContext(AuthContext);
@@ -11,18 +12,18 @@ const Navbar = ({ toggleMobileSidebar }) => {
         {/* left side */}
         <div className="flex items-center">
           <button
-            className="lg:hidden mr-3 p-2 rounded-md text-gray-500 hover:bg-indigo-50 transition-colors"
+            className="lg:hidden mr-3 p-2 rounded-md text-gray-500 hover:bg-indigo-50 transition-colors cursor-pointer"
             onClick={toggleMobileSidebar}
           >
             <FiMenu size={20} />
           </button>
           
-          <div className="flex gap-2 items-center lg:hidden">
+          <Link to="/dashboard" className="flex gap-2 items-center lg:hidden">
            <div className="h-10 w-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-xl">S</span>
           </div>
           <h1 className="text-2xl font-bold text-indigo-800">StudyMate</h1>
-          </div>
+          </Link>
         </div>
 
         {/* right side */}

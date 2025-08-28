@@ -1,11 +1,11 @@
 import React from 'react';
 import { Outlet } from 'react-router';
-import Navbar from '../components/common/Navbar';
+import LandingPageNavbar from '../components/common/LandingNavbar';
 
 const AuthLayout = () => {
     return (
         <div>
-            <Navbar></Navbar>
+            <LandingPageNavbar></LandingPageNavbar>
             <div className='min-h-[calc(100vh-67px)] bg-gray-50'>
                 <Outlet></Outlet>
             </div>

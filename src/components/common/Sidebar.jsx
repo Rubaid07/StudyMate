@@ -52,18 +52,18 @@ const Sidebar = ({ isMobileOpen, toggleMobileSidebar }) => {
         }`}
       >
         {/* Logo */}
-        <div className="flex items-center gap-3 mb-8">
+        <Link to="/dashboard" className="flex items-center gap-3 mb-8">
           <div className="h-10 w-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-xl">S</span>
           </div>
           <h1 className="text-2xl font-bold text-indigo-800">StudyMate</h1>
           <button
-            className="lg:hidden ml-auto p-1 rounded-md text-gray-500 hover:bg-indigo-50 transition-colors"
+            className="lg:hidden ml-auto p-1 rounded-md text-gray-500 hover:bg-indigo-50 transition-colors cursor-pointer"
             onClick={toggleMobileSidebar}
           >
             <FiX size={20} />
           </button>
-        </div>
+        </Link>
 
         {/* user card */}
         <div className="bg-indigo-50 rounded-xl p-4 mb-6 flex items-center gap-3">
