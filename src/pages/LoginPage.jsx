@@ -23,7 +23,7 @@ const Login = () => {
         user.getIdToken().then(token => {
           localStorage.setItem('access-token', token);
           toast.success("Logged in successfully");
-          navigate(`${location.state ? location.state : "/"}`);
+          navigate(`${location.state ? location.state : "/dashboard"}`);
         });
       })
       .catch(error => {
@@ -50,7 +50,7 @@ const Login = () => {
         role: "customer"
       });
       toast.success("Logged in successfully");
-      navigate(`${location.state ? location.state : "/"}`);
+      navigate(`${location.state ? location.state : "/dashboard"}`);
     })
     .catch(error => {
       toast.error(error.message);

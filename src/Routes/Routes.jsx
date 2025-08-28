@@ -3,6 +3,8 @@ import MainLayout from "../layouts/MainLayout";
 import AuthLayout from "../layouts/AuthLayout";
 import Login from "../pages/LoginPage";
 import Register from "../pages/SignupPage";
+import ProtectedRoute from "../components/common/ProtectedRoute";
+import Dashboard from "../pages/Dashboard";
 
 export const router = createBrowserRouter([
   {
@@ -23,4 +25,8 @@ export const router = createBrowserRouter([
       }
     ]
   },
+  {
+    path: '/dashboard',
+    element: <ProtectedRoute><Dashboard></Dashboard></ProtectedRoute>
+  }
 ]);

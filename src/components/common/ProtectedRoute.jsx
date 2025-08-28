@@ -1,10 +1,12 @@
+// src/components/common/ProtectedRoute.jsx
 
 import React, { useContext } from 'react';
-import { Navigate } from 'react-router';
+import { Navigate, useLocation } from 'react-router'; 
 import { AuthContext } from '../../context/AuthContext';
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = ({ children, publicOnly = false }) => {
   const { user, loading } = useContext(AuthContext);
+  const location = useLocation(); 
 
   if (loading) {
     return (
@@ -13,7 +15,16 @@ const ProtectedRoute = ({ children }) => {
       </div>
     );
   }
-  return user ? children : <Navigate to="/login" replace />;
+
+  // If the route is for public users only (e.g., /, /login, /signup)
+  if (publicOnly) {
+    // And if the user is logged in, redirect to the dashboard
+    return user ? <Navigate to="/dashboard" replace /> : children;
+  }
+
+  // If the route is protected (e.g., /dashboard and its sub-routes)
+  // And if the user is not logged in, redirect to the login page
+  return user ? children : <Navigate to="/login" replace state={{ from: location }} />;
 };
 
 export default ProtectedRoute;

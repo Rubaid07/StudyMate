@@ -64,7 +64,7 @@ const Register = () => {
 
                 setLoading(false);
                 toast.success("Sign up successful");
-                navigate("/");
+                navigate("/dashboard");
             })
             .catch(error => {
                 toast.error(error.message);
@@ -87,7 +87,7 @@ const Register = () => {
                 });
 
                 toast.success("Logged in successfully");
-                navigate(`${location.state ? location.state : "/"}`);
+                navigate(`${location.state ? location.state : "/dashboard"}`);
             })
             .catch(error => {
                 toast.error(error.message);
