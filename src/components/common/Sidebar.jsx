@@ -30,10 +30,10 @@ const Sidebar = ({ isMobileOpen, toggleMobileSidebar }) => {
 
   const menuItems = [
     { to: "/dashboard", icon: <FiHome className="w-5 h-5" />, label: "Dashboard" },
-    { to: "/classes", icon: <FiBook className="w-5 h-5" />, label: "Class Schedule" },
-    { to: "/budget", icon: <FiDollarSign className="w-5 h-5" />, label: "Budget Tracker" },
-    { to: "/planner", icon: <FiCalendar className="w-5 h-5" />, label: "Study Planner" },
-    { to: "/exam-qa", icon: <FiHelpCircle className="w-5 h-5" />, label: "Exam Q&A" },
+    { to: "/dashboard/classes", icon: <FiBook className="w-5 h-5" />, label: "Class Schedule" },
+    { to: "/dashboard/budget", icon: <FiDollarSign className="w-5 h-5" />, label: "Budget Tracker" },
+    { to: "/dashboard/planner", icon: <FiCalendar className="w-5 h-5" />, label: "Study Planner" },
+    { to: "/dashboard/exam-qa", icon: <FiHelpCircle className="w-5 h-5" />, label: "Exam Q&A" },
   ];
 
   return (
