@@ -11,7 +11,9 @@ const DashboardLayout = () => {
         <Sidebar /> 
       <div className="flex flex-col flex-1">
         <Navbar /> 
-        <Outlet /> 
+        <div className='overflow-y-auto'>
+          <Outlet /> 
+        </div>
       </div>
     </div>
   );
