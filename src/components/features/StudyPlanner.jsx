@@ -1,10 +1,8 @@
-// src/features/StudyPlanner.jsx
-
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { AuthContext } from '../../context/AuthContext'; // AuthContext exists in src/context/AuthContext.js
-import { FiEdit, FiTrash2, FiPlusCircle, FiX, FiCheckCircle, FiClock, FiCalendar } from 'react-icons/fi'; // react-icons package must be installed
+import { AuthContext } from '../../context/AuthContext';
+import { FiEdit, FiTrash2, FiPlusCircle, FiX, FiCheckCircle, FiClock, FiCalendar, FiTarget, FiBookOpen, FiAlertTriangle } from 'react-icons/fi'; 
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -110,7 +108,7 @@ const StudyPlanner = () => {
     setFormData({
       title: taskItem.title,
       description: taskItem.description,
-      dueDate: taskItem.dueDate ? new Date(taskItem.dueDate).toISOString().split('T')[0] : '', // Format for input type="date"
+      dueDate: taskItem.dueDate ? new Date(taskItem.dueDate).toISOString().split('T')[0] : '',
       status: taskItem.status,
       priority: taskItem.priority,
     });
@@ -142,179 +140,443 @@ const StudyPlanner = () => {
     }
   };
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'completed': return 'badge-success';
-      case 'pending': return 'badge-warning';
-      default: return 'badge-info';
+  const toggleTaskStatus = async (taskId, currentStatus) => {
+    const newStatus = currentStatus === 'completed' ? 'pending' : 'completed';
+    try {
+      await axios.put(`${API_BASE_URL}/planner/${taskId}`, 
+        { status: newStatus },
+        {
+          headers: {
+            'x-user-id': user?.uid,
+            'Authorization': `Bearer ${localStorage.getItem('access-token')}`
+          },
+        }
+      );
+      toast.success(`Task marked as ${newStatus}!`);
+      fetchTasks();
+    } catch (err) {
+      console.error('Error updating task status:', err);
+      toast.error('Failed to update task status.');
     }
   };
 
-  const getPriorityColor = (priority) => {
+  const getPriorityConfig = (priority) => {
     switch (priority) {
-      case 'high': return 'text-red-500 font-semibold';
-      case 'medium': return 'text-orange-500';
-      case 'low': return 'text-blue-500';
-      default: return 'text-gray-500';
+      case 'high':
+        return {
+          color: 'text-red-600',
+          bgColor: 'bg-red-100',
+          borderColor: 'border-red-200',
+          icon: FiAlertTriangle,
+          label: 'High Priority'
+        };
+      case 'medium':
+        return {
+          color: 'text-orange-600',
+          bgColor: 'bg-orange-100',
+          borderColor: 'border-orange-200',
+          icon: FiTarget,
+          label: 'Medium Priority'
+        };
+      case 'low':
+        return {
+          color: 'text-blue-600',
+          bgColor: 'bg-blue-100',
+          borderColor: 'border-blue-200',
+          icon: FiClock,
+          label: 'Low Priority'
+        };
+      default:
+        return {
+          color: 'text-gray-600',
+          bgColor: 'bg-gray-100',
+          borderColor: 'border-gray-200',
+          icon: FiTarget,
+          label: 'Medium Priority'
+        };
     }
   };
 
-  if (loading) {
+  const getDaysUntilDue = (dueDate) => {
+    const today = new Date();
+    const due = new Date(dueDate);
+    const diffTime = due - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
+
+  const isOverdue = (dueDate) => {
+    return getDaysUntilDue(dueDate) < 0;
+  };
+
+  const formatDueDate = (dueDate) => {
+    const daysUntil = getDaysUntilDue(dueDate);
+    const date = new Date(dueDate);
+    const formattedDate = date.toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric'
+    });
+
+    if (daysUntil === 0) return `Due Today - ${formattedDate}`;
+    if (daysUntil === 1) return `Due Tomorrow - ${formattedDate}`;
+    if (daysUntil > 0) return `Due in ${daysUntil} days - ${formattedDate}`;
+    return `Overdue by ${Math.abs(daysUntil)} days - ${formattedDate}`;
+  };
+
+  if (loading && tasks.length === 0) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <span className="loading loading-spinner text-primary"></span>
-        <p className="ml-2 text-gray-600">Loading study tasks...</p>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50 flex items-center justify-center">
+        <div className="flex flex-col items-center space-y-4">
+          <div className="relative">
+            <div className="w-16 h-16 border-4 border-indigo-200 rounded-full animate-spin"></div>
+            <div className="absolute top-0 left-0 w-16 h-16 border-4 border-indigo-600 rounded-full animate-spin border-t-transparent"></div>
+          </div>
+          <p className="text-gray-600 font-medium">Loading your study tasks...</p>
+        </div>
       </div>
     );
   }
 
   const sortedTasks = [...tasks].sort((a, b) => {
-    const dateA = new Date(a.dueDate);
-    const dateB = new Date(b.dueDate);
-    return dateA - dateB;
+    // Sort by status first (pending first), then by due date
+    if (a.status !== b.status) {
+      return a.status === 'pending' ? -1 : 1;
+    }
+    return new Date(a.dueDate) - new Date(b.dueDate);
   });
 
+  const completedTasks = tasks.filter(task => task.status === 'completed').length;
+  const totalTasks = tasks.length;
+  const completionRate = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
+
   return (
-    <div className="bg-white p-8 rounded-2xl shadow-lg min-h-full">
-      <h1 className="text-3xl font-bold text-gray-800 mb-6">Study Planner</h1>
-      <p className="text-gray-600 mb-6">Plan your study goals, set tasks, and track your progress.</p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50 p-4 lg:p-8">
+      <div className="max-w-6xl mx-auto">
+        {/* Header Section */}
+        <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 mb-8">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div>
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-3">
+                Study Planner
+              </h1>
+              <p className="text-gray-600 text-lg">Organize your academic goals and track your progress</p>
+            </div>
+            <button
+              onClick={() => { resetForm(); setIsModalOpen(true); }}
+              className="group relative px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-3"
+            >
+              <FiPlusCircle className="group-hover:rotate-90 transition-transform duration-200" size={20} />
+              Add New Task
+            </button>
+          </div>
+        </div>
 
-      <button
-        onClick={() => { resetForm(); setIsModalOpen(true); }}
-        className="px-6 py-3 mb-6 bg-green-600 text-white font-semibold rounded-lg shadow-md hover:bg-green-700 transition-colors duration-200 flex items-center gap-2"
-      >
-        <FiPlusCircle /> Add New Task
-      </button>
+        {error && (
+          <div className="bg-red-50 border-l-4 border-red-500 p-6 mb-8 rounded-2xl shadow-md">
+            <div className="flex items-center">
+              <div className="text-red-500 mr-3">⚠️</div>
+              <p className="text-red-700 font-medium">{error}</p>
+            </div>
+          </div>
+        )}
 
-      {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">{error}</div>}
-
-      {tasks.length === 0 ? (
-        <p className="text-center text-gray-500 mt-8">No study tasks added yet. Add a new task to get started!</p>
-      ) : (
-        <div className="space-y-4">
-          {sortedTasks.map((taskItem) => (
-            <div key={taskItem._id} className="bg-gray-50 p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-              <div className="flex-1">
-                <h3 className="text-xl font-semibold text-gray-800">{taskItem.title}</h3>
-                {taskItem.description && (
-                  <p className="text-gray-600 text-sm mt-1">{taskItem.description}</p>
-                )}
-                <div className="flex items-center text-gray-500 text-sm mt-2 space-x-3">
-                  <span className="flex items-center gap-1">
-                    <FiCalendar size={14} />
-                    {taskItem.dueDate ? new Date(taskItem.dueDate).toLocaleDateString() : 'No Due Date'}
-                  </span>
-                  <span className={`flex items-center gap-1 ${getPriorityColor(taskItem.priority)}`}>
-                    <FiClock size={14} />
-                    {taskItem.priority.charAt(0).toUpperCase() + taskItem.priority.slice(1)} Priority
-                  </span>
+        {/* Progress Overview */}
+        {totalTasks > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-6 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-full opacity-10 transform translate-x-6 -translate-y-6"></div>
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-gradient-to-br from-green-100 to-green-200 rounded-2xl">
+                  <FiCheckCircle className="text-green-600" size={24} />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">Completed</p>
+                  <p className="text-3xl font-bold text-gray-800">{completedTasks}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
-                <span className={`badge ${getStatusColor(taskItem.status)} text-white font-medium capitalize`}>
-                  {taskItem.status}
+            </div>
+
+            <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-6 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full opacity-10 transform translate-x-6 -translate-y-6"></div>
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl">
+                  <FiBookOpen className="text-blue-600" size={24} />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">Total Tasks</p>
+                  <p className="text-3xl font-bold text-gray-800">{totalTasks}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-6 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full opacity-10 transform translate-x-6 -translate-y-6"></div>
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-gradient-to-br from-purple-100 to-purple-200 rounded-2xl">
+                  <FiTarget className="text-purple-600" size={24} />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">Progress</p>
+                  <p className="text-3xl font-bold text-gray-800">{Math.round(completionRate)}%</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Tasks Display */}
+        {tasks.length === 0 ? (
+          <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-12 text-center">
+            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <FiBookOpen size={32} className="text-gray-400" />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Ready to Start Studying?</h2>
+            <p className="text-gray-600 mb-8 max-w-md mx-auto">
+              Create your first study task and begin your journey to academic success.
+            </p>
+            <button
+              onClick={() => { resetForm(); setIsModalOpen(true); }}
+              className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-3 mx-auto"
+            >
+              <FiPlusCircle size={20} />
+              Create Your First Task
+            </button>
+          </div>
+        ) : (
+          <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
+            <div className="p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <FiCalendar className="text-indigo-600" size={24} />
+                <h2 className="text-2xl font-bold text-gray-800">Your Study Tasks</h2>
+                <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                  {tasks.filter(t => t.status === 'pending').length} pending
                 </span>
+              </div>
+
+              <div className="space-y-4">
+                {sortedTasks.map((taskItem) => {
+                  const priorityConfig = getPriorityConfig(taskItem.priority);
+                  const PriorityIcon = priorityConfig.icon;
+                  const overdue = isOverdue(taskItem.dueDate);
+
+                  return (
+                    <div
+                      key={taskItem._id}
+                      className={`group relative bg-gradient-to-r from-gray-50 to-white border-l-4 ${
+                        taskItem.status === 'completed' 
+                          ? 'border-green-400 bg-opacity-50' 
+                          : overdue 
+                            ? 'border-red-400' 
+                            : priorityConfig.borderColor.replace('border-', 'border-')
+                      } rounded-2xl p-6 hover:shadow-lg transition-all duration-200 ${
+                        taskItem.status === 'completed' ? 'opacity-75' : ''
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex items-start gap-4 flex-1">
+                          {/* Status Toggle */}
+                          <button
+                            onClick={() => toggleTaskStatus(taskItem._id, taskItem.status)}
+                            className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
+                              taskItem.status === 'completed'
+                                ? 'bg-green-500 border-green-500 text-white'
+                                : 'border-gray-300 hover:border-green-400 hover:bg-green-50'
+                            }`}
+                          >
+                            {taskItem.status === 'completed' && (
+                              <FiCheckCircle size={14} />
+                            )}
+                          </button>
+
+                          <div className="flex-1">
+                            <h3 className={`text-xl font-semibold mb-2 ${
+                              taskItem.status === 'completed' 
+                                ? 'text-gray-500 line-through' 
+                                : 'text-gray-800'
+                            }`}>
+                              {taskItem.title}
+                            </h3>
+                            
+                            {taskItem.description && (
+                              <p className={`text-sm mb-3 ${
+                                taskItem.status === 'completed' 
+                                  ? 'text-gray-400' 
+                                  : 'text-gray-600'
+                              }`}>
+                                {taskItem.description}
+                              </p>
+                            )}
+
+                            <div className="flex flex-wrap gap-3 text-sm">
+                              <div className={`flex items-center gap-1 ${
+                                overdue && taskItem.status !== 'completed' 
+                                  ? 'text-red-600 font-medium' 
+                                  : 'text-gray-500'
+                              }`}>
+                                <FiCalendar size={14} />
+                                {formatDueDate(taskItem.dueDate)}
+                              </div>
+                              
+                              <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs ${priorityConfig.bgColor} ${priorityConfig.color}`}>
+                                <PriorityIcon size={12} />
+                                {priorityConfig.label}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
+                          <button
+                            onClick={() => handleEditClick(taskItem)}
+                            className="p-2 text-blue-500 hover:bg-blue-50 rounded-xl transition-colors"
+                            title="Edit task"
+                          >
+                            <FiEdit size={18} />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteTask(taskItem._id)}
+                            className="p-2 text-red-500 hover:bg-red-50 rounded-xl transition-colors"
+                            title="Delete task"
+                          >
+                            <FiTrash2 size={18} />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Enhanced Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b border-gray-200 px-8 py-6 rounded-t-3xl">
+              <div className="flex items-center justify-between">
+                <h2 className="text-3xl font-bold text-gray-800">
+                  {editingTaskId ? 'Edit Study Task' : 'Create New Study Task'}
+                </h2>
                 <button
-                  onClick={() => handleEditClick(taskItem)}
-                  className="btn btn-sm btn-ghost text-blue-500 hover:text-blue-700 tooltip"
-                  data-tip="Edit"
+                  onClick={() => setIsModalOpen(false)}
+                  className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-colors"
                 >
-                  <FiEdit size={18} />
-                </button>
-                <button
-                  onClick={() => handleDeleteTask(taskItem._id)}
-                  className="btn btn-sm btn-ghost text-red-500 hover:text-red-700 tooltip"
-                  data-tip="Delete"
-                >
-                  <FiTrash2 size={18} />
+                  <FiX size={24} />
                 </button>
               </div>
             </div>
-          ))}
-        </div>
-      )}
+            
+            <div className="px-8 py-6">
+              <form onSubmit={handleAddOrUpdateTask} className="space-y-6">
+                <div>
+                  <label className="block text-gray-700 font-semibold mb-2">Task Title *</label>
+                  <input
+                    type="text"
+                    name="title"
+                    value={formData.title}
+                    onChange={handleFormChange}
+                    placeholder="e.g., Complete Math Assignment Chapter 5"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                    required
+                  />
+                </div>
 
-      {/* Add/Edit Task Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-lg relative">
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
-            >
-              <FiX size={24} />
-            </button>
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">{editingTaskId ? 'Edit Task' : 'Add New Task'}</h2>
-            <form onSubmit={handleAddOrUpdateTask} className="space-y-4">
-              <div>
-                <label className="block text-gray-700 text-sm font-medium mb-1">Title</label>
-                <input
-                  type="text"
-                  name="title"
-                  value={formData.title}
-                  onChange={handleFormChange}
-                  placeholder="e.g., Complete Math Homework"
-                  className="input input-bordered w-full rounded-lg"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-gray-700 text-sm font-medium mb-1">Description (Optional)</label>
-                <textarea
-                  name="description"
-                  value={formData.description}
-                  onChange={handleFormChange}
-                  placeholder="e.g., Pages 45-50, exercises 1-10"
-                  className="textarea textarea-bordered w-full rounded-lg"
-                  rows="3"
-                ></textarea>
-              </div>
-              <div>
-                <label className="block text-gray-700 text-sm font-medium mb-1">Due Date</label>
-                <input
-                  type="date"
-                  name="dueDate"
-                  value={formData.dueDate}
-                  onChange={handleFormChange}
-                  className="input input-bordered w-full rounded-lg"
-                  required
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-700 text-sm font-medium mb-1">Status</label>
-                  <select
-                    name="status"
-                    value={formData.status}
+                  <label className="block text-gray-700 font-semibold mb-2">Description</label>
+                  <textarea
+                    name="description"
+                    value={formData.description}
                     onChange={handleFormChange}
-                    className="select select-bordered w-full rounded-lg"
-                  >
-                    <option value="pending">Pending</option>
-                    <option value="completed">Completed</option>
-                  </select>
+                    placeholder="Add details about your task, specific requirements, or study materials needed..."
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors resize-none"
+                    rows="4"
+                  ></textarea>
                 </div>
+
                 <div>
-                  <label className="block text-gray-700 text-sm font-medium mb-1">Priority</label>
-                  <select
-                    name="priority"
-                    value={formData.priority}
+                  <label className="block text-gray-700 font-semibold mb-2">Due Date *</label>
+                  <input
+                    type="date"
+                    name="dueDate"
+                    value={formData.dueDate}
                     onChange={handleFormChange}
-                    className="select select-bordered w-full rounded-lg"
-                  >
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
-                  </select>
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                    required
+                  />
                 </div>
-              </div>
-              <button
-                type="submit"
-                className="px-6 py-3 bg-cyan-700 text-white font-semibold rounded-lg shadow-md hover:bg-cyan-800 transition-colors duration-200 w-full disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled={loading}
-              >
-                {loading ? 'Saving...' : (editingTaskId ? 'Save Changes' : 'Add Task')}
-              </button>
-            </form>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-gray-700 font-semibold mb-3">Status</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {[
+                        { value: 'pending', label: '⏳ Pending', color: 'bg-orange-100 text-orange-800 border-orange-300' },
+                        { value: 'completed', label: '✅ Completed', color: 'bg-green-100 text-green-800 border-green-300' }
+                      ].map((status) => (
+                        <button
+                          key={status.value}
+                          type="button"
+                          onClick={() => handleFormChange({ target: { name: 'status', value: status.value } })}
+                          className={`py-3 px-4 rounded-xl font-medium transition-all duration-200 border-2 ${
+                            formData.status === status.value
+                              ? status.color
+                              : 'bg-gray-100 text-gray-600 border-transparent hover:bg-gray-200'
+                          }`}
+                        >
+                          {status.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-gray-700 font-semibold mb-3">Priority Level</label>
+                    <div className="space-y-2">
+                      {[
+                        { value: 'high', label: '🔴 High Priority', color: 'bg-red-100 text-red-800 border-red-300' },
+                        { value: 'medium', label: '🟡 Medium Priority', color: 'bg-orange-100 text-orange-800 border-orange-300' },
+                        { value: 'low', label: '🔵 Low Priority', color: 'bg-blue-100 text-blue-800 border-blue-300' }
+                      ].map((priority) => (
+                        <button
+                          key={priority.value}
+                          type="button"
+                          onClick={() => handleFormChange({ target: { name: 'priority', value: priority.value } })}
+                          className={`w-full py-2 px-3 rounded-lg font-medium transition-all duration-200 border-2 text-sm ${
+                            formData.priority === priority.value
+                              ? priority.color
+                              : 'bg-gray-100 text-gray-600 border-transparent hover:bg-gray-200'
+                          }`}
+                        >
+                          {priority.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex gap-4 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setIsModalOpen(false)}
+                    className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="flex-1 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:transform-none disabled:cursor-not-allowed"
+                    disabled={loading}
+                  >
+                    {loading ? 'Saving...' : (editingTaskId ? 'Save Changes' : 'Create Task')}
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       )}
