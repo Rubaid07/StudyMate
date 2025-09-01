@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
-import { Navigate, useLocation } from 'react-router'; 
+import { Navigate, useLocation } from 'react-router';
 import { AuthContext } from '../../context/AuthContext';
-
 const ProtectedRoute = ({ children, publicOnly = false }) => {
   const { user, loading } = useContext(AuthContext);
-  const location = useLocation(); 
+  const location = useLocation();
 
   if (loading) {
     return (
@@ -13,6 +12,7 @@ const ProtectedRoute = ({ children, publicOnly = false }) => {
       </div>
     );
   }
+
 
   if (publicOnly) {
     return user ? <Navigate to="/dashboard" replace /> : children;

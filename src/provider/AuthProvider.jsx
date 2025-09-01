@@ -1,5 +1,14 @@
+// src/provider/AuthProvider.jsx
 import React, { useEffect, useState } from 'react';
-import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
+import { 
+    createUserWithEmailAndPassword, 
+    GoogleAuthProvider, 
+    onIdTokenChanged, 
+    signInWithEmailAndPassword, 
+    signInWithPopup, 
+    signOut, 
+    updateProfile 
+} from 'firebase/auth';
 import { auth } from '../firebase/firebase';
 import { AuthContext } from '../context/AuthContext'; 
 
@@ -33,27 +42,28 @@ const AuthProvider = ({ children }) => {
         return signInWithPopup(auth, googleProvider);
     };
 
-    // Observe Auth State
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            if (currentUser) {
-                currentUser.getIdToken()
-                    .then(idToken => {
-                        console.log("Firebase ID Token available:", idToken ? "Yes" : "No");
-                        localStorage.setItem('access-token', idToken);
-                    })
-                    .catch(error => {
-                        console.error("Error getting Firebase ID token:", error);
-                    });
-            } else {
+    // Observe Auth State & Token
+useEffect(() => {
+    const unsubscribe = onIdTokenChanged(auth, async (currentUser) => {
+        setUser(currentUser);
+        if (currentUser) {
+            try {
+                const idToken = await currentUser.getIdToken();
+                localStorage.setItem('access-token', idToken);
+                console.log("Firebase ID Token available");
+            } catch (error) {
+                console.error("Error getting Firebase ID token:", error);
                 localStorage.removeItem('access-token');
             }
-            setUser(currentUser);
-            setLoading(false);
-        });
+        } else {
+            localStorage.removeItem('access-token');
+        }
+        setLoading(false);
+    });
 
-        return () => unsubscribe();
-    }, []);
+    return () => unsubscribe();
+}, []);
+
     
     const authInfo = {
         user,

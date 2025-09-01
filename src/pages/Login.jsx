@@ -1,4 +1,4 @@
-import { use, useState } from 'react';
+import React, { use, useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { AuthContext } from '../context/AuthContext';
@@ -8,54 +8,53 @@ import axios from 'axios';
 
 const Login = () => {
   const navigate = useNavigate()
-  const { signIn, signInWithGoogle } = use(AuthContext)
+  const { signIn, signInWithGoogle } = useContext(AuthContext)
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("")
-
-  const handleSignIn = e => {
-    e.preventDefault();
-    const form = e.target;
-    const email = form.email.value;
-    const password = form.password.value;
-    signIn(email, password)
-      .then(result => {
-        const user = result.user;
-        user.getIdToken().then(token => {
-          localStorage.setItem('access-token', token);
-          toast.success("Logged in successfully");
-          navigate(`${location.state ? location.state : "/dashboard"}`);
-        });
-      })
-      .catch(error => {
-        const errorCode = error.code
-        setError(errorCode)
-      })
-  }
-
   const togglePasswordShowHide = () => {
     setShowPassword(!showPassword);
   };
+  const handleSignIn = async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const email = form.email.value;
+  const password = form.password.value;
 
-  const handleGoogleSignIn = () => {
-  signInWithGoogle()
-    .then(result => {
-      const user = result.user;
-      user.getIdToken().then(token => {
-        localStorage.setItem('access-token', token);
-      });
-      axios.put(`${import.meta.env.VITE_API_URL}/users/${user.email}`, {
-        name: user.displayName,
-        email: user.email,
-        photo: user.photoURL || 'https://i.ibb.co/5GzXkwq/user.png',
-        role: "customer"
-      });
-      toast.success("Logged in successfully");
-      navigate(`${location.state ? location.state : "/dashboard"}`);
-    })
-    .catch(error => {
-      toast.error(error.message);
-    });
+  try {
+    const result = await signIn(email, password);
+    const user = result.user;
+    const token = await user.getIdToken();
+    localStorage.setItem("access-token", token);
+
+    toast.success("Logged in successfully");
+    navigate(location.state ? location.state : "/dashboard");
+  } catch (error) {
+    console.error(error);
+    setError(error.code);
+  }
 };
+
+const handleGoogleSignIn = async () => {
+  try {
+    const result = await signInWithGoogle();
+    const user = result.user;
+    const token = await user.getIdToken();
+    localStorage.setItem("access-token", token);
+    await axios.put(`${import.meta.env.VITE_API_URL}/users/${user.email}`, {
+      name: user.displayName,
+      email: user.email,
+      photo: user.photoURL || "https://i.ibb.co/5GzXkwq/user.png",
+    }, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    toast.success("Logged in successfully");
+    navigate(location.state ? location.state : "/dashboard");
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
+
   return (
     <div className="flex flex-col items-center justify-center px-4 py-12">
       <div className="mb-10 flex flex-col items-center">
