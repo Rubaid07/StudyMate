@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, useCallback } from 'react';
 import toast from 'react-hot-toast';
-import { AuthContext } from '../../context/AuthContext';
 import Confetti from 'react-confetti';
 import { 
   FiChevronLeft, 
@@ -13,10 +11,10 @@ import {
   FiHelpCircle,
   FiRotateCw
 } from 'react-icons/fi';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const ExamQAGenerator = () => {
+  const axiosSecure = useAxiosSecure();
   const [topic, setTopic] = useState('');
   const [difficulty, setDifficulty] = useState('medium');
   const [qnaList, setQnaList] = useState([]);
@@ -34,8 +32,6 @@ const ExamQAGenerator = () => {
     width: window.innerWidth,
     height: window.innerHeight
   });
-
-  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const handleResize = () => {
@@ -91,54 +87,31 @@ const ExamQAGenerator = () => {
 
   const handleGenerateQnA = async (e) => {
     e.preventDefault();
-    if (!topic.trim()) {
-      toast.error("Please enter a topic to generate Q&A.");
-      return;
-    }
+    if (!topic.trim()) return;
 
     setLoading(true);
-    setQnaList([]);
-    setCurrentQuestionIndex(0);
-    setShowAnswer(false);
-    setUserAnswers({});
-    setScore(0);
-    setShowResults(false);
-    setQuizFinished(false);
-    setTimer(30);
 
     try {
-      const response = await axios.post(
-        `${API_BASE_URL}/generate-qa`,
-        { 
-          topic, 
-          difficulty, 
-          type: questionType, 
-          count: 5, 
-          language: selectedLanguage 
-        },
-        { 
-          headers: { 
-            'x-user-id': user?.uid,
-            'Authorization': user?.token ? `Bearer ${user.token}` : undefined
-          } 
-        }
-      );
-  
+      const response = await axiosSecure.post('/qa/generate-qa', {
+        topic,
+        difficulty,
+        type: questionType,
+        count: 5,
+        language: selectedLanguage
+      });
+
       if (Array.isArray(response.data)) {
         const questionsWithIds = response.data.map((q, index) => ({
           ...q,
           id: `q-${Date.now()}-${index}`
         }));
-        
         setQnaList(questionsWithIds);
-        toast.success("Q&A generated successfully!");
       } else {
-        throw new Error("Invalid response format from server");
+        throw new Error("Invalid response format");
       }
     } catch (error) {
-      console.error('Error generating Q&A:', error);
-      const errorMessage = error.response?.data?.message || "Failed to generate Q&A. Please try again.";
-      toast.error(errorMessage);
+      console.error("Error generating Q&A:", error);
+      toast.error(error.response?.data?.message || "Failed to generate Q&A.");
     } finally {
       setLoading(false);
     }
@@ -187,7 +160,7 @@ const ExamQAGenerator = () => {
     });
     
     setScore(correctCount);
-    console.log("Final Score:", correctCount, "out of", qnaList.length);
+    // console.log("Final Score:", correctCount, "out of", qnaList.length);
   };
 
   const currentQnA = qnaList[currentQuestionIndex];

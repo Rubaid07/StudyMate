@@ -1,16 +1,16 @@
 // src/provider/AuthProvider.jsx
 import React, { useEffect, useState } from 'react';
-import { 
-    createUserWithEmailAndPassword, 
-    GoogleAuthProvider, 
-    onIdTokenChanged, 
-    signInWithEmailAndPassword, 
-    signInWithPopup, 
-    signOut, 
-    updateProfile 
+import {
+    createUserWithEmailAndPassword,
+    GoogleAuthProvider,
+    onIdTokenChanged,
+    signInWithEmailAndPassword,
+    signInWithPopup,
+    signOut,
+    updateProfile
 } from 'firebase/auth';
 import { auth } from '../firebase/firebase';
-import { AuthContext } from '../context/AuthContext'; 
+import { AuthContext } from '../context/AuthContext';
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -43,28 +43,48 @@ const AuthProvider = ({ children }) => {
     };
 
     // Observe Auth State & Token
-useEffect(() => {
-    const unsubscribe = onIdTokenChanged(auth, async (currentUser) => {
-        setUser(currentUser);
-        if (currentUser) {
-            try {
-                const idToken = await currentUser.getIdToken();
-                localStorage.setItem('access-token', idToken);
-                console.log("Firebase ID Token available");
-            } catch (error) {
-                console.error("Error getting Firebase ID token:", error);
+    useEffect(() => {
+        let refreshTokenInterval;
+
+        const unsubscribe = onIdTokenChanged(auth, async (currentUser) => {
+            setUser(currentUser);
+            if (refreshTokenInterval) {
+                clearInterval(refreshTokenInterval);
+            }
+
+            if (currentUser) {
+                try {
+                    const idToken = await currentUser.getIdToken(true);
+                    localStorage.setItem('access-token', idToken);
+                    refreshTokenInterval = setInterval(async () => {
+                        if (auth.currentUser) {
+                            try {
+                                const newToken = await auth.currentUser.getIdToken(true);
+                                localStorage.setItem('access-token', newToken);
+                                console.log("Token refreshed automatically");
+                            } catch (error) {
+                                console.error("Auto token refresh failed:", error);
+                            }
+                        }
+                    }, 55 * 60 * 1000);
+
+                } catch (error) {
+                    console.error("Error getting Firebase ID token:", error);
+                    localStorage.removeItem('access-token');
+                }
+            } else {
                 localStorage.removeItem('access-token');
             }
-        } else {
-            localStorage.removeItem('access-token');
-        }
-        setLoading(false);
-    });
+            setLoading(false);
+        });
+        return () => {
+            unsubscribe();
+            if (refreshTokenInterval) {
+                clearInterval(refreshTokenInterval);
+            }
+        };
+    }, []);
 
-    return () => unsubscribe();
-}, []);
-
-    
     const authInfo = {
         user,
         createUser,
@@ -75,7 +95,7 @@ useEffect(() => {
         setUser,
         signInWithGoogle
     };
-    
+
     return (
         <AuthContext.Provider value={authInfo}>
             {children}

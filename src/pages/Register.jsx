@@ -3,14 +3,16 @@ import { Link, useNavigate } from 'react-router';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import logo from '../assets/logo.png';
-import axios from 'axios';
 import { AuthContext } from '../context/AuthContext';
+import useAxiosSecure from '../hooks/useAxiosSecure';
+import axios from 'axios';
 
 const Register = () => {
   const { createUser, updateUser, signInWithGoogle } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -31,18 +33,13 @@ const Register = () => {
 
       await updateUser({ displayName: name });
       await user.reload();
-
-      // Firebase ID token নাও
       const token = await user.getIdToken();
       localStorage.setItem("access-token", token);
 
-      // User info update
-      await axios.put(`${import.meta.env.VITE_API_URL}/users/${email}`, {
+      await axiosSecure.put(`/users/${email}`, {
         name,
         email,
         photo: "https://i.ibb.co/5GzXkwq/user.png",
-      }, {
-        headers: { Authorization: `Bearer ${token}` }
       });
 
       toast.success("Sign up successful");
@@ -59,12 +56,9 @@ const Register = () => {
     try {
       const result = await signInWithGoogle();
       const user = result.user;
-
-      // Firebase ID token নাও
       const token = await user.getIdToken();
       localStorage.setItem("access-token", token);
 
-      // User info update
       await axios.put(`${import.meta.env.VITE_API_URL}/users/${user.email}`, {
         name: user.displayName,
         email: user.email,
@@ -72,6 +66,7 @@ const Register = () => {
       }, {
         headers: { Authorization: `Bearer ${token}` }
       });
+
 
       toast.success("Logged in successfully");
       navigate("/dashboard");
@@ -188,7 +183,6 @@ const Register = () => {
           className="w-full flex items-center justify-center gap-2 py-2 px-4 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors cursor-pointer"
           disabled={loading}
         >
-          {/* Google SVG Icon */}
           <svg aria-label="Google logo" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <g>
               <path d="m0 0H512V512H0" fill="#fff"></path>

@@ -3,7 +3,7 @@ import React, { useMemo, useEffect } from "react";
 import axios from "axios";
 import useAuth from './useAuth';
 
- const useAxiosSecure = () => {
+const useAxiosSecure = () => {
   const { user } = useAuth(); 
   
   const instance = useMemo(() => {
@@ -40,7 +40,6 @@ import useAuth from './useAuth';
         } else {
           config.headers['x-user-id'] = 'dev-fallback-user';
         }
-        
         return config;
       },
       (error) => {

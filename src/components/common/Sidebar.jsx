@@ -1,21 +1,22 @@
 import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useLocation } from "react-router";
 import {
-  FiX,
-  FiHome,
-  FiBook,
-  FiDollarSign,
-  FiCalendar,
-  FiHelpCircle,
-  FiLogOut,
-  FiUser
-} from "react-icons/fi";
+  Home,
+  BookOpen,
+  DollarSign,
+  Calendar,
+  HelpCircle,
+  LogOut,
+  User,
+  X,
+} from "lucide-react";
 import { AuthContext } from "../../context/AuthContext";
 import toast from "react-hot-toast";
 
 const Sidebar = ({ isMobileOpen, toggleMobileSidebar }) => {
   const { logOut, user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = async () => {
     try {
@@ -29,12 +30,40 @@ const Sidebar = ({ isMobileOpen, toggleMobileSidebar }) => {
   };
 
   const menuItems = [
-    { to: "/dashboard", icon: <FiHome className="w-5 h-5" />, label: "Dashboard" },
-    { to: "/dashboard/classes", icon: <FiBook className="w-5 h-5" />, label: "Class Schedule" },
-    { to: "/dashboard/budget", icon: <FiDollarSign className="w-5 h-5" />, label: "Budget Tracker" },
-    { to: "/dashboard/planner", icon: <FiCalendar className="w-5 h-5" />, label: "Study Planner" },
-    { to: "/dashboard/exam-qa", icon: <FiHelpCircle className="w-5 h-5" />, label: "Exam Q&A" },
+    { 
+      to: "/dashboard", 
+      icon: <Home className="w-5 h-5" />, 
+      label: "Dashboard" 
+    },
+    { 
+      to: "/dashboard/classes", 
+      icon: <BookOpen className="w-5 h-5" />, 
+      label: "Class Schedule" 
+    },
+    { 
+      to: "/dashboard/budget", 
+      icon: <DollarSign className="w-5 h-5" />, 
+      label: "Budget Tracker" 
+    },
+    { 
+      to: "/dashboard/planner", 
+      icon: <Calendar className="w-5 h-5" />, 
+      label: "Study Planner" 
+    },
+    { 
+      to: "/dashboard/exam-qa", 
+      icon: <HelpCircle className="w-5 h-5" />, 
+      label: "Exam Q&A" 
+    },
   ];
+
+  // Check if a menu item is active
+  const isActive = (path) => {
+    if (path === "/dashboard") {
+      return location.pathname === path;
+    }
+    return location.pathname.startsWith(path);
+  };
 
   return (
     <>
@@ -52,20 +81,24 @@ const Sidebar = ({ isMobileOpen, toggleMobileSidebar }) => {
         }`}
       >
         {/* Logo */}
-        <Link to="/dashboard" className="flex items-center gap-3 mb-8">
+        <Link 
+          to="/dashboard" 
+          className="flex items-center gap-3 mb-8"
+          onClick={() => window.innerWidth < 1024 && toggleMobileSidebar()}
+        >
           <div className="h-10 w-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-xl">S</span>
+            <p className="font-bold text-white text-xl">S</p>
           </div>
           <h1 className="text-2xl font-bold text-indigo-800">StudyMate</h1>
           <button
             className="lg:hidden ml-auto p-1 rounded-md text-gray-500 hover:bg-indigo-50 transition-colors cursor-pointer"
             onClick={toggleMobileSidebar}
           >
-            <FiX size={20} />
+            <X size={20} />
           </button>
         </Link>
 
-        {/* user card */}
+        {/* User card */}
         <div className="bg-indigo-50 rounded-xl p-4 mb-6 flex items-center gap-3">
           <div className="h-12 w-12 rounded-full overflow-hidden border-2 border-white shadow-sm">
             <img
@@ -83,40 +116,43 @@ const Sidebar = ({ isMobileOpen, toggleMobileSidebar }) => {
           </div>
         </div>
 
-        {/* menu */}
-        <ul className="menu w-full text-gray-700 space-y-1 flex-1">
-          {menuItems.map((item) => (
-            <li key={item.to}>
-              <Link
-                to={item.to}
-                className="flex items-center gap-3 rounded-lg py-3 px-4 hover:bg-white hover:text-indigo-600 hover:shadow-sm transition-all duration-200 group font-medium"
-                onClick={() =>
-                  window.innerWidth < 1024 && toggleMobileSidebar()
-                }
-              >
-                <span className="text-indigo-500 group-hover:text-indigo-600 transition-colors">
-                  {item.icon}
-                </span>
-                {item.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        {/* Menu */}
+        <nav className="flex-1">
+          <ul className="space-y-1">
+            {menuItems.map((item) => {
+              const active = isActive(item.to);
+              return (
+                <li key={item.to}>
+                  <Link
+                    to={item.to}
+                    className={`flex items-center gap-3 rounded-lg py-3 px-4 transition-all duration-200 font-medium ${
+                      active
+                        ? "bg-indigo-600 text-white shadow-md"
+                        : "text-gray-700 hover:bg-white hover:text-indigo-600 hover:shadow-sm"
+                    }`}
+                    onClick={() => window.innerWidth < 1024 && toggleMobileSidebar()}
+                  >
+                    <span className={active ? "text-white" : "text-indigo-500"}>
+                      {item.icon}
+                    </span>
+                    {item.label}
+                    {active && (
+                      <div className="ml-auto w-2 h-2 bg-white rounded-full"></div>
+                    )}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
 
-        {/* bottom section */}
-        <div className="pt-4 border-t border-gray-100">
-          <Link
-            to="/profile"
-            className="flex items-center gap-3 rounded-lg py-3 px-4 text-gray-700 hover:bg-white hover:text-indigo-600 transition-all duration-200 mb-2 font-medium"
-          >
-            <FiUser className="w-5 h-5" />
-            Profile
-          </Link>
+        {/* Bottom section */}
+        <div className="pt-2 border-t border-gray-200">
           <button
             onClick={handleLogout}
-            className="flex items-center gap-3 rounded-lg py-3 px-4 text-red-500 hover:bg-red-50 transition-all duration-200 w-full font-medium"
+            className="flex items-center gap-3 rounded-lg py-3 px-4 text-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-200 w-full font-medium"
           >
-            <FiLogOut className="w-5 h-5" />
+            <LogOut className="w-5 h-5" />
             Logout
           </button>
         </div>

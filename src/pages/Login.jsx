@@ -1,66 +1,72 @@
-import React, { use, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { AuthContext } from '../context/AuthContext';
 import logo from '../assets/logo.png';
 import toast from 'react-hot-toast';
+import useAxiosSecure from '../hooks/useAxiosSecure';
 import axios from 'axios';
 
 const Login = () => {
-  const navigate = useNavigate()
-  const { signIn, signInWithGoogle } = useContext(AuthContext)
+  const navigate = useNavigate();
+  const { signIn, signInWithGoogle } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState("")
+  const [error, setError] = useState("");
+  const axiosSecure = useAxiosSecure();
+
   const togglePasswordShowHide = () => {
     setShowPassword(!showPassword);
   };
+
   const handleSignIn = async (e) => {
-  e.preventDefault();
-  const form = e.target;
-  const email = form.email.value;
-  const password = form.password.value;
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
 
-  try {
-    const result = await signIn(email, password);
-    const user = result.user;
-    const token = await user.getIdToken();
-    localStorage.setItem("access-token", token);
+    try {
+      const result = await signIn(email, password);
+      const user = result.user;
+      const token = await user.getIdToken();
+      localStorage.setItem("access-token", token);
 
-    toast.success("Logged in successfully");
-    navigate(location.state ? location.state : "/dashboard");
-  } catch (error) {
-    console.error(error);
-    setError(error.code);
-  }
-};
+      toast.success("Logged in successfully");
+      navigate(location.state ? location.state : "/dashboard");
+    } catch (error) {
+      console.error(error);
+      setError(error.code);
+    }
+  };
 
-const handleGoogleSignIn = async () => {
-  try {
-    const result = await signInWithGoogle();
-    const user = result.user;
-    const token = await user.getIdToken();
-    localStorage.setItem("access-token", token);
-    await axios.put(`${import.meta.env.VITE_API_URL}/users/${user.email}`, {
-      name: user.displayName,
-      email: user.email,
-      photo: user.photoURL || "https://i.ibb.co/5GzXkwq/user.png",
-    }, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithGoogle();
+      const user = result.user;
+      const token = await user.getIdToken();
+      localStorage.setItem("access-token", token);
 
-    toast.success("Logged in successfully");
-    navigate(location.state ? location.state : "/dashboard");
-  } catch (error) {
-    toast.error(error.message);
-  }
-};
+      await axios.put(`${import.meta.env.VITE_API_URL}/users/${user.email}`, {
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL || "https://i.ibb.co/5GzXkwq/user.png",
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+
+      toast.success("Logged in successfully");
+      navigate(location.state ? location.state : "/dashboard");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center px-4 py-12">
       <div className="mb-10 flex flex-col items-center">
         <div className='flex gap-2 justify-center items-center'>
           <img src={logo} alt="Logo" className="h-12" />
-        <h1 className='text-4xl font-medium'>Study Mate</h1>
+          <h1 className='text-4xl font-medium'>Study Mate</h1>
         </div>
       </div>
 
@@ -76,7 +82,7 @@ const handleGoogleSignIn = async () => {
               Email address
             </label>
             <input
-              id="email"
+              name="email"
               type="email"
               required
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700 focus:border-transparent"
