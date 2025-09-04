@@ -9,6 +9,7 @@ import {
   LogOut,
   User,
   X,
+  Smile,
 } from "lucide-react";
 import { AuthContext } from "../../context/AuthContext";
 import toast from "react-hot-toast";
@@ -54,6 +55,11 @@ const Sidebar = ({ isMobileOpen, toggleMobileSidebar }) => {
       to: "/dashboard/exam-qa", 
       icon: <HelpCircle className="w-5 h-5" />, 
       label: "Exam Q&A" 
+    },
+    { 
+      to: "/dashboard/wellness", 
+      icon: <Smile className="w-5 h-5" />, 
+      label: "Wellness Tracker" 
     },
   ];
 

@@ -1,5 +1,3 @@
-// src/features/ClassTracker.jsx
-
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -163,7 +161,7 @@ const ClassTracker = () => {
 
   if (loading && classes.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="flex flex-col items-center space-y-4">
           <div className="relative">
             <div className="w-16 h-16 border-4 border-blue-200 rounded-full animate-spin"></div>
@@ -176,10 +174,10 @@ const ClassTracker = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 lg:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 lg:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
-        <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 mb-8">
+        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 mb-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             <div>
               <h1 className="md:text-4xl text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3">
@@ -189,7 +187,7 @@ const ClassTracker = () => {
             </div>
             <button
               onClick={() => { resetForm(); setIsModalOpen(true); }}
-              className="group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-3"
+              className="group relative px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center gap-3 w-max"
             >
               <FiPlusCircle className="group-hover:rotate-90 transition-transform duration-200" size={20} />
               Add New Class
@@ -218,14 +216,14 @@ const ClassTracker = () => {
             </p>
             <button
               onClick={() => { resetForm(); setIsModalOpen(true); }}
-              className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-3 mx-auto"
+              className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-3 mx-auto "
             >
               <FiPlusCircle size={20} />
               Add Your First Class
             </button>
           </div>
         ) : (
-          <div className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
+          <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
             {/* Desktop View */}
             <div className="hidden lg:block">
               <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-8 py-6 border-b border-gray-200">

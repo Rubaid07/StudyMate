@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { AuthContext } from '../../context/AuthContext';
+import { FiAward, FiClock } from 'react-icons/fi';
 
 const DashboardWidgets = () => {
   const navigate = useNavigate();
@@ -30,6 +31,22 @@ const DashboardWidgets = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [dailyMotivation, setDailyMotivation] = useState('');
   const [quoteLoading, setQuoteLoading] = useState(true);
+  const [quizStats, setQuizStats] = useState({ totalQuizzes: 0, averageScore: 0, bestScore: 0 });
+  const [recentQuizzes, setRecentQuizzes] = useState([]);
+
+  useEffect(() => {
+    fetchQuizResults();
+  }, []);
+
+  const fetchQuizResults = async () => {
+    try {
+      const response = await axiosSecure.get('/quiz/results/summary');
+      setQuizStats(response.data.stats || {});
+      setRecentQuizzes(response.data.recentResults || []);
+    } catch (error) {
+      console.error('Error fetching quiz results:', error);
+    }
+  };
 
   const fallbackQuotes = [
     "Your education is a dress rehearsal for a life that is yours to lead. - Nora Ephron",
@@ -58,21 +75,21 @@ const DashboardWidgets = () => {
   const fetchMotivationalQuote = async () => {
     try {
       setQuoteLoading(true);
-      
+
       const today = new Date().toDateString();
       const lastQuoteDate = localStorage.getItem('lastQuoteDate');
       const savedQuote = localStorage.getItem('dailyQuote');
       const lastQuoteIndex = parseInt(localStorage.getItem('lastQuoteIndex') || '0');
-      
+
       // If we have a saved quote from today, use it
       if (lastQuoteDate === today && savedQuote) {
         setDailyMotivation(savedQuote);
         setQuoteLoading(false);
         return;
       }
-      
+
       let newQuote;
-      
+
       // Try multiple quote APIs with fallback
       try {
         // Try Quotable API first (more reliable)
@@ -81,7 +98,7 @@ const DashboardWidgets = () => {
         newQuote = `${data.content} - ${data.author}`;
       } catch (apiError) {
         console.log('Quotable API failed, trying ZenQuotes...');
-        
+
         // Fallback to ZenQuotes
         try {
           const zenResponse = await fetch('https://zenquotes.io/api/random');
@@ -98,12 +115,12 @@ const DashboardWidgets = () => {
           localStorage.setItem('lastQuoteIndex', nextIndex.toString());
         }
       }
-      
+
       // Save quote for today
       setDailyMotivation(newQuote);
       localStorage.setItem('dailyQuote', newQuote);
       localStorage.setItem('lastQuoteDate', today);
-      
+
     } catch (error) {
       console.error('Error fetching motivational quote:', error);
       // Final fallback - random quote from array
@@ -147,7 +164,7 @@ const DashboardWidgets = () => {
         setError('Authentication required. Please log in again.');
         return;
       }
-      
+
       setError(error.response?.data?.message || error.message || 'Failed to load dashboard data');
       setDashboardData({
         classes: { total: 0, todayClasses: [], nextClass: null },
@@ -171,19 +188,6 @@ const DashboardWidgets = () => {
   const handleRefresh = () => {
     setRefreshing(true);
     fetchDashboardData();
-  };
-
-  const handleRecordStudySession = async (duration, subject = 'General') => {
-    try {
-      await axiosSecure.post('/summary/study-session', {
-        subject,
-        duration,
-        efficiency: 85
-      });
-      fetchDashboardData();
-    } catch (error) {
-      console.error('Error recording study session:', error);
-    }
   };
 
   //  progress percentages
@@ -272,7 +276,7 @@ const DashboardWidgets = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Header with Motivational Quote */}
       <div className="bg-white rounded-2xl shadow-sm p-6 mb-6 border border-gray-100">
-        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between">
           <div className="flex-1">
             <h1 className="text-3xl font-bold text-gray-800 mb-2">
               Good {new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 17 ? 'afternoon' : 'evening'}, {user?.displayName || 'StudyMate User'}!
@@ -280,10 +284,8 @@ const DashboardWidgets = () => {
             <p className="text-gray-500 mb-3">
               Here's your overview for {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
             </p>
-            
-            
           </div>
-          
+
           <button
             onClick={() => {
               handleRefresh();
@@ -296,38 +298,33 @@ const DashboardWidgets = () => {
           </button>
         </div>
         {/* Motivational Quote Section */}
-            <div className="flex items-start bg-gradient-to-r from-indigo-50 to-purple-50 p-4 rounded-lg border border-indigo-100 mb-3">
-              <Quote className="h-5 w-5 text-indigo-600 mr-3 mt-0.5 flex-shrink-0" />
-              {quoteLoading ? (
-                <div className="animate-pulse flex-1">
-                  <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <p className="text-indigo-700 text-sm italic">
-                    "{dailyMotivation.split(' - ')[0]}"
-                  </p>
-                  <p className="text-indigo-600 text-xs font-medium">
-                    - {dailyMotivation.split(' - ')[1] || 'Unknown Author'}
-                  </p>
-                </div>
-              )}
+        <div className="flex items-start bg-gradient-to-r from-indigo-50 to-purple-50 p-4 rounded-lg border border-indigo-100 mb-3">
+          <Quote className="h-5 w-5 text-indigo-600 mr-3 mt-0.5 flex-shrink-0" />
+          {quoteLoading ? (
+            <div className="animate-pulse flex-1">
+              <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
             </div>
+          ) : (
+            <p className="text-indigo-700 text-sm italic">
+              "{dailyMotivation}"
+            </p>
+          )}
+        </div>
 
-            {/* Quote Info */}
-            <div className="flex items-center justify-between text-xs text-gray-500">
-              <div className="flex items-center">
-                <Calendar className="h-3 w-3 mr-1" />
-                <span>Daily motivation • Updates every 24 hours</span>
-              </div>
-              <button
-                onClick={refreshQuoteManually}
-                className="flex items-center text-indigo-600 hover:text-indigo-800 text-xs font-medium"
-              >
-                <RefreshCw className="h-3 w-3 mr-1" />
-                New quote
-              </button>
-            </div>
+        {/* Quote Info */}
+        <div className="flex items-center justify-between text-xs text-gray-500">
+          <div className="flex items-center">
+            <Calendar className="h-3 w-3 mr-1" />
+            <span>Daily motivation • Updates every 24 hours</span>
+          </div>
+          <button
+            onClick={refreshQuoteManually}
+            className="flex items-center text-indigo-600 hover:text-indigo-800 text-xs font-medium"
+          >
+            <RefreshCw className="h-3 w-3 mr-1" />
+            New quote
+          </button>
+        </div>
       </div>
 
       {/* Tab Navigation */}
@@ -433,6 +430,79 @@ const DashboardWidgets = () => {
                 {dashboardData.weeklyData.studySessions.length} sessions this week
               </p>
             </div>
+
+            {/* Quiz Performance Summary */}
+            <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-800">Quiz Performance</h3>
+                <FiAward className="h-6 w-6 text-purple-600" />
+              </div>
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Total Quizzes</span>
+                  <span className="font-semibold">{quizStats.totalQuizzes || 0}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Average Score</span>
+                  <span className="font-semibold">{quizStats.averageScore || 0}%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Best Score</span>
+                  <span className="font-semibold text-green-600">{quizStats.bestScore || 0}%</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Recent Quiz Results */}
+            <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 md:col-span-2">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-800">Recent Quiz Results</h3>
+                <FiClock className="h-6 w-6 text-indigo-600" />
+              </div>
+              <div className="space-y-3">
+                {recentQuizzes.length > 0 ? (
+                  recentQuizzes.map((result, index) => {
+                    // Define label & style based on percentage
+                    let performanceLabel = "";
+                    let performanceClass = "";
+                    if (result.percentage >= 80) {
+                      performanceLabel = "Excellent";
+                      performanceClass = "bg-green-100 text-green-800";
+                    } else if (result.percentage >= 60) {
+                      performanceLabel = "Good";
+                      performanceClass = "bg-yellow-100 text-yellow-800";
+                    } else {
+                      performanceLabel = "Needs Improvement";
+                      performanceClass = "bg-red-100 text-red-800";
+                    }
+
+                    return (
+                      <div
+                        key={index}
+                        className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                      >
+                        <div>
+                          <p className="font-medium text-gray-800">{result.topic}</p>
+                          <p className="text-sm text-gray-500">
+                            {new Date(result.date).toLocaleDateString()} • {result.type} •{" "}
+                            {result.difficulty}
+                          </p>
+                        </div>
+                        <div
+                          className={`px-3 py-1 rounded-full font-semibold flex items-center gap-2 ${performanceClass}`}
+                        >
+                          <span>{result.percentage}%</span>
+                          <span className="hidden sm:inline">({performanceLabel})</span>
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <p className="text-gray-500 text-center py-4">No quiz results yet</p>
+                )}
+              </div>
+            </div>
+
           </div>
 
           {/* progress Section */}
@@ -548,14 +618,6 @@ const DashboardWidgets = () => {
                 color: 'pink',
                 path: '/dashboard/wellness',
                 stats: `${dashboardData.wellness.totalEntries} wellness entries`
-              },
-              {
-                title: 'Study Session',
-                description: 'Record your study sessions and track progress',
-                icon: Clock,
-                color: 'cyan',
-                action: () => handleRecordStudySession(2, 'Mathematics'),
-                stats: 'Track your learning'
               }
             ].map((feature, index) => (
               <div key={index} className={`bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group`}>
@@ -572,13 +634,14 @@ const DashboardWidgets = () => {
                 <h4 className="text-lg font-semibold text-gray-800 mb-2">{feature.title}</h4>
                 <p className="text-gray-600 text-sm mb-4">{feature.description}</p>
                 <button
-                  onClick={feature.action || (() => handleNavigateToFeature(feature.path))}
+                  onClick={() => handleNavigateToFeature(feature.path)}
                   className={`w-full py-2.5 text-white rounded-lg transition-all font-medium shadow-sm hover:shadow-md cursor-pointer ${colorClasses[feature.color].bg}`}
                 >
-                  {feature.action ? 'Start Session' : 'Explore'}
+                  Explore
                 </button>
               </div>
             ))}
+
           </div>
         </>
       )}
