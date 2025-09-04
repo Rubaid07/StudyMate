@@ -11,9 +11,9 @@ import {
   Target,
   RefreshCw,
   TrendingUp,
-  AlertTriangle,
   Bookmark,
   BarChart3,
+  Quote,
 } from 'lucide-react';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { AuthContext } from '../../context/AuthContext';
@@ -28,47 +28,141 @@ const DashboardWidgets = () => {
   const [error, setError] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
+  const [dailyMotivation, setDailyMotivation] = useState('');
+  const [quoteLoading, setQuoteLoading] = useState(true);
 
-  const fetchDashboardData = async () => {
-  try {
-    setError(null);
-    setRefreshing(true);
-    const response = await axiosSecure.get('/summary/dashboard');
+  const fallbackQuotes = [
+    "Your education is a dress rehearsal for a life that is yours to lead. - Nora Ephron",
+    "The beautiful thing about learning is that no one can take it away from you. - B.B. King",
+    "Education is the most powerful weapon which you can use to change the world. - Nelson Mandela",
+    "Don't let what you cannot do interfere with what you can do. - John Wooden",
+    "The expert in anything was once a beginner. - Helen Hayes",
+    "Your time is limited, don't waste it living someone else's life. - Steve Jobs",
+    "Believe you can and you're halfway there. - Theodore Roosevelt",
+    "The harder you work for something, the greater you'll feel when you achieve it. - Unknown",
+    "Education is not preparation for life; education is life itself. - John Dewey",
+    "Learning is not attained by chance, it must be sought for with ardor and diligence. - Abigail Adams",
+    "The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt",
+    "You don't have to be great to start, but you have to start to be great. - Zig Ziglar",
+    "The only way to do great work is to love what you do. - Steve Jobs",
+    "Your potential is endless. Go do what you were created to do. - Unknown",
+    "Small progress is still progress. Keep going. - Unknown",
+    "The journey of a thousand miles begins with a single step. - Lao Tzu",
+    "You are capable of amazing things. - Unknown",
+    "Every expert was once a beginner. - Unknown",
+    "Knowledge is power. Information is liberating. - Kofi Annan",
+    "The best way to predict your future is to create it. - Abraham Lincoln"
+  ];
 
-    if (response.status === 200 && response.data) {
-      setDashboardData(response.data);
-    } else {
-      throw new Error('Invalid response from server');
+  // Fetch motivational quote from ZenQuotes API
+  const fetchMotivationalQuote = async () => {
+    try {
+      setQuoteLoading(true);
+      
+      const today = new Date().toDateString();
+      const lastQuoteDate = localStorage.getItem('lastQuoteDate');
+      const savedQuote = localStorage.getItem('dailyQuote');
+      const lastQuoteIndex = parseInt(localStorage.getItem('lastQuoteIndex') || '0');
+      
+      // If we have a saved quote from today, use it
+      if (lastQuoteDate === today && savedQuote) {
+        setDailyMotivation(savedQuote);
+        setQuoteLoading(false);
+        return;
+      }
+      
+      let newQuote;
+      
+      // Try multiple quote APIs with fallback
+      try {
+        // Try Quotable API first (more reliable)
+        const response = await fetch('https://api.quotable.io/random?tags=education|success|motivational|inspirational');
+        const data = await response.json();
+        newQuote = `${data.content} - ${data.author}`;
+      } catch (apiError) {
+        console.log('Quotable API failed, trying ZenQuotes...');
+        
+        // Fallback to ZenQuotes
+        try {
+          const zenResponse = await fetch('https://zenquotes.io/api/random');
+          const zenData = await zenResponse.json();
+          if (zenData && zenData[0] && zenData[0].q) {
+            newQuote = `${zenData[0].q} - ${zenData[0].a}`;
+          } else {
+            throw new Error('ZenQuotes failed');
+          }
+        } catch (zenError) {
+          // Use fallback quotes with sequential rotation
+          const nextIndex = (lastQuoteIndex + 1) % fallbackQuotes.length;
+          newQuote = fallbackQuotes[nextIndex];
+          localStorage.setItem('lastQuoteIndex', nextIndex.toString());
+        }
+      }
+      
+      // Save quote for today
+      setDailyMotivation(newQuote);
+      localStorage.setItem('dailyQuote', newQuote);
+      localStorage.setItem('lastQuoteDate', today);
+      
+    } catch (error) {
+      console.error('Error fetching motivational quote:', error);
+      // Final fallback - random quote from array
+      const randomIndex = Math.floor(Math.random() * fallbackQuotes.length);
+      setDailyMotivation(fallbackQuotes[randomIndex]);
+    } finally {
+      setQuoteLoading(false);
     }
-  } catch (error) {
-    console.error('Error fetching dashboard data:', error);
-    if (error.response?.status === 401 || error.response?.status === 403) {
-      setError('Authentication required. Please log in again.');
-      return;
-    }
-    
-    setError(error.response?.data?.message || error.message || 'Failed to load dashboard data');
-    setDashboardData({
-      classes: { total: 0, todayClasses: [], nextClass: null },
-      budget: { totalIncome: 0, totalExpenses: 0, balance: 0, recentTransactions: [] },
-      expensesByCategory: {},
-      planner: { totalTasks: 0, completedTasks: 0, pendingTasks: 0, highPriorityTasks: 0, overdueTasks: 0, upcomingTasks: [] },
-      wellness: { totalEntries: 0, averageMood: 0, sleepHours: 0, studyHours: 0, lastEntry: null },
-      weeklyData: { studySessions: [], expenses: {} },
-      quickStats: { totalClasses: 0, balance: 0, pendingTasks: 0, studyHoursThisWeek: 0 }
-    });
-  } finally {
-    setLoading(false);
-    setRefreshing(false);
-  }
-};
+  };
+
+  // Manual refresh function for quotes
+  const refreshQuoteManually = async () => {
+    // Clear stored quote to force a new fetch
+    localStorage.removeItem('lastQuoteDate');
+    localStorage.removeItem('dailyQuote');
+    await fetchMotivationalQuote();
+  };
 
   useEffect(() => {
     fetchDashboardData();
+    fetchMotivationalQuote();
 
     const interval = setInterval(fetchDashboardData, 5 * 60 * 1000);
     return () => clearInterval(interval);
   }, []);
+
+  const fetchDashboardData = async () => {
+    try {
+      setError(null);
+      setRefreshing(true);
+      const response = await axiosSecure.get('/summary/dashboard');
+
+      if (response.status === 200 && response.data) {
+        setDashboardData(response.data);
+      } else {
+        throw new Error('Invalid response from server');
+      }
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        setError('Authentication required. Please log in again.');
+        return;
+      }
+      
+      setError(error.response?.data?.message || error.message || 'Failed to load dashboard data');
+      setDashboardData({
+        classes: { total: 0, todayClasses: [], nextClass: null },
+        budget: { totalIncome: 0, totalExpenses: 0, balance: 0, recentTransactions: [] },
+        expensesByCategory: {},
+        planner: { totalTasks: 0, completedTasks: 0, pendingTasks: 0, highPriorityTasks: 0, overdueTasks: 0, upcomingTasks: [] },
+        wellness: { totalEntries: 0, averageMood: 0, sleepHours: 0, studyHours: 0, lastEntry: null },
+        weeklyData: { studySessions: [], expenses: {} },
+        quickStats: { totalClasses: 0, balance: 0, pendingTasks: 0, studyHoursThisWeek: 0 }
+      });
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
 
   const handleNavigateToFeature = (path) => {
     navigate(path);
@@ -176,26 +270,64 @@ const DashboardWidgets = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      {/* Header */}
+      {/* Header with Motivational Quote */}
       <div className="bg-white rounded-2xl shadow-sm p-6 mb-6 border border-gray-100">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+          <div className="flex-1">
             <h1 className="text-3xl font-bold text-gray-800 mb-2">
               Good {new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 17 ? 'afternoon' : 'evening'}, {user?.displayName || 'StudyMate User'}!
             </h1>
-            <p className="text-gray-500">
-              Here's your overview for today, {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+            <p className="text-gray-500 mb-3">
+              Here's your overview for {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
             </p>
+            
+            
           </div>
+          
           <button
-            onClick={handleRefresh}
+            onClick={() => {
+              handleRefresh();
+            }}
             disabled={refreshing}
-            className="cursor-pointer flex items-center px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white rounded-lg hover:from-cyan-700 hover:to-blue-700 transition-all disabled:opacity-50 font-medium shadow-sm hover:shadow-md"
+            className="cursor-pointer flex items-center px-4 py-2 mb-3 w-max bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all disabled:opacity-50 font-medium shadow-sm hover:shadow-md"
           >
             <RefreshCw className={`h-5 w-5 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
             Refresh Data
           </button>
         </div>
+        {/* Motivational Quote Section */}
+            <div className="flex items-start bg-gradient-to-r from-indigo-50 to-purple-50 p-4 rounded-lg border border-indigo-100 mb-3">
+              <Quote className="h-5 w-5 text-indigo-600 mr-3 mt-0.5 flex-shrink-0" />
+              {quoteLoading ? (
+                <div className="animate-pulse flex-1">
+                  <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <p className="text-indigo-700 text-sm italic">
+                    "{dailyMotivation.split(' - ')[0]}"
+                  </p>
+                  <p className="text-indigo-600 text-xs font-medium">
+                    - {dailyMotivation.split(' - ')[1] || 'Unknown Author'}
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Quote Info */}
+            <div className="flex items-center justify-between text-xs text-gray-500">
+              <div className="flex items-center">
+                <Calendar className="h-3 w-3 mr-1" />
+                <span>Daily motivation • Updates every 24 hours</span>
+              </div>
+              <button
+                onClick={refreshQuoteManually}
+                className="flex items-center text-indigo-600 hover:text-indigo-800 text-xs font-medium"
+              >
+                <RefreshCw className="h-3 w-3 mr-1" />
+                New quote
+              </button>
+            </div>
       </div>
 
       {/* Tab Navigation */}
@@ -210,7 +342,7 @@ const DashboardWidgets = () => {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center justify-center flex-1 min-w-0 py-2 px-2 rounded-lg font-medium text-sm sm:text-base transition-all cursor-pointer ${activeTab === tab.id
-                ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-sm'
+                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-sm'
                 : 'text-gray-600 hover:bg-gray-50'
                 }`}
             >
@@ -593,19 +725,6 @@ const DashboardWidgets = () => {
                 <div className="text-2xl font-bold text-pink-600 mb-2">{dashboardData.wellness.studyHours.toFixed(1)}</div>
                 <div className="text-sm text-pink-800">Avg Study Hours</div>
               </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Error Banner */}
-      {error && (
-        <div className="fixed bottom-6 right-6 bg-yellow-50 border border-yellow-200 rounded-xl p-4 shadow-lg max-w-sm">
-          <div className="flex items-start">
-            <AlertTriangle className="h-5 w-5 text-yellow-600 mr-3 mt-0.5" />
-            <div>
-              <p className="text-yellow-800 font-medium">Notice</p>
-              <p className="text-yellow-700 text-sm">{error}</p>
             </div>
           </div>
         </div>

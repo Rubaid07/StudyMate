@@ -10,6 +10,8 @@ import ExamQAGenerator from '../components/features/ExamQAGenerator';
 import ClassTracker from '../components/features/ClassTracker';
 import StudyPlanner from '../components/features/StudyPlanner';
 import BudgetTracker from '../components/features/BudgetTracker';
+import WellnessTracker from "../components/features/WellnessTracker";
+import StudySession from "../components/features/StudySession";
 
 
 export const router = createBrowserRouter([
@@ -56,6 +58,14 @@ export const router = createBrowserRouter([
       {
         path: 'exam-qa',
         element: <ExamQAGenerator />
+      },
+      {
+        path: 'wellness',
+        element: <WellnessTracker />
+      },
+      {
+        path: 'study-session',
+        element: <StudySession />
       },
       {
         // path: 'unique-feature',

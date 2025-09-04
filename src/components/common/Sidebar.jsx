@@ -127,17 +127,17 @@ const Sidebar = ({ isMobileOpen, toggleMobileSidebar }) => {
                     to={item.to}
                     className={`flex items-center gap-3 rounded-lg py-3 px-4 transition-all duration-200 font-medium ${
                       active
-                        ? "bg-indigo-600 text-white shadow-md"
+                        ? "border-indigo-600 border-l-4 bg-indigo-50 shadow-md"
                         : "text-gray-700 hover:bg-white hover:text-indigo-600 hover:shadow-sm"
                     }`}
                     onClick={() => window.innerWidth < 1024 && toggleMobileSidebar()}
                   >
-                    <span className={active ? "text-white" : "text-indigo-500"}>
+                    <span className="text-indigo-500">
                       {item.icon}
                     </span>
                     {item.label}
                     {active && (
-                      <div className="ml-auto w-2 h-2 bg-white rounded-full"></div>
+                      <div className="ml-auto w-2 h-2 bg-indigo-400 rounded-full"></div>
                     )}
                   </Link>
                 </li>
