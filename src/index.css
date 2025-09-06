@@ -412,3 +412,197 @@
 [data-theme="dark"] .singin-divider {
   border-color: rgba(55, 65, 81, 0.8);
 }
+
+/* DemoPreview Section Dark Mode Styles */
+[data-theme="dark"] .demo-preview-section {
+  background: linear-gradient(to bottom, rgb(17, 24, 39), rgb(31, 41, 55));
+}
+
+[data-theme="dark"] .section-title {
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .section-subtitle {
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .device-selector {
+  background-color: rgb(31, 41, 55);
+}
+
+[data-theme="dark"] .device-button {
+  color: rgb(209, 213, 219);
+}
+
+[data-theme="dark"] .device-button:hover {
+  color: rgb(255, 255, 255);
+  background-color: rgb(55, 65, 81);
+}
+
+[data-theme="dark"] .demo-container {
+  background-color: rgb(31, 41, 55);
+}
+
+[data-theme="dark"] .device-mockup {
+  background-color: rgb(17, 24, 39);
+  border-color: rgb(55, 65, 81);
+}
+
+[data-theme="dark"] .nav-button {
+  background-color: rgb(55, 65, 81);
+}
+
+[data-theme="dark"] .nav-button:hover {
+  background-color: rgb(75, 85, 99);
+}
+
+[data-theme="dark"] .slide-description {
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .indicator {
+  background-color: rgb(75, 85, 99);
+}
+[data-theme="light"] .indicator {
+  background-color: rgb(134, 141, 151);
+}
+
+[data-theme="dark"] .indicator:hover {
+  background-color: rgb(107, 114, 128);
+}
+
+[data-theme="dark"] .indicator.active {
+  background: linear-gradient(to right, rgb(59, 130, 246), rgb(139, 92, 246));
+}
+[data-theme="light"] .indicator.active {
+  background: linear-gradient(to right, rgb(59, 130, 246), rgb(139, 92, 246));
+}
+
+[data-theme="dark"] .feature-item {
+  background-color: rgb(31, 41, 55);
+}
+
+[data-theme="dark"] .feature-title {
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .feature-description {
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .modal-overlay {
+  background-color: rgba(0, 0, 0, 0.95);
+}
+
+[data-theme="dark"] .modal-body {
+  background-color: rgb(31, 41, 55);
+}
+
+[data-theme="dark"] .modal-close {
+  background-color: rgb(55, 65, 81);
+}
+
+[data-theme="dark"] .modal-close:hover {
+  background-color: rgb(75, 85, 99);
+}
+
+[data-theme="dark"] .modal-title {
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .modal-description {
+  color: rgb(156, 163, 175);
+}
+
+/* Enhanced DemoPreview Section Styles */
+.demo-preview-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.demo-preview-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(99, 102, 241, 0.3), transparent);
+}
+
+.device-selector {
+  backdrop-filter: blur(10px);
+}
+
+.device-button {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.demo-image {
+  border-radius: 8px;
+}
+
+.demo-overlay {
+  border-radius: 8px;
+}
+
+.play-pause-button {
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+}
+
+.play-pause-button:hover {
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
+}
+
+.feature-item {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal-content {
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .device-selector {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .device-button {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .demo-container {
+    padding: 1rem;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+}
