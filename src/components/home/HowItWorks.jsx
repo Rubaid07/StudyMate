@@ -62,7 +62,7 @@ const HowItWorks = () => {
         {/* Title */}
         <div className="text-center mb-16">
           <h2 className="section-title text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            How StudyMate Works
+            How <span className="text-indigo-500">StudyMate Works</span>
           </h2>
           <p className="section-subtitle text-lg text-gray-600">
             Your all-in-one academic companion designed to simplify student life.

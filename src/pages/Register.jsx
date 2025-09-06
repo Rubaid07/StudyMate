@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import toast from 'react-hot-toast';
-import logo from '../assets/logo.png';
 import { AuthContext } from '../context/AuthContext';
 import useAxiosSecure from '../hooks/useAxiosSecure';
 import axios from 'axios';
