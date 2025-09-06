@@ -11,6 +11,7 @@ import ClassTracker from '../components/features/ClassTracker';
 import StudyPlanner from '../components/features/StudyPlanner';
 import BudgetTracker from '../components/features/BudgetTracker';
 import WellnessTracker from "../components/features/WellnessTracker";
+import Home from "../components/home/Home";
 
 
 export const router = createBrowserRouter([
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
     path: "/",
     element: <ProtectedRoute publicOnly={true}><MainLayout /></ProtectedRoute>,
     children: [
+      {
+        index: true,
+        Component: Home
+      }
     ]
   },
   {

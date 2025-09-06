@@ -62,13 +62,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center px-4 py-12">
-      <div className="mb-10 flex flex-col items-center">
-        <div className='flex gap-2 justify-center items-center'>
-          <img src={logo} alt="Logo" className="h-12" />
-          <h1 className='text-4xl font-medium'>Study Mate</h1>
-        </div>
-      </div>
+    <div className="min-h-[calc(100vh-57px)] flex items-center justify-center">
 
       <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-sm border border-gray-200">
         <div className="text-center mb-8">
@@ -85,7 +79,7 @@ const Login = () => {
               name="email"
               type="email"
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700 focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
               placeholder="Enter your email"
             />
           </div>
@@ -99,7 +93,7 @@ const Login = () => {
                 name="password"
                 type={showPassword ? "text" : "password"}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
                 placeholder="Enter your password"
               />
               <button
@@ -118,7 +112,7 @@ const Login = () => {
             <div className="flex items-center">
               <input
                 type="checkbox"
-                className="h-4 w-4 text-cyan-700 rounded"
+                className="h-4 w-4 text-indigo-600 rounded"
               />
               <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
                 Remember me
@@ -126,7 +120,7 @@ const Login = () => {
             </div>
 
             <div className="text-sm">
-              <Link to="/forgot-password" className="font-medium text-cyan-700 hover:underline">
+              <Link to="" className="font-medium text-indigo-600 hover:underline">
                 Forgot password?
               </Link>
             </div>
@@ -134,7 +128,7 @@ const Login = () => {
 
           <button
             type="submit"
-            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-cyan-700 hover:bg-cyan-800 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-800 transition duration-150"
+            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition duration-150"
           >
             Sign in
           </button>
@@ -149,7 +143,7 @@ const Login = () => {
 
           <button
             onClick={handleGoogleSignIn}
-            className="w-full flex items-center justify-center gap-2 py-2 px-4 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 py-2 px-4 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition-colors cursor-pointer"
           >
             <svg aria-label="Google logo" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
               <g>
@@ -167,7 +161,7 @@ const Login = () => {
         <div className="mt-6 text-center text-sm">
           <p className="text-gray-500">
             Don't have an account?
-            <Link to="/register" className="font-medium ml-1 text-cyan-700 hover:underline">
+            <Link to="/register" className="font-medium ml-1 text-indigo-600 hover:underline">
               Sign up
             </Link>
           </p>

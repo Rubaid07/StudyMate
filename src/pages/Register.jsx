@@ -78,14 +78,7 @@ const Register = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center px-4 py-12">
-      <div className="mb-10 flex flex-col items-center">
-        <div className='flex gap-2 justify-center items-center'>
-          <img src={logo} alt="Logo" className="h-12" />
-          <h1 className='text-4xl font-medium'>Study Mate</h1>
-        </div>
-      </div>
-
+    <div className="min-h-[calc(100vh-57px)] flex items-center justify-center">
       <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-sm border border-gray-200">
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold text-gray-800">Create your account</h2>
@@ -94,33 +87,42 @@ const Register = () => {
 
         <form onSubmit={handleSignUp} className="space-y-4">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Full Name
             </label>
             <input
               name="name"
               type="text"
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700 focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
               placeholder="Enter your full name"
             />
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Email address
             </label>
             <input
               name="email"
               type="email"
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700 focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
               placeholder="Enter your email"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Password
             </label>
             <div className="relative">
@@ -128,7 +130,7 @@ const Register = () => {
                 name="password"
                 type={showPassword ? "text" : "password"}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-700 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
                 placeholder="Enter your password"
               />
               <button
@@ -147,24 +149,41 @@ const Register = () => {
               name="terms"
               type="checkbox"
               required
-              className="h-4 w-4 text-cyan-700 rounded focus:ring-cyan-700"
+              className="h-4 w-4 text-indigo-600 rounded focus:ring-indigo-600"
             />
-            <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
-              I agree to the <Link to="/terms-of-service" className="text-cyan-700 hover:underline font-medium">Terms of Service</Link> and <Link to="/privacy-policy" className="text-cyan-700 hover:underline font-medium">Privacy Policy</Link>
+            <label
+              htmlFor="terms"
+              className="ml-2 block text-sm text-gray-700"
+            >
+              I agree to the{" "}
+              <Link
+                to="/terms-of-service"
+                className="text-indigo-600 hover:underline font-medium"
+              >
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link
+                to="/privacy-policy"
+                className="text-indigo-600 hover:underline font-medium"
+              >
+                Privacy Policy
+              </Link>
             </label>
           </div>
 
           <button
             type="submit"
-            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-cyan-700 hover:bg-cyan-800 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-800 transition duration-150"
+            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition duration-150"
             disabled={loading}
           >
             {loading ? (
               <>
-                <span className="loading loading-spinner loading-sm mr-2"></span> Creating...
+                <span className="loading loading-spinner loading-sm mr-2"></span>{" "}
+                Creating...
               </>
             ) : (
-              'Create Account'
+              "Create Account"
             )}
           </button>
         </form>
@@ -180,16 +199,34 @@ const Register = () => {
 
         <button
           onClick={handleGoogleSignIn}
-          className="w-full flex items-center justify-center gap-2 py-2 px-4 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors cursor-pointer"
+          className="w-full flex items-center justify-center gap-2 py-2 px-4 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 transition-colors cursor-pointer"
           disabled={loading}
         >
-          <svg aria-label="Google logo" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+          <svg
+            aria-label="Google logo"
+            width="24"
+            height="24"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+          >
             <g>
               <path d="m0 0H512V512H0" fill="#fff"></path>
-              <path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"></path>
-              <path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"></path>
-              <path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"></path>
-              <path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"></path>
+              <path
+                fill="#34a853"
+                d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"
+              ></path>
+              <path
+                fill="#4285f4"
+                d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"
+              ></path>
+              <path
+                fill="#fbbc02"
+                d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"
+              ></path>
+              <path
+                fill="#ea4335"
+                d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"
+              ></path>
             </g>
           </svg>
           Sign up with Google
@@ -198,13 +235,17 @@ const Register = () => {
         <div className="mt-6 text-center text-sm">
           <p className="text-gray-500">
             Already have an account?
-            <Link to="/login" className="font-medium ml-1 text-cyan-700 hover:underline">
+            <Link
+              to="/login"
+              className="font-medium ml-1 text-indigo-600 hover:underline"
+            >
               Sign in
             </Link>
           </p>
         </div>
       </div>
     </div>
+
   );
 };
 
