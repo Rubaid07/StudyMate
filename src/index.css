@@ -103,7 +103,7 @@
 }
 
 [data-theme="dark"] .icon-container {
-  background-color: rgba(79, 70, 229, 0.2);
+  background-color: rgba(88, 84, 164, 0.2);
 }
 
 /* Enhanced Features Section Styles */
@@ -156,6 +156,84 @@
   .feature-card {
     padding: 1.25rem;
   }
+}
+
+/* How It Works Section Dark Mode Styles */
+[data-theme="dark"] .how-it-works-section {
+  background: linear-gradient(to right, rgb(17, 24, 39), rgb(31, 41, 55), rgb(17, 24, 39));
+}
+
+[data-theme="dark"] .section-title {
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .section-subtitle {
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .timeline-line {
+  background: linear-gradient(to bottom, rgb(37, 99, 235), rgb(139, 92, 246), rgb(236, 72, 153));
+}
+
+[data-theme="dark"] .timeline-dot {
+  background-color: rgb(31, 41, 55);
+  border-color: rgb(99, 102, 241);
+}
+
+[data-theme="dark"] .step-card {
+  background-color: rgb(31, 41, 55);
+  border-color: rgb(55, 65, 81);
+}
+
+[data-theme="dark"] .step-title {
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .step-description {
+  color: rgb(156, 163, 175);
+}
+
+.how-it-works-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.how-it-works-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(99, 102, 241, 0.3), transparent);
+}
+
+.how-it-works-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(139, 92, 246, 0.3), transparent);
+}
+
+.step-card {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.step-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(to right, rgb(99, 102, 241), rgb(139, 92, 246));
+  border-radius: 8px 8px 0 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .outfit {
