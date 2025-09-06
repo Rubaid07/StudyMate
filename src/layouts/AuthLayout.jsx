@@ -6,7 +6,7 @@ const AuthLayout = () => {
     return (
         <div>
             <LandingPageNavbar></LandingPageNavbar>
-            <div className='min-h-[calc(100vh-67px)] bg-indigo-50/40'>
+            <div className='min-h-[calc(100vh-67px)] cta-section bg-indigo-50/40'>
                 <Outlet></Outlet>
             </div>
         </div>

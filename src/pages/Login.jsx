@@ -64,15 +64,15 @@ const Login = () => {
   return (
     <div className="min-h-[calc(100vh-57px)] flex items-center justify-center">
 
-      <div className="w-full max-w-md bg-white p-8 rounded-xl shadow-sm border border-gray-200">
+      <div className="w-full max-w-md bg-white feature-card p-8 rounded-xl shadow-sm border border-gray-200">
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-gray-800">Welcome back</h2>
-          <p className="text-gray-500 mt-2">Sign in to your account</p>
+          <h2 className="text-2xl font-bold ">Welcome back</h2>
+          <p className="text-gray-500 mt-2 faq-answer">Sign in to your account</p>
         </div>
 
         <form onSubmit={handleSignIn} className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1 faq-answer">
               Email address
             </label>
             <input
@@ -85,7 +85,7 @@ const Login = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-700 mb-1 faq-answer">
               Password
             </label>
             <div className="relative">
@@ -114,13 +114,13 @@ const Login = () => {
                 type="checkbox"
                 className="h-4 w-4 text-indigo-600 rounded"
               />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
+              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700 faq-answer">
                 Remember me
               </label>
             </div>
 
             <div className="text-sm">
-              <Link to="" className="font-medium text-indigo-600 hover:underline">
+              <Link to="" className="font-medium text-indigo-400 hover:underline">
                 Forgot password?
               </Link>
             </div>
@@ -134,10 +134,10 @@ const Login = () => {
           </button>
           <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
+              <div className="w-full border-t singin-divider border-gray-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">Or continue with</span>
+              <span className="px-2 bg-white feature-card text-gray-500 faq-answer">Or continue with</span>
             </div>
           </div>
 
@@ -159,9 +159,9 @@ const Login = () => {
         </form>
 
         <div className="mt-6 text-center text-sm">
-          <p className="text-gray-500">
+          <p className="text-gray-500 faq-answer">
             Don't have an account?
-            <Link to="/register" className="font-medium ml-1 text-indigo-600 hover:underline">
+            <Link to="/register" className="font-medium ml-1 text-indigo-400 hover:underline">
               Sign up
             </Link>
           </p>

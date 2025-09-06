@@ -406,4 +406,9 @@
 
 [data-theme="dark"] .cta-section {
   background: linear-gradient(to right, rgb(17, 24, 39), rgb(31, 41, 55), rgb(17, 24, 39));
+
+  border-color: rgba(55, 65, 81, 0.8);
+}
+[data-theme="dark"] .singin-divider {
+  border-color: rgba(55, 65, 81, 0.8);
 }
