@@ -44,7 +44,7 @@ const Features = () => {
     <section id="features" className="features-section py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-6 lg:px-0">
         <div className="text-center mb-12">
-          <h2 className="section-title text-3xl font-bold text-gray-900">
+          <h2 className="section-title text-3xl md:text-4xl font-bold text-gray-900">
             Everything you need in one <span className="text-indigo-500">Toolkit</span>
           </h2>
           <p className="section-description text-gray-600 mt-3 max-w-2xl mx-auto">

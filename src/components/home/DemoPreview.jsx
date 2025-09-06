@@ -149,7 +149,7 @@ const DemoPreview = () => {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            See StudyMate in Action
+            See <span className='text-indigo-500'>StudyMate</span> in Action
           </h2>
           <p className="text-lg text-gray-300 mb-8">
             Explore our beautiful interface and discover how StudyMate can transform your academic journey
