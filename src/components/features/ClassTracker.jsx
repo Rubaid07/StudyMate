@@ -395,142 +395,141 @@ const ClassTracker = () => {
 
       {/* Enhanced Modal */}
       {isModalOpen && (
-  <div className="modal-overlay fixed inset-0 bg-gray-600/70 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-    <div className="modal-container bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-      <div className="modal-header sticky top-0 bg-white border-b border-gray-200 px-8 py-6 rounded-t-3xl">
-        <div className="flex items-center justify-between">
-          <h2 className="modal-title text-3xl font-bold text-gray-800">
-            {editingClassId ? 'Edit Class' : 'Add New Class'}
-          </h2>
-          <button
-            onClick={() => setIsModalOpen(false)}
-            className="modal-close-btn p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-colors"
-          >
-            <FiX size={24} />
-          </button>
-        </div>
-      </div>
-
-      <div className="modal-body px-8 py-6">
-        <form onSubmit={handleAddOrUpdateClass} className="space-y-6">
-          <div className="form-group">
-            <label className="form-label block text-gray-700 font-semibold mb-2">Subject *</label>
-            <input
-              type="text"
-              name="subject"
-              value={formData.subject}
-              onChange={handleFormChange}
-              placeholder="e.g., Advanced Mathematics, Physics Lab"
-              className="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="form-label block text-gray-700 font-semibold mb-2">Instructor</label>
-            <input
-              type="text"
-              name="instructor"
-              value={formData.instructor}
-              onChange={handleFormChange}
-              placeholder="e.g., Dr. Sarah Johnson"
-              className="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-            />
-          </div>
-
-          <div className="form-group">
-            <label className="form-label block text-gray-700 font-semibold mb-2">Day *</label>
-            <select
-              name="day"
-              value={formData.day}
-              onChange={handleFormChange}
-              className="form-select w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-              required
-            >
-              <option value="" disabled>Select a day</option>
-              {daysOfWeek.map((day) => (
-                <option key={day} value={day}>{day}</option>
-              ))}
-            </select>
-          </div>
-
-          <div className="time-inputs grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="form-group">
-              <label className="form-label block text-gray-700 font-semibold mb-2">Start Time *</label>
-              <input
-                type="time"
-                name="startTime"
-                value={formData.startTime}
-                onChange={handleFormChange}
-                className="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label className="form-label block text-gray-700 font-semibold mb-2">End Time *</label>
-              <input
-                type="time"
-                name="endTime"
-                value={formData.endTime}
-                onChange={handleFormChange}
-                className="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                required
-              />
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label className="form-label block text-gray-700 font-semibold mb-3">Class Color</label>
-            <div className="color-picker flex flex-wrap gap-3 items-center">
-              {defaultColors.map((color) => (
+        <div className="modal-overlay fixed inset-0 bg-gray-600/70 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="modal-container bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="modal-header sticky top-0 bg-white border-b border-gray-200 px-8 py-6 rounded-t-3xl">
+              <div className="flex items-center justify-between">
+                <h2 className="modal-title text-3xl font-bold text-gray-800">
+                  {editingClassId ? 'Edit Class' : 'Add New Class'}
+                </h2>
                 <button
-                  key={color}
-                  type="button"
-                  onClick={() => setFormData((prev) => ({ ...prev, color }))}
-                  className={`color-option w-10 h-10 rounded-full border-4 transition-all duration-200 ${
-                    formData.color === color
-                      ? 'border-gray-800 scale-110 shadow-lg'
-                      : 'border-gray-300 hover:scale-105'
-                  }`}
-                  style={{ backgroundColor: color }}
-                  title={color}
-                ></button>
-              ))}
-              <div className="custom-color relative">
-                <input
-                  type="color"
-                  name="color"
-                  value={formData.color}
-                  onChange={handleFormChange}
-                  className="color-input w-10 h-10 rounded-full border-4 border-gray-300 cursor-pointer overflow-hidden"
-                  title="Custom Color"
-                />
-                <div className="color-badge absolute -bottom-1 -right-1 bg-gray-600 text-white text-xs px-1 py-0.5 rounded">+</div>
+                  onClick={() => setIsModalOpen(false)}
+                  className="modal-close-btn p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-colors"
+                >
+                  <FiX size={24} />
+                </button>
               </div>
             </div>
-          </div>
 
-          <div className="modal-actions flex gap-4 pt-4">
-            <button
-              type="button"
-              onClick={() => setIsModalOpen(false)}
-              className="cancel-btn flex-1 px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="submit-btn flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:transform-none disabled:cursor-not-allowed"
-              disabled={loading}
-            >
-              {loading ? 'Saving...' : (editingClassId ? 'Save Changes' : 'Add Class')}
-            </button>
+            <div className="modal-body px-8 py-6">
+              <form onSubmit={handleAddOrUpdateClass} className="space-y-6">
+                <div className="form-group">
+                  <label className="form-label block text-gray-700 font-semibold mb-2">Subject *</label>
+                  <input
+                    type="text"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleFormChange}
+                    placeholder="e.g., Advanced Mathematics, Physics Lab"
+                    className="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    required
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label block text-gray-700 font-semibold mb-2">Instructor</label>
+                  <input
+                    type="text"
+                    name="instructor"
+                    value={formData.instructor}
+                    onChange={handleFormChange}
+                    placeholder="e.g., Dr. Sarah Johnson"
+                    className="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label block text-gray-700 font-semibold mb-2">Day *</label>
+                  <select
+                    name="day"
+                    value={formData.day}
+                    onChange={handleFormChange}
+                    className="form-select w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    required
+                  >
+                    <option value="" disabled>Select a day</option>
+                    {daysOfWeek.map((day) => (
+                      <option key={day} value={day}>{day}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="time-inputs grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="form-group">
+                    <label className="form-label block text-gray-700 font-semibold mb-2">Start Time *</label>
+                    <input
+                      type="time"
+                      name="startTime"
+                      value={formData.startTime}
+                      onChange={handleFormChange}
+                      className="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label block text-gray-700 font-semibold mb-2">End Time *</label>
+                    <input
+                      type="time"
+                      name="endTime"
+                      value={formData.endTime}
+                      onChange={handleFormChange}
+                      className="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label block text-gray-700 font-semibold mb-3">Class Color</label>
+                  <div className="color-picker flex flex-wrap gap-3 items-center">
+                    {defaultColors.map((color) => (
+                      <button
+                        key={color}
+                        type="button"
+                        onClick={() => setFormData((prev) => ({ ...prev, color }))}
+                        className={`color-option w-10 h-10 rounded-full border-4 transition-all duration-200 ${formData.color === color
+                            ? 'border-gray-800 scale-110 shadow-lg'
+                            : 'border-gray-300 hover:scale-105'
+                          }`}
+                        style={{ backgroundColor: color }}
+                        title={color}
+                      ></button>
+                    ))}
+                    <div className="custom-color relative">
+                      <input
+                        type="color"
+                        name="color"
+                        value={formData.color}
+                        onChange={handleFormChange}
+                        className="color-input w-10 h-10 rounded-full border-4 border-gray-300 cursor-pointer overflow-hidden"
+                        title="Custom Color"
+                      />
+                      <div className="color-badge absolute -bottom-1 -right-1 bg-gray-600 text-white text-xs px-1 py-0.5 rounded">+</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="modal-actions flex gap-4 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setIsModalOpen(false)}
+                    className="cancel-btn flex-1 px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="submit-btn flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:transform-none disabled:cursor-not-allowed"
+                    disabled={loading}
+                  >
+                    {loading ? 'Saving...' : (editingClassId ? 'Save Changes' : 'Add Class')}
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-        </form>
-      </div>
-    </div>
-  </div>
-)}
+        </div>
+      )}
     </div>
   );
 };
