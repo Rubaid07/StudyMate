@@ -8,7 +8,7 @@ const Hero = () => {
       <div
         className="hero-bg absolute inset-0 z-0"
       />
-      <div className="relative z-10 w-full px-6 lg:px-12">
+      <div className="relative z-10 w-full px-4 lg:px-12">
         <div className="max-w-7xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-10 lg:gap-16">
           <div className="flex-1 text-center lg:text-left space-y-6">
             <h1 className="hero-heading text-4xl lg:text-5xl font-bold text-gray-900 leading-tight transition-colors">

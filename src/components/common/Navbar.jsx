@@ -21,8 +21,8 @@ const Navbar = ({ toggleMobileSidebar }) => {
     }, [theme]);
 
   return (
-    <div className="py-3 landing-navbar bg-white border-b border-gray-100 shadow-sm sticky top-0 z-40">
-      <div className="w-full mx-auto px-4 flex items-center justify-between">
+    <div className="p-3 landing-navbar bg-white border-b border-gray-100 shadow-sm sticky top-0 z-40">
+      <div className="w-full mx-auto px- flex items-center justify-between">
         {/* left side */}
         <div className="flex items-center">
           <button
@@ -72,7 +72,7 @@ const Navbar = ({ toggleMobileSidebar }) => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <span className="text-sm font-medium faq-question text-gray-700 hidden sm:inline-block">
+              <span className="text-sm font-medium faq-question text-gray-700 hidden sm:inline-block md:pr-3">
                 {user?.displayName || "Account"}
               </span>
             </div>

@@ -77,7 +77,7 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-57px)] flex items-center justify-center">
+    <div className="min-h-[calc(100vh-57px)] flex items-center justify-center px-4 my-6 md:my-0">
       <div className="w-full max-w-md bg-white feature-card p-8 rounded-xl shadow-sm border border-gray-200">
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold">Create your account</h2>

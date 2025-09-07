@@ -7,6 +7,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { FiEdit, FiTrash2, FiPlusCircle, FiX, FiTrendingUp, FiTrendingDown, FiDollarSign, FiPieChart, FiCalendar, FiFilter } from 'react-icons/fi';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, PieChart, Pie, Cell } from 'recharts';
 import Swal from 'sweetalert2';
+import Loading from '../common/Loading';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -259,23 +260,15 @@ const BudgetTracker = () => {
 
   if (loading && entries.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-emerald-50 flex items-center justify-center">
-        <div className="flex flex-col items-center space-y-4">
-          <div className="relative">
-            <div className="w-16 h-16 border-4 border-emerald-200 rounded-full animate-spin"></div>
-            <div className="absolute top-0 left-0 w-16 h-16 border-4 border-emerald-600 rounded-full animate-spin border-t-transparent"></div>
-          </div>
-          <p className="text-gray-600 font-medium">Loading your budget data...</p>
-        </div>
-      </div>
+      <Loading></Loading>
     );
   }
 
   return (
-    <div className="budget-tracker min-h-screen bg-gradient-to-br from-slate-50 to-emerald-50 p-4 lg:p-8">
+    <div className="budget-tracker min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 lg:p-8">
   <div className="max-w-7xl mx-auto">
     {/* Header Section */}
-    <div className="budget-header bg-white rounded-3xl shadow-xl border border-gray-100 p-8 mb-8">
+    <div className="budget-header bg-white rounded-3xl shadow border border-gray-100 p-8 mb-8">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
         <div className="header-content">
           <h1 className="header-title text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-3">
@@ -331,41 +324,39 @@ const BudgetTracker = () => {
 
     {/* Financial Summary Cards */}
     <div className="summary-cards grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-      <div className="income-card bg-white rounded-3xl shadow-xl border border-gray-100 p-8 relative overflow-hidden">
-        <div className="card-bg absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-full opacity-10 transform translate-x-6 -translate-y-6"></div>
+      <div className="income-card bg-white rounded-3xl shadow border border-gray-100 p-8 relative overflow-hidden">
         <div className="card-content flex items-center gap-4">
           <div className="icon-container p-4 bg-gradient-to-br from-green-100 to-green-200 rounded-2xl">
             <FiTrendingUp className="income-icon text-green-600" size={32} />
           </div>
           <div className="card-text">
             <p className="card-label text-sm font-medium text-gray-500 uppercase tracking-wide">Total Income</p>
-            <p className="card-value text-3xl font-bold text-gray-800">{formatCurrency(totalIncome)}</p>
+            <p className="card-value text-2xl font-medium text-gray-800">{formatCurrency(totalIncome)}</p>
           </div>
         </div>
       </div>
 
-      <div className="expense-card bg-white rounded-3xl shadow-xl border border-gray-100 p-8 relative overflow-hidden">
-        <div className="card-bg absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-red-400 to-red-600 rounded-full opacity-10 transform translate-x-6 -translate-y-6"></div>
+      <div className="expense-card bg-white rounded-3xl shadow border border-gray-100 p-8 relative overflow-hidden">
         <div className="card-content flex items-center gap-4">
           <div className="icon-container p-4 bg-gradient-to-br from-red-100 to-red-200 rounded-2xl">
             <FiTrendingDown className="expense-icon text-red-600" size={32} />
           </div>
           <div className="card-text">
             <p className="card-label text-sm font-medium text-gray-500 uppercase tracking-wide">Total Expenses</p>
-            <p className="card-value text-3xl font-bold text-gray-800">{formatCurrency(totalExpenses)}</p>
+            <p className="card-value text-2xl font-medium text-gray-800">{formatCurrency(totalExpenses)}</p>
           </div>
         </div>
       </div>
 
-      <div className="balance-card bg-white rounded-3xl shadow-xl border border-gray-100 p-8 relative overflow-hidden">
-        <div className={`card-bg absolute top-0 right-0 w-20 h-20 ${balance >= 0 ? 'bg-gradient-to-br from-blue-400 to-blue-600' : 'bg-gradient-to-br from-orange-400 to-orange-600'} rounded-full opacity-10 transform translate-x-6 -translate-y-6`}></div>
+      <div className="balance-card bg-white rounded-3xl shadow border border-gray-100 p-8 relative overflow-hidden">
+        <div className={`card-bg absolute top-0 right-0 w-20 h-20 ${balance >= 0 ? '' : 'bg-gradient-to-br from-orange-400 to-orange-600'} rounded-full opacity-10 transform translate-x-6 -translate-y-6`}></div>
         <div className="card-content flex items-center gap-4">
           <div className={`icon-container p-4 ${balance >= 0 ? 'bg-gradient-to-br from-blue-100 to-blue-200' : 'bg-gradient-to-br from-orange-100 to-orange-200'} rounded-2xl`}>
             <FiDollarSign className={balance >= 0 ? 'balance-icon text-blue-600' : 'balance-icon text-orange-600'} size={32} />
           </div>
           <div className="card-text">
             <p className="card-label text-sm font-medium text-gray-500 uppercase tracking-wide">Net Balance</p>
-            <p className={`card-value text-3xl font-bold ${balance >= 0 ? 'text-gray-800' : 'text-orange-600'}`}>
+            <p className={`card-value text-2xl font-medium ${balance >= 0 ? 'text-gray-800' : 'text-orange-600'}`}>
               {formatCurrency(balance)}
             </p>
           </div>

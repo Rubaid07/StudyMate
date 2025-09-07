@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { AuthContext } from '../../context/AuthContext';
 import { FiEdit, FiTrash2, FiPlusCircle, FiX, FiCheckCircle, FiClock, FiCalendar, FiTarget, FiBookOpen, FiAlertTriangle } from 'react-icons/fi';
 import Swal from 'sweetalert2';
+import Loading from '../common/Loading';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -274,20 +275,11 @@ const StudyPlanner = () => {
 
   if (loading && tasks.length === 0) {
     return (
-      <div className="budget-tracker min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50 flex items-center justify-center">
-        <div className="flex flex-col items-center space-y-4">
-          <div className="relative">
-            <div className="w-16 h-16 border-4 border-indigo-200 rounded-full animate-spin"></div>
-            <div className="absolute top-0 left-0 w-16 h-16 border-4 border-indigo-600 rounded-full animate-spin border-t-transparent"></div>
-          </div>
-          <p className="text-gray-600 font-medium">Loading your study tasks...</p>
-        </div>
-      </div>
+     <Loading></Loading>
     );
   }
 
   const sortedTasks = [...tasks].sort((a, b) => {
-    // Sort by status first (pending first), then by due date
     if (a.status !== b.status) {
       return a.status === 'pending' ? -1 : 1;
     }
@@ -299,10 +291,10 @@ const StudyPlanner = () => {
   const completionRate = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
 
   return (
-    <div className="budget-tracker min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50 p-4 lg:p-8">
+    <div className="budget-tracker min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 lg:p-8">
       <div className="max-w-6xl mx-auto">
         {/* Header Section */}
-        <div className="budget-header bg-white rounded-3xl shadow-xl border border-gray-100 p-8 mb-8">
+        <div className="budget-header bg-white rounded-3xl shadow border border-gray-100 p-8 mb-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             <div className='header-content'>
               <h1 className="header-title text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-3">
@@ -332,41 +324,38 @@ const StudyPlanner = () => {
         {/* Progress Overview */}
         {totalTasks > 0 && (
           <div className="summary-cards grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="completed-card bg-white rounded-3xl shadow-xl border border-gray-100 p-6 relative overflow-hidden">
-              <div className="card-bg absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-full opacity-10 transform translate-x-6 -translate-y-6"></div>
+            <div className="completed-card bg-white rounded-3xl shadow border border-gray-100 p-6 relative overflow-hidden">
               <div className="card-content flex items-center gap-4">
                 <div className="icon-container p-3 bg-gradient-to-br from-green-100 to-green-200 rounded-2xl">
                   <FiCheckCircle className="completed-icon text-green-600" size={24} />
                 </div>
                 <div className="card-text">
                   <p className="card-label text-sm font-medium text-gray-500 uppercase tracking-wide">Completed</p>
-                  <p className="card-value text-3xl font-bold text-gray-800">{completedTasks}</p>
+                  <p className="card-value text-2xl font-medium text-gray-800">{completedTasks}</p>
                 </div>
               </div>
             </div>
 
-            <div className="total-card bg-white rounded-3xl shadow-xl border border-gray-100 p-6 relative overflow-hidden">
-              <div className="card-bg absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full opacity-10 transform translate-x-6 -translate-y-6"></div>
+            <div className="total-card bg-white rounded-3xl shadow border border-gray-100 p-6 relative overflow-hidden">
               <div className="card-content flex items-center gap-4">
                 <div className="icon-container p-3 bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl">
                   <FiBookOpen className="total-icon text-blue-600" size={24} />
                 </div>
                 <div className="card-text">
                   <p className="card-label text-sm font-medium text-gray-500 uppercase tracking-wide">Total Tasks</p>
-                  <p className="card-value text-3xl font-bold text-gray-800">{totalTasks}</p>
+                  <p className="card-value text-2xl font-medium text-gray-800">{totalTasks}</p>
                 </div>
               </div>
             </div>
 
-            <div className="progress-card bg-white rounded-3xl shadow-xl border border-gray-100 p-6 relative overflow-hidden">
-              <div className="card-bg absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full opacity-10 transform translate-x-6 -translate-y-6"></div>
+            <div className="progress-card bg-white rounded-3xl shadow border border-gray-100 p-6 relative overflow-hidden">
               <div className="card-content flex items-center gap-4">
                 <div className="icon-container p-3 bg-gradient-to-br from-purple-100 to-purple-200 rounded-2xl">
                   <FiTarget className="progress-icon text-purple-600" size={24} />
                 </div>
                 <div className="card-text">
                   <p className="card-label text-sm font-medium text-gray-500 uppercase tracking-wide">Progress</p>
-                  <p className="card-value text-3xl font-bold text-gray-800">{Math.round(completionRate)}%</p>
+                  <p className="card-value text-2xl font-medium text-gray-800">{Math.round(completionRate)}%</p>
                 </div>
               </div>
             </div>
@@ -392,7 +381,7 @@ const StudyPlanner = () => {
             </button>
           </div>
         ) : (
-          <div className="tasks-container bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden">
+          <div className="tasks-container bg-white rounded-3xl shadow border border-gray-100 overflow-hidden">
             <div className="tasks-header p-8">
               <div className="flex items-center gap-3 mb-6">
                 <FiCalendar className="calendar-icon text-indigo-600" size={24} />

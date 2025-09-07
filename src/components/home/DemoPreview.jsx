@@ -24,28 +24,28 @@ const DemoPreview = () => {
         id: 1,
         title: "Dashboard Overview",
         description: "Get a complete overview of your academic life with our intuitive dashboard.",
-        image: "https://i.postimg.cc/s2wVfVTy/Screenshot-7.png",
+        image: "https://i.postimg.cc/mkRfg6nW/dashboard.png",
         alt: "StudyMate Dashboard Overview"
       },
       {
         id: 2,
         title: "Class Schedule",
         description: "Manage your class schedule with color-coded subjects and easy editing.",
-        image: "/api/placeholder/800/500",
+        image: "https://i.postimg.cc/CM6sYfnm/calss.png",
         alt: "Class Schedule Interface"
       },
       {
         id: 3,
         title: "Budget Tracker",
         description: "Track your expenses and income with beautiful visualizations.",
-        image: "/api/placeholder/800/500",
+        image: "https://i.postimg.cc/9f5rBcRd/budget.png",
         alt: "Budget Tracking Dashboard"
       },
       {
         id: 4,
         title: "Study Planner",
         description: "Plan your study sessions and track your progress efficiently.",
-        image: "/api/placeholder/800/500",
+        image: "https://i.postimg.cc/zXvbztYg/study.png",
         alt: "Study Planning Interface"
       }
     ],
@@ -54,38 +54,31 @@ const DemoPreview = () => {
         id: 1,
         title: "Tablet Dashboard",
         description: "Perfectly optimized for tablet devices with touch-friendly interface.",
-        image: "/api/placeholder/600/400",
+        image: "https://i.postimg.cc/MK9LRGLL/tablet-dashboard1.png",
         alt: "Tablet Dashboard View"
       },
       {
         id: 2,
-        title: "Mobile Class View",
+        title: "Exam Q&A Generator",
         description: "Access your class schedule on the go with our mobile interface.",
-        image: "/api/placeholder/600/400",
-        alt: "Mobile Class Schedule"
+        image: "https://i.postimg.cc/fW9YnWm9/Q-A.png",
+        alt: "Exam Q&A Generator"
       }
     ],
     mobile: [
       {
         id: 1,
-        title: "Mobile Dashboard",
+        title: "Mobile Landing Page",
         description: "Full-featured dashboard optimized for mobile devices.",
-        image: "/api/placeholder/400/600",
-        alt: "Mobile Dashboard"
+        image: "https://i.postimg.cc/7hRxZrpt/landing.png",
+        alt: "Mobile Landing Page"
       },
       {
         id: 2,
-        title: "Quick Actions",
+        title: "Mobile Dashbaord view",
         description: "Quick access to frequently used features on mobile.",
-        image: "/api/placeholder/400/600",
-        alt: "Mobile Quick Actions"
-      },
-      {
-        id: 3,
-        title: "Notifications",
-        description: "Stay updated with smart notifications and reminders.",
-        image: "/api/placeholder/400/600",
-        alt: "Mobile Notifications"
+        image: "https://i.postimg.cc/dV5m4HcQ/mobile-dashboard.png",
+        alt: "Mobile Mobile Dashbaord view"
       }
     ]
   };
@@ -159,7 +152,7 @@ const DemoPreview = () => {
 
         {/* Device Selector */}
         <div className="flex justify-center mb-12">
-          <div className="device-selector bg-base-300 rounded-2xl p-2 flex ">
+          <div className="device-selector bg-base-300 rounded-2xl p-2 flex gap-2 sm:gap-4">
             {[
               { key: 'desktop', icon: <FiMonitor className="w-5 h-5" />, label: 'Desktop' },
               { key: 'tablet', icon: <FiTablet className="w-5 h-5" />, label: 'Tablet' },
@@ -172,10 +165,10 @@ const DemoPreview = () => {
                   setCurrentSlide(0);
                   stopSlideshow();
                 }}
-                className={`device-button px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center space-x-2 ${
+                className={`device-button px-3 py-2 md:px-6 md:py-3 rounded-xl font-semibold transition-all duration-300 flex items-center space-x-2 ${
                   activeTab === device.key
                     ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
-                    : 'text-gray-800 hover:bg-gray-400'
+                    : 'text-gray-800 hover:bg-gray-300'
                 }`}
               >
                 {device.icon}
@@ -194,7 +187,7 @@ const DemoPreview = () => {
             'max-w-xs'
           }`}>
             {/* Device Mockup */}
-            <div className={`device-mockup relative rounded-3xl border-8 border-gray-400 shadow-2xl ${
+            <div className={`device-mockup relative rounded-xl border-8 border-gray-400 shadow-2xl ${
               activeTab === 'desktop' ? 'rounded-b-2xl' : 
               activeTab === 'tablet' ? 'rounded-3xl' : 
               'rounded-4xl'

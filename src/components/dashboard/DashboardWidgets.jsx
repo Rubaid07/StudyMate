@@ -259,7 +259,7 @@ const DashboardWidgets = () => {
   return (
     <div className="min-h-screen">
       {/* Header with Motivational Quote */}
-      <div className="bg-white feature-item rounded-2xl shadow-sm p-6 mb-6">
+      <div className="bg-white feature-item rounded-2xl shadow-sm md:p-6 p-4 mb-6">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between">
           <div className="flex-1">
             <h1 className="text-3xl font-bold text-gray-800 faq-question mb-2">
@@ -296,19 +296,20 @@ const DashboardWidgets = () => {
         </div>
 
         {/* Quote Info */}
-        <div className="flex items-center justify-between text-xs text-gray-500 faq-answer">
-          <div className="flex items-center">
-            <Calendar className="h-3 w-3 mr-1" />
-            <span>Daily motivation • Updates every 24 hours</span>
-          </div>
-          <button
-            onClick={refreshQuoteManually}
-            className="flex items-center text-indigo-400 hover:text-indigo-500 cursor-pointer text-xs font-medium"
-          >
-            <RefreshCw className="h-3 w-3 mr-1" />
-            New quote
-          </button>
-        </div>
+       <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 faq-answer">
+  <div className="flex mb-2 sm:mb-0">
+    <Calendar className="h-3 w-3 mr-1 mt-1" />
+    <span>Daily motivation • Updates every 24 hours</span>
+  </div>
+  <button
+    onClick={refreshQuoteManually}
+    className="flex items-center text-indigo-400 hover:text-indigo-500 cursor-pointer text-xs font-medium"
+  >
+    <RefreshCw className="h-3 w-3 mr-1" />
+    New quote
+  </button>
+</div>
+
       </div>
 
       {/* Tab Navigation */}

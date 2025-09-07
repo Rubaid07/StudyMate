@@ -84,27 +84,6 @@
   }
 }
 
-/* Responsive Design */
-@media (max-width: 640px) {
-  .logo-loading {
-    min-height: 150px;
-  }
-  
-  .logo-loading .w-24.h-24 {
-    width: 20;
-    height: 20;
-  }
-  
-  .logo-loading .h-8.w-8 {
-    height: 1.5rem;
-    width: 1.5rem;
-  }
-  
-  .logo-loading .text-xl {
-    font-size: 0.875rem;
-  }
-}
-
 /* Smooth transitions */
 .logo-loading * {
   transition: all 0.3s ease;
@@ -3054,8 +3033,6 @@
 .home-btn:hover::before {
   left: 100%;
 }
-
-/* Responsive Design */
 @media (max-width: 640px) {
   .not-found-title {
     font-size: 4rem;
@@ -3074,8 +3051,6 @@
     width: 100%;
   }
 }
-
-/* Smooth transitions */
 .not-found-page * {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }

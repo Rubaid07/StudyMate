@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { AuthContext } from '../../context/AuthContext';
 import { FiEdit, FiTrash2, FiPlusCircle, FiX, FiClock, FiUser, FiCalendar, FiBookOpen } from 'react-icons/fi';
 import Swal from 'sweetalert2';
+import Loading from '../common/Loading';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -211,20 +212,12 @@ const ClassTracker = () => {
 
   if (loading && classes.length === 0) {
     return (
-      <div className="min-h-screen budget-tracker flex items-center justify-center">
-        <div className="flex flex-col items-center space-y-4">
-          <div className="relative">
-            <div className="w-16 h-16 border-4 border-blue-200 rounded-full animate-spin"></div>
-            <div className="absolute top-0 left-0 w-16 h-16 border-4 border-blue-600 rounded-full animate-spin border-t-transparent"></div>
-          </div>
-          <p className="text-gray-600 font-medium">Loading your classes...</p>
-        </div>
-      </div>
+      <Loading></Loading>
     );
   }
 
   return (
-    <div className="min-h-screen budget-tracker p-4 lg:p-8">
+    <div className="min-h-screen budget-tracker bg-gradient-to-br from-blue-50 to-indigo-100 p-4 lg:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="schedule-header bg-white rounded-3xl shadow-sm border border-gray-100 p-8 mb-8">

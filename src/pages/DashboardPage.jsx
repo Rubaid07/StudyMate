@@ -17,7 +17,7 @@ const DashboardPage = () => {
   }
   
   return (
-    <main className="dashboard-main flex-1 p-6 overflow-y-auto"> 
+    <main className="dashboard-main flex-1 md:p-6 p-4 overflow-y-auto"> 
       <DashboardWidgets />
     </main>
   );
