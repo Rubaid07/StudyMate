@@ -12,7 +12,7 @@ const DashboardLayout = () => {
   };
   
   return (
-    <div className="flex h-screen bg-gradient-to-br from-blue-50 to-indigo-100"> 
+    <div className="flex h-screen"> 
       <Sidebar 
         isMobileOpen={isMobileSidebarOpen} 
         toggleMobileSidebar={toggleMobileSidebar} 

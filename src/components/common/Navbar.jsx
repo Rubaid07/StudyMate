@@ -1,13 +1,27 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FiMenu, FiBell } from "react-icons/fi";
+import { Sun, Moon } from "lucide-react";
 import { AuthContext } from "../../context/AuthContext";
 import { Link } from "react-router";
 
 const Navbar = ({ toggleMobileSidebar }) => {
   const { user } = useContext(AuthContext);
 
+  const [theme, setTheme] = useState(
+      localStorage.getItem("theme") ? localStorage.getItem("theme") : "light"
+    );
+  
+    const handleToggle = () => {
+      setTheme(theme === "light" ? "dark" : "light");
+    };
+  
+    useEffect(() => {
+      localStorage.setItem("theme", theme);
+      document.documentElement.setAttribute("data-theme", theme);
+    }, [theme]);
+
   return (
-    <div className="py-3 bg-white border-b border-gray-100 shadow-sm sticky top-0 z-40">
+    <div className="py-3 landing-navbar bg-white border-b border-gray-100 shadow-sm sticky top-0 z-40">
       <div className="w-full mx-auto px-4 flex items-center justify-between">
         {/* left side */}
         <div className="flex items-center">
@@ -28,10 +42,23 @@ const Navbar = ({ toggleMobileSidebar }) => {
 
         {/* right side */}
         <div className="flex items-center gap-4">
-          <button className="p-2 rounded-full text-gray-500 hover:bg-indigo-50 transition-colors relative">
-            <FiBell size={20} />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-          </button>
+          <button
+              onClick={handleToggle}
+              className="theme-toggle-btn relative w-14 h-7 flex items-center rounded-full p-1 bg-gray-200 transition-all duration-300"
+              aria-label="Toggle dark mode"
+            >
+              <div
+                className={`toggle-handle absolute transform transition-transform duration-300 ${
+                  theme === "dark" ? "translate-x-7" : "translate-x-0"
+                } w-5 h-5 bg-white rounded-full shadow-md flex items-center justify-center`}
+              >
+                {theme === "dark" ? (
+                  <Moon size={12} className="text-gray-700" />
+                ) : (
+                  <Sun size={12} className="text-yellow-500" />
+                )}
+              </div>
+            </button>
           
           {user && (
             <div className="flex items-center gap-2">
@@ -45,7 +72,7 @@ const Navbar = ({ toggleMobileSidebar }) => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <span className="text-sm font-medium text-gray-700 hidden sm:inline-block">
+              <span className="text-sm font-medium faq-question text-gray-700 hidden sm:inline-block">
                 {user?.displayName || "Account"}
               </span>
             </div>

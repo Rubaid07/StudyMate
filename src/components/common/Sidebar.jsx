@@ -82,7 +82,7 @@ const Sidebar = ({ isMobileOpen, toggleMobileSidebar }) => {
       )}
 
       <div
-        className={`w-64 bg-gradient-to-b from-white to-blue-50 shadow-lg p-4 flex flex-col h-screen fixed lg:sticky top-0 transition-transform duration-300 z-50 lg:z-auto ${
+        className={`w-64 landing-navbar bg-white border-r border-gray-100 shadow-sm p-4 flex flex-col h-screen fixed lg:sticky top-0 transition-transform duration-300 z-50 lg:z-auto ${
           isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
@@ -105,7 +105,7 @@ const Sidebar = ({ isMobileOpen, toggleMobileSidebar }) => {
         </Link>
 
         {/* User card */}
-        <div className="bg-indigo-50 rounded-xl p-4 mb-6 flex items-center gap-3">
+        <div className="bg-indigo-50 feature-item rounded-xl p-4 mb-6 flex items-center gap-3">
           <div className="h-12 w-12 rounded-full overflow-hidden border-2 border-white shadow-sm">
             <img
               src={
@@ -117,8 +117,8 @@ const Sidebar = ({ isMobileOpen, toggleMobileSidebar }) => {
             />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="font-medium text-gray-800 truncate">{user?.displayName || "User"}</p>
-            <p className="text-xs text-gray-500 truncate">{user?.email || "student@example.com"}</p>
+            <p className="font-medium text-gray-800 faq-question truncate">{user?.displayName || "User"}</p>
+            <p className="text-xs text-gray-500 faq-answer truncate">{user?.email || "student@example.com"}</p>
           </div>
         </div>
 
@@ -133,12 +133,12 @@ const Sidebar = ({ isMobileOpen, toggleMobileSidebar }) => {
                     to={item.to}
                     className={`flex items-center gap-3 rounded-lg py-3 px-4 transition-all duration-200 font-medium ${
                       active
-                        ? "border-indigo-600 border-l-4 bg-indigo-50 shadow-md"
-                        : "text-gray-700 hover:bg-white hover:text-indigo-600 hover:shadow-sm"
+                        ? "border-indigo-500 border-l-4 feature-item bg-indigo-50 shadow-md"
+                        : "text-gray-700 faq-answer hover:bg-indigo-50 hover:text-indigo-600 hover:shadow-sm sidebar"
                     }`}
                     onClick={() => window.innerWidth < 1024 && toggleMobileSidebar()}
                   >
-                    <span className="text-indigo-500">
+                    <span className="text-indigo-400">
                       {item.icon}
                     </span>
                     {item.label}
@@ -153,10 +153,10 @@ const Sidebar = ({ isMobileOpen, toggleMobileSidebar }) => {
         </nav>
 
         {/* Bottom section */}
-        <div className="pt-2 border-t border-gray-200">
+        <div className="pt-2 border-t singin-divider border-gray-200">
           <button
             onClick={handleLogout}
-            className="flex items-center gap-3 rounded-lg py-3 px-4 text-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-200 w-full font-medium"
+            className="flex items-center gap-3  rounded-lg py-3 px-4 text-red-600 hover:bg-red-50 hover:text-red-700 transition-all duration-200 w-full font-medium logout"
           >
             <LogOut className="w-5 h-5" />
             Logout

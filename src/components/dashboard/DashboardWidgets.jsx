@@ -245,7 +245,7 @@ const DashboardWidgets = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="min-h-screen flex items-center justify-center  dashboard-main">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-cyan-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading your dashboard...</p>
@@ -256,7 +256,7 @@ const DashboardWidgets = () => {
 
   if (error && !dashboardData) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-blue-50 to-indigo-100 dashboard-main">
         <div className="bg-white border border-red-200 rounded-2xl p-8 max-w-md w-full text-center shadow-sm">
           <AlertCircle className="h-16 w-16 text-red-500 mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-red-800 mb-2">Oops! Something went wrong</h3>
@@ -273,15 +273,15 @@ const DashboardWidgets = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen">
       {/* Header with Motivational Quote */}
-      <div className="bg-white rounded-2xl shadow-sm p-6 mb-6 border border-gray-100">
+      <div className="bg-white feature-item rounded-2xl shadow-sm p-6 mb-6">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between">
           <div className="flex-1">
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">
+            <h1 className="text-3xl font-bold text-gray-800 faq-question mb-2">
               Good {new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 17 ? 'afternoon' : 'evening'}, {user?.displayName || 'StudyMate User'}!
             </h1>
-            <p className="text-gray-500 mb-3">
+            <p className="text-gray-500 faq-answer mb-3">
               Here's your overview for {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
             </p>
           </div>
@@ -298,28 +298,28 @@ const DashboardWidgets = () => {
           </button>
         </div>
         {/* Motivational Quote Section */}
-        <div className="flex items-start bg-gradient-to-r from-indigo-50 to-purple-50 p-4 rounded-lg border border-indigo-100 mb-3">
-          <Quote className="h-5 w-5 text-indigo-600 mr-3 mt-0.5 flex-shrink-0" />
+        <div className="flex items-start p-4 rounded-lg dark-quote mb-3 dashboard-quote">
+          <Quote className="h-5 w-5 text-indigo-400 mr-3 mt-0.5 flex-shrink-0" />
           {quoteLoading ? (
             <div className="animate-pulse flex-1">
               <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
             </div>
           ) : (
-            <p className="text-indigo-700 text-sm italic">
+            <p className="text-indigo-400 text-sm italic">
               "{dailyMotivation}"
             </p>
           )}
         </div>
 
         {/* Quote Info */}
-        <div className="flex items-center justify-between text-xs text-gray-500">
+        <div className="flex items-center justify-between text-xs text-gray-500 faq-answer">
           <div className="flex items-center">
             <Calendar className="h-3 w-3 mr-1" />
             <span>Daily motivation • Updates every 24 hours</span>
           </div>
           <button
             onClick={refreshQuoteManually}
-            className="flex items-center text-indigo-600 hover:text-indigo-800 text-xs font-medium"
+            className="flex items-center text-indigo-400 hover:text-indigo-500 cursor-pointer text-xs font-medium"
           >
             <RefreshCw className="h-3 w-3 mr-1" />
             New quote
@@ -328,7 +328,7 @@ const DashboardWidgets = () => {
       </div>
 
       {/* Tab Navigation */}
-      <div className="bg-white rounded-2xl shadow-sm p-4 mb-6 border border-gray-100">
+      <div className="tab-navigation bg-white rounded-2xl shadow-sm p-4 mb-6 border border-gray-100">
         <div className="flex w-full md:w-lg gap-2">
           {[
             { id: 'overview', label: 'Overview', icon: Bookmark },
@@ -338,13 +338,13 @@ const DashboardWidgets = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center justify-center flex-1 min-w-0 py-2 px-2 rounded-lg font-medium text-sm sm:text-base transition-all cursor-pointer ${activeTab === tab.id
-                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-sm'
-                : 'text-gray-600 hover:bg-gray-50'
+              className={`tab-button flex items-center justify-center flex-1 min-w-0 py-2 px-2 rounded-lg font-medium text-sm sm:text-base transition-all cursor-pointer ${activeTab === tab.id
+                  ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-sm'
+                  : 'text-gray-600 hover:bg-gray-100'
                 }`}
             >
-              <tab.icon className="h-4 w-4 mr-1 shrink-0" />
-              {tab.label}
+              <tab.icon className="tab-icon h-4 w-4 mr-1 shrink-0" />
+              <span className="tab-label">{tab.label}</span>
             </button>
           ))}
         </div>
@@ -354,7 +354,7 @@ const DashboardWidgets = () => {
           {/* Summary Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {/* Classes Card */}
-            <div className="bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group">
+            <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="bg-blue-100 p-3 rounded-xl">
                   <Calendar className="h-8 w-8 text-blue-600" />
@@ -373,7 +373,7 @@ const DashboardWidgets = () => {
             </div>
 
             {/* budget Card */}
-            <div className="bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group">
+            <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="bg-green-100 p-3 rounded-xl">
                   <DollarSign className="h-8 w-8 text-green-600" />
@@ -397,7 +397,7 @@ const DashboardWidgets = () => {
             </div>
 
             {/* tasks Card */}
-            <div className="bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group">
+            <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="bg-orange-100 p-3 rounded-xl">
                   <Target className="h-8 w-8 text-orange-600" />
@@ -418,7 +418,7 @@ const DashboardWidgets = () => {
             </div>
 
             {/* study Time */}
-            <div className="bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group">
+            <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="bg-purple-100 p-3 rounded-xl">
                   <Clock className="h-8 w-8 text-purple-600" />
@@ -432,7 +432,7 @@ const DashboardWidgets = () => {
             </div>
 
             {/* Quiz Performance Summary */}
-            <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+            <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 border border-gray-100">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-800">Quiz Performance</h3>
                 <FiAward className="h-6 w-6 text-purple-600" />
@@ -454,7 +454,7 @@ const DashboardWidgets = () => {
             </div>
 
             {/* Recent Quiz Results */}
-            <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 md:col-span-2">
+            <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 border border-gray-100 md:col-span-2">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-800">Recent Quiz Results</h3>
                 <FiClock className="h-6 w-6 text-indigo-600" />
@@ -508,7 +508,7 @@ const DashboardWidgets = () => {
           {/* progress Section */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             {/* Task Progress */}
-            <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+            <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 border border-gray-100">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-semibold text-gray-800">Task Progress</h3>
                 <Bookmark className="h-6 w-6 text-cyan-600" />
@@ -544,7 +544,7 @@ const DashboardWidgets = () => {
             </div>
 
             {/* Budget Progress */}
-            <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+            <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 border border-gray-100">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-xl font-semibold text-gray-800">Budget Overview</h3>
                 <TrendingUp className="h-6 w-6 text-green-600" />
@@ -620,7 +620,7 @@ const DashboardWidgets = () => {
                 stats: `${dashboardData.wellness.totalEntries} wellness entries`
               }
             ].map((feature, index) => (
-              <div key={index} className={`bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group`}>
+              <div key={index} className={`bg-white tab-navigation rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group`}>
                 <div className="flex items-center justify-between mb-4">
                   <div className={`${colorClasses[feature.color].lightBg} p-3 rounded-xl`}>
                     <feature.icon className={`h-6 w-6 ${colorClasses[feature.color].text}`} />
@@ -648,7 +648,7 @@ const DashboardWidgets = () => {
       {activeTab === 'analytics' && (
         <div className="space-y-6">
           {/* Study Analytics */}
-          <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+          <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 border border-gray-100">
             <h3 className="text-xl font-semibold text-gray-800 mb-6">Study Analytics</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Weekly Study Hours Chart */}
@@ -691,7 +691,7 @@ const DashboardWidgets = () => {
           </div>
 
           {/* Financial Analytics */}
-          <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+          <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 border border-gray-100">
             <h3 className="text-xl font-semibold text-gray-800 mb-6">Financial Analytics</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Expense Categories */}
@@ -722,7 +722,7 @@ const DashboardWidgets = () => {
       {activeTab === 'performance' && (
         <div className="space-y-6">
           {/* Academic Performance */}
-          <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+          <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 border border-gray-100">
             <h3 className="text-xl font-semibold text-gray-800 mb-6">Academic Performance</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-100">
@@ -741,7 +741,7 @@ const DashboardWidgets = () => {
           </div>
 
           {/* Productivity Metrics */}
-          <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+          <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 border border-gray-100">
             <h3 className="text-xl font-semibold text-gray-800 mb-6">Productivity Metrics</h3>
             <div className="space-y-4">
               <div>
@@ -773,7 +773,7 @@ const DashboardWidgets = () => {
           </div>
 
           {/* Wellness Tracking */}
-          <div className="bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+          <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 border border-gray-100">
             <h3 className="text-xl font-semibold text-gray-800 mb-6">Wellness & Balance</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="text-center p-4 bg-yellow-50 rounded-lg border border-yellow-100">
