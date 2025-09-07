@@ -199,47 +199,35 @@ const DashboardWidgets = () => {
 
   const colorClasses = {
     blue: {
-      bg: "bg-blue-600 hover:bg-blue-700",
-      text: "text-blue-600",
-      badge: "bg-blue-50 text-blue-600",
-      lightBg: "bg-blue-50",
-      border: "border-blue-100"
+      lightBg: 'bg-blue-100',
+      text: 'text-blue-600',
+      badge: 'bg-blue-100 text-blue-800',
+      bg: 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800'
     },
     green: {
-      bg: "bg-green-600 hover:bg-green-700",
-      text: "text-green-600",
-      badge: "bg-green-50 text-green-600",
-      lightBg: "bg-green-50",
-      border: "border-green-100"
+      lightBg: 'bg-green-100',
+      text: 'text-green-600',
+      badge: 'bg-green-100 text-green-800',
+      bg: 'bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800'
     },
     orange: {
-      bg: "bg-orange-600 hover:bg-orange-700",
-      text: "text-orange-600",
-      badge: "bg-orange-50 text-orange-600",
-      lightBg: "bg-orange-50",
-      border: "border-orange-100"
+      lightBg: 'bg-orange-100',
+      text: 'text-orange-600',
+      badge: 'bg-orange-100 text-orange-800',
+      bg: 'bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800'
     },
     purple: {
-      bg: "bg-purple-600 hover:bg-purple-700",
-      text: "text-purple-600",
-      badge: "bg-purple-50 text-purple-600",
-      lightBg: "bg-purple-50",
-      border: "border-purple-100"
+      lightBg: 'bg-purple-100',
+      text: 'text-purple-600',
+      badge: 'bg-purple-100 text-purple-800',
+      bg: 'bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800'
     },
     pink: {
-      bg: "bg-pink-600 hover:bg-pink-700",
-      text: "text-pink-600",
-      badge: "bg-pink-50 text-pink-600",
-      lightBg: "bg-pink-50",
-      border: "border-pink-100"
-    },
-    cyan: {
-      bg: "bg-cyan-600 hover:bg-cyan-700",
-      text: "text-cyan-600",
-      badge: "bg-cyan-50 text-cyan-600",
-      lightBg: "bg-cyan-50",
-      border: "border-cyan-100"
-    },
+      lightBg: 'bg-pink-100',
+      text: 'text-pink-600',
+      badge: 'bg-pink-100 text-pink-800',
+      bg: 'bg-gradient-to-r from-pink-600 to-pink-700 hover:from-pink-700 hover:to-pink-800'
+    }
   };
 
 
@@ -643,24 +631,24 @@ const DashboardWidgets = () => {
         </>
       )}
       {activeTab === 'analytics' && (
-        <div className="space-y-6">
+        <div className="analytics-section space-y-6">
           {/* Study Analytics */}
-          <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 border border-gray-100">
-            <h3 className="text-xl font-semibold text-gray-800 mb-6">Study Analytics</h3>
+          <div className="study-analytics-card bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+            <h3 className="analytics-title text-xl font-semibold text-gray-800 mb-6">Study Analytics</h3>
             <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
               {/* Weekly Study Hours Chart */}
-              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                <h4 className="font-medium text-gray-700 mb-4">Weekly Study Hours</h4>
-                <div className="space-y-3">
+              <div className="chart-container bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <h4 className="chart-title font-medium text-gray-700 mb-4">Weekly Study Hours</h4>
+                <div className="chart-content space-y-3">
                   {dashboardData.weeklyData.studySessions.map((session, index) => (
-                    <div key={index} className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">{new Date(session.date).toLocaleDateString()}</span>
-                      <div className="flex items-center">
+                    <div key={index} className="study-session flex items-center justify-between">
+                      <span className="session-date text-sm text-gray-600">{new Date(session.date).toLocaleDateString()}</span>
+                      <div className="session-duration flex items-center">
                         <div
-                          className="h-2 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-full mr-2"
+                          className="duration-bar h-2 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-full mr-2"
                           style={{ width: `${session.duration * 15}px` }}
                         ></div>
-                        <span className="font-medium text-sm">{session.duration}h</span>
+                        <span className="duration-text font-medium text-sm">{session.duration}h</span>
                       </div>
                     </div>
                   ))}
@@ -670,80 +658,81 @@ const DashboardWidgets = () => {
           </div>
 
           {/* Financial Analytics */}
-          <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 border border-gray-100">
-            <h3 className="text-xl font-semibold text-gray-800 mb-6">Financial Analytics</h3>
+          <div className="financial-analytics-card bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+            <h3 className="analytics-title text-xl font-semibold text-gray-800 mb-6">Financial Analytics</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Expense Categories */}
-              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                <h4 className="font-medium text-gray-700 mb-4">Expense Categories</h4>
-                <div className="space-y-2">
+              <div className="expense-categories-container bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <h4 className="chart-title font-medium text-gray-700 mb-4">Expense Categories</h4>
+                <div className="categories-list space-y-2">
                   {Object.entries(dashboardData.expensesByCategory).map(([category, amount]) => (
-                    <div key={category} className="flex justify-between items-center text-sm">
-                      <span className="text-gray-700">{category}</span>
-                      <span className="font-medium bg-red-50 text-red-700 px-2 py-1 rounded-full">${amount}</span>
+                    <div key={category} className="category-item flex justify-between items-center text-sm">
+                      <span className="category-name text-gray-700">{category}</span>
+                      <span className="category-amount font-medium bg-red-50 text-red-700 px-2 py-1 rounded-full">${amount}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Monthly Trend */}
-              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                <h4 className="font-medium text-gray-700 mb-4">Monthly Spending</h4>
-                <div className="text-center py-8">
-                  <TrendingUp className="h-12 w-12 text-green-600 mx-auto mb-2" />
-                  <p className="text-gray-600">Coming soon: Monthly charts</p>
+              <div className="monthly-trend-container bg-gray-50 p-4 rounded-lg border border-gray-200">
+                <h4 className="chart-title font-medium text-gray-700 mb-4">Monthly Spending</h4>
+                <div className="coming-soon text-center py-8">
+                  <TrendingUp className="trend-icon h-12 w-12 text-green-600 mx-auto mb-2" />
+                  <p className="coming-soon-text text-gray-600">Coming soon: Monthly charts</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       )}
+
       {activeTab === 'performance' && (
-        <div className="space-y-6">
+        <div className="performance-section space-y-6">
           {/* Academic Performance */}
-          <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 border border-gray-100">
-            <h3 className="text-xl font-semibold text-gray-800 mb-6">Academic Performance</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="text-center p-4 bg-blue-50 rounded-lg border border-blue-100">
-                <div className="text-2xl font-bold text-blue-600 mb-2">{dashboardData.planner.completedTasks}</div>
-                <div className="text-sm text-blue-800">Tasks Completed</div>
+          <div className="academic-performance-card bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+            <h3 className="performance-title text-xl font-semibold text-gray-800 mb-6">Academic Performance</h3>
+            <div className="performance-stats grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="stat-card tasks-completed text-center p-4 bg-blue-50 rounded-lg border border-blue-100">
+                <div className="stat-number text-2xl font-bold text-blue-600 mb-2">{dashboardData.planner.completedTasks}</div>
+                <div className="stat-label text-sm text-blue-800">Tasks Completed</div>
               </div>
-              <div className="text-center p-4 bg-green-50 rounded-lg border border-green-100">
-                <div className="text-2xl font-bold text-green-600 mb-2">{dashboardData.quickStats.studyHoursThisWeek}</div>
-                <div className="text-sm text-green-800">Study Hours This Week</div>
+              <div className="stat-card study-hours text-center p-4 bg-green-50 rounded-lg border border-green-100">
+                <div className="stat-number text-2xl font-bold text-green-600 mb-2">{dashboardData.quickStats.studyHoursThisWeek}</div>
+                <div className="stat-label text-sm text-green-800">Study Hours This Week</div>
               </div>
-              <div className="text-center p-4 bg-purple-50 rounded-lg border border-purple-100">
-                <div className="text-2xl font-bold text-purple-600 mb-2">{dashboardData.classes.total}</div>
-                <div className="text-sm text-purple-800">Total Classes</div>
+              <div className="stat-card total-classes text-center p-4 bg-purple-50 rounded-lg border border-purple-100">
+                <div className="stat-number text-2xl font-bold text-purple-600 mb-2">{dashboardData.classes.total}</div>
+                <div className="stat-label text-sm text-purple-800">Total Classes</div>
               </div>
             </div>
           </div>
 
           {/* Productivity Metrics */}
-          <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 border border-gray-100">
-            <h3 className="text-xl font-semibold text-gray-800 mb-6">Productivity Metrics</h3>
-            <div className="space-y-4">
-              <div>
-                <div className="flex justify-between text-sm mb-2">
-                  <span>Task Completion Rate</span>
-                  <span className="font-semibold">{taskCompletionRate.toFixed(1)}%</span>
+          <div className="productivity-card bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+            <h3 className="performance-title text-xl font-semibold text-gray-800 mb-6">Productivity Metrics</h3>
+            <div className="metrics-space space-y-4">
+              <div className="metric-item">
+                <div className="metric-header flex justify-between text-sm mb-2">
+                  <span className="metric-label">Task Completion Rate</span>
+                  <span className="metric-value font-semibold">{taskCompletionRate.toFixed(1)}%</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-3">
+                <div className="progress-container w-full bg-gray-200 rounded-full h-3">
                   <div
-                    className="bg-gradient-to-r from-green-600 to-emerald-600 h-3 rounded-full transition-all duration-300"
+                    className="progress-bar bg-gradient-to-r from-green-600 to-emerald-600 h-3 rounded-full transition-all duration-300"
                     style={{ width: `${taskCompletionRate}%` }}
                   ></div>
                 </div>
               </div>
 
-              <div>
-                <div className="flex justify-between text-sm mb-2">
-                  <span>Study Consistency</span>
-                  <span className="font-semibold">85%</span>
+              <div className="metric-item">
+                <div className="metric-header flex justify-between text-sm mb-2">
+                  <span className="metric-label">Study Consistency</span>
+                  <span className="metric-value font-semibold">85%</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-3">
+                <div className="progress-container w-full bg-gray-200 rounded-full h-3">
                   <div
-                    className="bg-gradient-to-r from-blue-600 to-cyan-600 h-3 rounded-full transition-all duration-300"
+                    className="progress-bar bg-gradient-to-r from-blue-600 to-cyan-600 h-3 rounded-full transition-all duration-300"
                     style={{ width: '85%' }}
                   ></div>
                 </div>
@@ -752,20 +741,20 @@ const DashboardWidgets = () => {
           </div>
 
           {/* Wellness Tracking */}
-          <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 border border-gray-100">
-            <h3 className="text-xl font-semibold text-gray-800 mb-6">Wellness & Balance</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="text-center p-4 bg-yellow-50 rounded-lg border border-yellow-100">
-                <div className="text-2xl font-bold text-yellow-600 mb-2">{dashboardData.wellness.averageMood.toFixed(1)}/5</div>
-                <div className="text-sm text-yellow-800">Average Mood</div>
+          <div className="wellness-card bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
+            <h3 className="performance-title text-xl font-semibold text-gray-800 mb-6">Wellness & Balance</h3>
+            <div className="wellness-stats grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="stat-card mood text-center p-4 bg-yellow-50 rounded-lg border border-yellow-100">
+                <div className="stat-number text-2xl font-bold text-yellow-600 mb-2">{dashboardData.wellness.averageMood.toFixed(1)}/5</div>
+                <div className="stat-label text-sm text-yellow-800">Average Mood</div>
               </div>
-              <div className="text-center p-4 bg-indigo-50 rounded-lg border border-indigo-100">
-                <div className="text-2xl font-bold text-indigo-600 mb-2">{dashboardData.wellness.sleepHours.toFixed(1)}</div>
-                <div className="text-sm text-indigo-800">Avg Sleep Hours</div>
+              <div className="stat-card sleep text-center p-4 bg-indigo-50 rounded-lg border border-indigo-100">
+                <div className="stat-number text-2xl font-bold text-indigo-600 mb-2">{dashboardData.wellness.sleepHours.toFixed(1)}</div>
+                <div className="stat-label text-sm text-indigo-800">Avg Sleep Hours</div>
               </div>
-              <div className="text-center p-4 bg-pink-50 rounded-lg border border-pink-100">
-                <div className="text-2xl font-bold text-pink-600 mb-2">{dashboardData.wellness.studyHours.toFixed(1)}</div>
-                <div className="text-sm text-pink-800">Avg Study Hours</div>
+              <div className="stat-card study text-center p-4 bg-pink-50 rounded-lg border border-pink-100">
+                <div className="stat-number text-2xl font-bold text-pink-600 mb-2">{dashboardData.wellness.studyHours.toFixed(1)}</div>
+                <div className="stat-label text-sm text-pink-800">Avg Study Hours</div>
               </div>
             </div>
           </div>

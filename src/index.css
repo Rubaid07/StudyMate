@@ -809,20 +809,9 @@
   color: rgb(248, 113, 113);
 }
 
-/* Enhanced hover effects for dark mode */
-[data-theme="dark"] .dashboard-card:hover {
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-  transform: translateY(-2px);
-}
-
 /* Smooth transitions */
 .dashboard-card {
   transition: all 0.3s ease;
-}
-
-.dashboard-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 /* Responsive adjustments */
@@ -970,12 +959,6 @@
   transition: all 0.3s ease;
 }
 
-.task-progress-card:hover,
-.budget-progress-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-}
-
 [data-theme="dark"] .task-progress-card:hover,
 [data-theme="dark"] .budget-progress-card:hover {
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
@@ -997,4 +980,442 @@
   .budget-progress-card {
     padding: 1rem;
   }
+}
+/* Analytics Section Dark Mode Styles */
+[data-theme="dark"] .analytics-section {
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .study-analytics-card,
+[data-theme="dark"] .financial-analytics-card {
+  background-color: rgb(31, 41, 55);
+  border-color: rgb(55, 65, 81);
+}
+
+[data-theme="dark"] .analytics-title {
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .chart-container,
+[data-theme="dark"] .expense-categories-container,
+[data-theme="dark"] .monthly-trend-container {
+  background-color: rgb(55, 65, 81);
+  border-color: rgb(75, 85, 99);
+}
+
+[data-theme="dark"] .chart-title {
+  color: rgb(209, 213, 219);
+}
+
+[data-theme="dark"] .session-date {
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .duration-text {
+  color: rgb(209, 213, 219);
+}
+
+[data-theme="dark"] .category-name {
+  color: rgb(209, 213, 219);
+}
+
+[data-theme="dark"] .category-amount {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: rgb(248, 113, 113);
+}
+
+[data-theme="dark"] .coming-soon-text {
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .trend-icon {
+  color: rgb(74, 222, 128);
+}
+
+/* Enhanced Chart Styles */
+.duration-bar {
+  position: relative;
+  overflow: hidden;
+  transition: width 0.5s ease;
+}
+
+.duration-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Hover Effects */
+.study-analytics-card,
+.financial-analytics-card {
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .study-analytics-card:hover,
+[data-theme="dark"] .financial-analytics-card:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .analytics-section {
+    padding: 1rem;
+  }
+  
+  .study-analytics-card,
+  .financial-analytics-card {
+    padding: 1rem;
+  }
+  
+  .chart-container,
+  .expense-categories-container,
+  .monthly-trend-container {
+    padding: 0.75rem;
+  }
+  
+  .duration-bar {
+    height: 1.5;
+    margin-right: 0.5rem;
+  }
+  
+  .duration-text {
+    font-size: 0.75rem;
+  }
+  
+  .category-amount {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
+
+/* Smooth transitions */
+.analytics-section * {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+/* Feature Cards Dark Mode Styles */
+[data-theme="dark"] .feature-card {
+  background-color: rgb(31, 41, 55);
+  border-color: rgb(55, 65, 81);
+}
+
+[data-theme="dark"] .feature-title {
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .feature-description {
+  color: rgb(156, 163, 175);
+}
+
+/* Icon Container Dark Mode */
+[data-theme="dark"] .icon-container.bg-blue-100 {
+  background-color: rgba(59, 130, 246, 0.2);
+}
+
+[data-theme="dark"] .icon-container.bg-green-100 {
+  background-color: rgba(34, 197, 94, 0.2);
+}
+
+[data-theme="dark"] .icon-container.bg-orange-100 {
+  background-color: rgba(249, 115, 22, 0.2);
+}
+
+[data-theme="dark"] .icon-container.bg-purple-100 {
+  background-color: rgba(168, 85, 247, 0.2);
+}
+
+[data-theme="dark"] .icon-container.bg-pink-100 {
+  background-color: rgba(236, 72, 153, 0.2);
+}
+
+/* Feature Badge Dark Mode */
+[data-theme="dark"] .feature-badge.bg-blue-100 {
+  background-color: rgba(59, 130, 246, 0.2);
+  color: rgb(96, 165, 250);
+}
+
+[data-theme="dark"] .feature-badge.bg-green-100 {
+  background-color: rgba(34, 197, 94, 0.2);
+  color: rgb(74, 222, 128);
+}
+
+[data-theme="dark"] .feature-badge.bg-orange-100 {
+  background-color: rgba(249, 115, 22, 0.2);
+  color: rgb(251, 146, 60);
+}
+
+[data-theme="dark"] .feature-badge.bg-purple-100 {
+  background-color: rgba(168, 85, 247, 0.2);
+  color: rgb(192, 132, 252);
+}
+
+[data-theme="dark"] .feature-badge.bg-pink-100 {
+  background-color: rgba(236, 72, 153, 0.2);
+  color: rgb(249, 168, 212);
+}
+
+/* Enhanced Hover Effects */
+.feature-card {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card:hover::before {
+  opacity: 1;
+}
+
+[data-theme="dark"] .feature-card:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+/* Feature Button Hover Effects */
+.feature-button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.feature-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.feature-button:hover::before {
+  left: 100%;
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+  .feature-card {
+    padding: 1rem;
+  }
+  
+  .icon-container {
+    padding: 0.75rem;
+  }
+  
+  .icon-container svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  
+  .feature-title {
+    font-size: 1rem;
+  }
+  
+  .feature-description {
+    font-size: 0.875rem;
+  }
+  
+  .feature-button {
+    padding: 0.5rem;
+    font-size: 0.875rem;
+  }
+}
+/* Performance Section Dark Mode Styles */
+[data-theme="dark"] .performance-section {
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .academic-performance-card,
+[data-theme="dark"] .productivity-card,
+[data-theme="dark"] .wellness-card {
+  background-color: rgb(31, 41, 55);
+  border-color: rgb(55, 65, 81);
+}
+
+[data-theme="dark"] .performance-title {
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .metric-label,
+[data-theme="dark"] .metric-value {
+  color: rgb(209, 213, 219);
+}
+
+[data-theme="dark"] .progress-container {
+  background-color: rgb(55, 65, 81);
+}
+
+/* Stat Cards Dark Mode */
+[data-theme="dark"] .stat-card.tasks-completed {
+  background-color: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+[data-theme="dark"] .stat-card.tasks-completed .stat-number {
+  color: rgb(96, 165, 250);
+}
+
+[data-theme="dark"] .stat-card.tasks-completed .stat-label {
+  color: rgb(96, 165, 250);
+}
+
+[data-theme="dark"] .stat-card.study-hours {
+  background-color: rgba(34, 197, 94, 0.15);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+[data-theme="dark"] .stat-card.study-hours .stat-number {
+  color: rgb(74, 222, 128);
+}
+
+[data-theme="dark"] .stat-card.study-hours .stat-label {
+  color: rgb(74, 222, 128);
+}
+
+[data-theme="dark"] .stat-card.total-classes {
+  background-color: rgba(168, 85, 247, 0.15);
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+[data-theme="dark"] .stat-card.total-classes .stat-number {
+  color: rgb(192, 132, 252);
+}
+
+[data-theme="dark"] .stat-card.total-classes .stat-label {
+  color: rgb(192, 132, 252);
+}
+
+[data-theme="dark"] .stat-card.mood {
+  background-color: rgba(234, 179, 8, 0.15);
+  border-color: rgba(234, 179, 8, 0.3);
+}
+
+[data-theme="dark"] .stat-card.mood .stat-number {
+  color: rgb(250, 204, 21);
+}
+
+[data-theme="dark"] .stat-card.mood .stat-label {
+  color: rgb(250, 204, 21);
+}
+
+[data-theme="dark"] .stat-card.sleep {
+  background-color: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+[data-theme="dark"] .stat-card.sleep .stat-number {
+  color: rgb(129, 140, 248);
+}
+
+[data-theme="dark"] .stat-card.sleep .stat-label {
+  color: rgb(129, 140, 248);
+}
+
+[data-theme="dark"] .stat-card.study {
+  background-color: rgba(236, 72, 153, 0.15);
+  border-color: rgba(236, 72, 153, 0.3);
+}
+
+[data-theme="dark"] .stat-card.study .stat-number {
+  color: rgb(249, 168, 212);
+}
+
+[data-theme="dark"] .stat-card.study .stat-label {
+  color: rgb(249, 168, 212);
+}
+
+/* Enhanced Progress Bars */
+.progress-bar {
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Hover Effects */
+.academic-performance-card,
+.productivity-card,
+.wellness-card {
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .academic-performance-card:hover,
+[data-theme="dark"] .productivity-card:hover,
+[data-theme="dark"] .wellness-card:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* Stat Cards Hover Effects */
+.stat-card {
+  transition: all 0.3s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .performance-stats,
+  .wellness-stats {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .stat-card {
+    padding: 1rem;
+  }
+  
+  .stat-number {
+    font-size: 1.5rem;
+  }
+  
+  .stat-label {
+    font-size: 0.75rem;
+  }
+}
+
+/* Smooth transitions */
+.performance-section * {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
 }
