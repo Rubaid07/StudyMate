@@ -739,3 +739,262 @@
     font-size: 0.75rem;
   }
 }
+
+/* Dashboard Cards Dark Mode Styles */
+[data-theme="dark"] .dashboard-card {
+  background-color: rgb(31, 41, 55);
+  border-color: rgb(55, 65, 81);
+}
+
+[data-theme="dark"] .card-title {
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .icon-container {
+  background-color: rgba(59, 130, 246, 0.2);
+}
+
+[data-theme="dark"] .next-class {
+  background-color: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+[data-theme="dark"] .next-class-label {
+  color: rgb(147, 197, 253);
+}
+
+[data-theme="dark"] .next-class-info {
+  color: rgb(147, 197, 253);
+}
+
+[data-theme="dark"] .budget-label,
+[data-theme="dark"] .task-label,
+[data-theme="dark"] .stat-label {
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .study-sessions {
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .quiz-result {
+  background-color: rgb(55, 65, 81);
+}
+
+[data-theme="dark"] .quiz-topic {
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .quiz-details {
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .no-quizzes {
+  color: rgb(156, 163, 175);
+}
+
+/* Performance classes for dark mode */
+[data-theme="dark"] .quiz-performance.bg-green-100 {
+  background-color: rgba(34, 197, 94, 0.2);
+  color: rgb(74, 222, 128);
+}
+
+[data-theme="dark"] .quiz-performance.bg-yellow-100 {
+  background-color: rgba(234, 179, 8, 0.2);
+  color: rgb(250, 204, 21);
+}
+
+[data-theme="dark"] .quiz-performance.bg-red-100 {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: rgb(248, 113, 113);
+}
+
+/* Enhanced hover effects for dark mode */
+[data-theme="dark"] .dashboard-card:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Smooth transitions */
+.dashboard-card {
+  transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard-card {
+    padding: 1rem;
+  }
+  
+  .icon-container {
+    padding: 0.75rem;
+  }
+  
+  .icon-container svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .card-title {
+    font-size: 1rem;
+  }
+}
+/* Task Progress & Budget Overview Dark Mode Styles */
+[data-theme="dark"] .task-progress-card,
+[data-theme="dark"] .budget-progress-card {
+  background-color: rgb(31, 41, 55);
+  border-color: rgb(55, 65, 81);
+}
+
+[data-theme="dark"] .task-progress-title,
+[data-theme="dark"] .budget-title {
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .completion-label,
+[data-theme="dark"] .utilization-label {
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .progress-bar-bg {
+  background-color: rgb(55, 65, 81);
+}
+
+/* Task Stats Dark Mode */
+[data-theme="dark"] .completed-stat {
+  background-color: rgba(34, 197, 94, 0.15);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+[data-theme="dark"] .completed-stat .stat-number {
+  color: rgb(74, 222, 128);
+}
+
+[data-theme="dark"] .completed-stat .stat-label {
+  color: rgb(74, 222, 128);
+}
+
+[data-theme="dark"] .pending-stat {
+  background-color: rgba(234, 179, 8, 0.15);
+  border-color: rgba(234, 179, 8, 0.3);
+}
+
+[data-theme="dark"] .pending-stat .stat-number {
+  color: rgb(250, 204, 21);
+}
+
+[data-theme="dark"] .pending-stat .stat-label {
+  color: rgb(250, 204, 21);
+}
+
+[data-theme="dark"] .overdue-stat {
+  background-color: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+[data-theme="dark"] .overdue-stat .stat-number {
+  color: rgb(248, 113, 113);
+}
+
+[data-theme="dark"] .overdue-stat .stat-label {
+  color: rgb(248, 113, 113);
+}
+
+/* Budget Stats Dark Mode */
+[data-theme="dark"] .income-stat {
+  background-color: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+[data-theme="dark"] .income-stat .stat-number {
+  color: rgb(96, 165, 250);
+}
+
+[data-theme="dark"] .income-stat .stat-label {
+  color: rgb(96, 165, 250);
+}
+
+[data-theme="dark"] .expense-stat {
+  background-color: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+[data-theme="dark"] .expense-stat .stat-number {
+  color: rgb(248, 113, 113);
+}
+
+[data-theme="dark"] .expense-stat .stat-label {
+  color: rgb(248, 113, 113);
+}
+
+/* Enhanced Progress Bars */
+.progress-bar-fill {
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 100%
+  );
+  animation: shimmer 2s infinite;
+  opacity: 0.5;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Card Hover Effects */
+.task-progress-card,
+.budget-progress-card {
+  transition: all 0.3s ease;
+}
+
+.task-progress-card:hover,
+.budget-progress-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .task-progress-card:hover,
+[data-theme="dark"] .budget-progress-card:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .task-stats,
+  .budget-stats {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .stat-number {
+    font-size: 1.5rem;
+  }
+  
+  .task-progress-card,
+  .budget-progress-card {
+    padding: 1rem;
+  }
+}

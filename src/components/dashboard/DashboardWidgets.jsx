@@ -339,8 +339,8 @@ const DashboardWidgets = () => {
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`tab-button flex items-center justify-center flex-1 min-w-0 py-2 px-2 rounded-lg font-medium text-sm sm:text-base transition-all cursor-pointer ${activeTab === tab.id
-                  ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-sm'
-                  : 'text-gray-600 hover:bg-gray-100'
+                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-sm'
+                : 'text-gray-600 hover:bg-gray-100'
                 }`}
             >
               <tab.icon className="tab-icon h-4 w-4 mr-1 shrink-0" />
@@ -354,112 +354,111 @@ const DashboardWidgets = () => {
           {/* Summary Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {/* Classes Card */}
-            <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group">
+            <div className="dashboard-card bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group">
               <div className="flex items-center justify-between mb-4">
-                <div className="bg-blue-100 p-3 rounded-xl">
+                <div className="icon-container bg-blue-100 p-3 rounded-xl">
                   <Calendar className="h-8 w-8 text-blue-600" />
                 </div>
                 <span className="text-2xl font-bold text-blue-600">{dashboardData.quickStats.totalClasses}</span>
               </div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Total Classes</h3>
+              <h3 className="card-title text-lg font-semibold text-gray-800 mb-2">Total Classes</h3>
               {dashboardData.classes.nextClass && (
-                <div className="bg-blue-50 p-3 rounded-lg mt-3 border border-blue-100">
-                  <p className="text-sm font-medium text-blue-800">Next Class</p>
-                  <p className="text-xs text-blue-600 truncate">
+                <div className="next-class bg-blue-50 p-3 rounded-lg mt-3 border border-blue-100">
+                  <p className="next-class-label text-sm font-medium text-blue-800">Next Class</p>
+                  <p className="next-class-info text-xs text-blue-600 truncate">
                     {dashboardData.classes.nextClass.subject} • {dashboardData.classes.nextClass.startTime}
                   </p>
                 </div>
               )}
             </div>
 
-            {/* budget Card */}
-            <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group">
+            {/* Budget Card */}
+            <div className="dashboard-card bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group">
               <div className="flex items-center justify-between mb-4">
-                <div className="bg-green-100 p-3 rounded-xl">
+                <div className="icon-container bg-green-100 p-3 rounded-xl">
                   <DollarSign className="h-8 w-8 text-green-600" />
                 </div>
-                <span className={`text-2xl font-bold ${dashboardData.budget.balance >= 0 ? 'text-green-600' : 'text-red-600'
-                  }`}>
+                <span className={`balance-amount text-2xl font-bold ${dashboardData.budget.balance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                   ${dashboardData.budget.balance.toFixed(2)}
                 </span>
               </div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Current Balance</h3>
-              <div className="space-y-1 mt-3">
+              <h3 className="card-title text-lg font-semibold text-gray-800 mb-2">Current Balance</h3>
+              <div className="budget-details space-y-1 mt-3">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Income</span>
-                  <span className="text-green-600 font-medium">${dashboardData.budget.totalIncome.toFixed(2)}</span>
+                  <span className="budget-label text-gray-600">Income</span>
+                  <span className="income-amount text-green-600 font-medium">${dashboardData.budget.totalIncome.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Expenses</span>
-                  <span className="text-red-600 font-medium">${dashboardData.budget.totalExpenses.toFixed(2)}</span>
+                  <span className="budget-label text-gray-600">Expenses</span>
+                  <span className="expense-amount text-red-600 font-medium">${dashboardData.budget.totalExpenses.toFixed(2)}</span>
                 </div>
               </div>
             </div>
 
-            {/* tasks Card */}
-            <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group">
+            {/* Tasks Card */}
+            <div className="dashboard-card bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group">
               <div className="flex items-center justify-between mb-4">
-                <div className="bg-orange-100 p-3 rounded-xl">
+                <div className="icon-container bg-orange-100 p-3 rounded-xl">
                   <Target className="h-8 w-8 text-orange-600" />
                 </div>
                 <span className="text-2xl font-bold text-orange-600">{dashboardData.planner.pendingTasks}</span>
               </div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Pending Tasks</h3>
-              <div className="space-y-1 mt-3">
+              <h3 className="card-title text-lg font-semibold text-gray-800 mb-2">Pending Tasks</h3>
+              <div className="task-details space-y-1 mt-3">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Completed</span>
-                  <span className="text-green-600 font-medium">{dashboardData.planner.completedTasks}</span>
+                  <span className="task-label text-gray-600">Completed</span>
+                  <span className="completed-count text-green-600 font-medium">{dashboardData.planner.completedTasks}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">High Priority</span>
-                  <span className="text-red-600 font-medium">{dashboardData.planner.highPriorityTasks}</span>
+                  <span className="task-label text-gray-600">High Priority</span>
+                  <span className="high-priority-count text-red-600 font-medium">{dashboardData.planner.highPriorityTasks}</span>
                 </div>
               </div>
             </div>
 
-            {/* study Time */}
-            <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group">
+            {/* Study Time Card */}
+            <div className="dashboard-card bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group">
               <div className="flex items-center justify-between mb-4">
-                <div className="bg-purple-100 p-3 rounded-xl">
+                <div className="icon-container bg-purple-100 p-3 rounded-xl">
                   <Clock className="h-8 w-8 text-purple-600" />
                 </div>
                 <span className="text-2xl font-bold text-purple-600">{dashboardData.quickStats.studyHoursThisWeek}h</span>
               </div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Weekly Study</h3>
-              <p className="text-sm text-gray-600 mt-3">
+              <h3 className="card-title text-lg font-semibold text-gray-800 mb-2">Weekly Study</h3>
+              <p className="study-sessions text-sm text-gray-600 mt-3">
                 {dashboardData.weeklyData.studySessions.length} sessions this week
               </p>
             </div>
 
             {/* Quiz Performance Summary */}
-            <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 border border-gray-100">
+            <div className="dashboard-card bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-800">Quiz Performance</h3>
+                <h3 className="card-title text-lg font-semibold text-gray-800">Quiz Performance</h3>
                 <FiAward className="h-6 w-6 text-purple-600" />
               </div>
-              <div className="space-y-3">
+              <div className="quiz-stats space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Total Quizzes</span>
-                  <span className="font-semibold">{quizStats.totalQuizzes || 0}</span>
+                  <span className="stat-label text-gray-600">Total Quizzes</span>
+                  <span className="stat-value font-semibold">{quizStats.totalQuizzes || 0}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Average Score</span>
-                  <span className="font-semibold">{quizStats.averageScore || 0}%</span>
+                  <span className="stat-label text-gray-600">Average Score</span>
+                  <span className="stat-value font-semibold">{quizStats.averageScore || 0}%</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Best Score</span>
-                  <span className="font-semibold text-green-600">{quizStats.bestScore || 0}%</span>
+                  <span className="stat-label text-gray-600">Best Score</span>
+                  <span className="stat-value best-score text-green-600 font-semibold">{quizStats.bestScore || 0}%</span>
                 </div>
               </div>
             </div>
 
             {/* Recent Quiz Results */}
-            <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 border border-gray-100 md:col-span-2">
+            <div className="dashboard-card bg-white rounded-2xl shadow-sm p-6 border border-gray-100 md:col-span-2">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-gray-800">Recent Quiz Results</h3>
+                <h3 className="card-title text-lg font-semibold text-gray-800">Recent Quiz Results</h3>
                 <FiClock className="h-6 w-6 text-indigo-600" />
               </div>
-              <div className="space-y-3">
+              <div className="recent-quizzes space-y-3">
                 {recentQuizzes.length > 0 ? (
                   recentQuizzes.map((result, index) => {
                     // Define label & style based on percentage
@@ -479,97 +478,96 @@ const DashboardWidgets = () => {
                     return (
                       <div
                         key={index}
-                        className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                        className="quiz-result flex items-center justify-between p-3 bg-gray-50 rounded-lg"
                       >
                         <div>
-                          <p className="font-medium text-gray-800">{result.topic}</p>
-                          <p className="text-sm text-gray-500">
+                          <p className="quiz-topic font-medium text-gray-800">{result.topic}</p>
+                          <p className="quiz-details text-sm text-gray-500">
                             {new Date(result.date).toLocaleDateString()} • {result.type} •{" "}
                             {result.difficulty}
                           </p>
                         </div>
                         <div
-                          className={`px-3 py-1 rounded-full font-semibold flex items-center gap-2 ${performanceClass}`}
+                          className={`quiz-performance px-3 py-1 rounded-full font-semibold flex items-center gap-2 ${performanceClass}`}
                         >
                           <span>{result.percentage}%</span>
-                          <span className="hidden sm:inline">({performanceLabel})</span>
+                          <span className="performance-label hidden sm:inline">({performanceLabel})</span>
                         </div>
                       </div>
                     );
                   })
                 ) : (
-                  <p className="text-gray-500 text-center py-4">No quiz results yet</p>
+                  <p className="no-quizzes text-gray-500 text-center py-4">No quiz results yet</p>
                 )}
               </div>
             </div>
-
           </div>
 
           {/* progress Section */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             {/* Task Progress */}
-            <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 border border-gray-100">
+            <div className="task-progress-card bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-semibold text-gray-800">Task Progress</h3>
+                <h3 className="task-progress-title text-xl font-semibold text-gray-800">Task Progress</h3>
                 <Bookmark className="h-6 w-6 text-cyan-600" />
               </div>
               <div className="space-y-4">
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span className="text-gray-600">Completion Rate</span>
-                    <span className="font-semibold">{taskCompletionRate.toFixed(1)}%</span>
+                    <span className="completion-label text-gray-600">Completion Rate</span>
+                    <span className="completion-rate font-semibold">{taskCompletionRate.toFixed(1)}%</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-3">
+                  <div className="progress-bar-bg w-full bg-gray-200 rounded-full h-3">
                     <div
-                      className="bg-gradient-to-r from-cyan-600 to-blue-600 h-3 rounded-full transition-all duration-300"
+                      className="progress-bar-fill bg-gradient-to-r from-cyan-600 to-blue-600 h-3 rounded-full transition-all duration-300"
                       style={{ width: `${taskCompletionRate}%` }}
                     ></div>
                   </div>
                 </div>
-                <div className="grid grid-cols-3 gap-4 text-center">
-                  <div className="bg-green-50 p-3 rounded-lg border border-green-100">
-                    <span className="block text-2xl font-bold text-green-600">{dashboardData.planner.completedTasks}</span>
-                    <span className="text-xs text-green-800">Done</span>
+                <div className="task-stats grid grid-cols-3 gap-4 text-center">
+                  <div className="completed-stat bg-green-50 p-3 rounded-lg border border-green-100">
+                    <span className="stat-number block text-2xl font-bold text-green-600">{dashboardData.planner.completedTasks}</span>
+                    <span className="stat-label text-xs text-green-800">Done</span>
                   </div>
-                  <div className="bg-orange-50 p-3 rounded-lg border border-orange-100">
-                    <span className="block text-2xl font-bold text-orange-600">{dashboardData.planner.pendingTasks}</span>
-                    <span className="text-xs text-orange-800">Pending</span>
+                  <div className="pending-stat bg-orange-50 p-3 rounded-lg border border-orange-100">
+                    <span className="stat-number block text-2xl font-bold text-orange-600">{dashboardData.planner.pendingTasks}</span>
+                    <span className="stat-label text-xs text-orange-800">Pending</span>
                   </div>
-                  <div className="bg-red-50 p-3 rounded-lg border border-red-100">
-                    <span className="block text-2xl font-bold text-red-600">{dashboardData.planner.overdueTasks}</span>
-                    <span className="text-xs text-red-800">Overdue</span>
+                  <div className="overdue-stat bg-red-50 p-3 rounded-lg border border-red-100">
+                    <span className="stat-number block text-2xl font-bold text-red-600">{dashboardData.planner.overdueTasks}</span>
+                    <span className="stat-label text-xs text-red-800">Overdue</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Budget Progress */}
-            <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 border border-gray-100">
+            <div className="budget-progress-card bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-semibold text-gray-800">Budget Overview</h3>
+                <h3 className="budget-title text-xl font-semibold text-gray-800">Budget Overview</h3>
                 <TrendingUp className="h-6 w-6 text-green-600" />
               </div>
               <div className="space-y-4">
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span className="text-gray-600">Budget Utilization</span>
-                    <span className="font-semibold">{budgetUtilization.toFixed(1)}%</span>
+                    <span className="utilization-label text-gray-600">Budget Utilization</span>
+                    <span className="utilization-rate font-semibold">{budgetUtilization.toFixed(1)}%</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-3">
+                  <div className="progress-bar-bg w-full bg-gray-200 rounded-full h-3">
                     <div
-                      className="bg-gradient-to-r from-green-600 to-emerald-600 h-3 rounded-full transition-all duration-300"
+                      className="progress-bar-fill bg-gradient-to-r from-green-600 to-emerald-600 h-3 rounded-full transition-all duration-300"
                       style={{ width: `${Math.min(budgetUtilization, 100)}%` }}
                     ></div>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4 text-center">
-                  <div className="bg-blue-50 p-3 rounded-lg border border-blue-100">
-                    <span className="block text-2xl font-bold text-blue-600">${dashboardData.budget.totalIncome.toFixed(2)}</span>
-                    <span className="text-xs text-blue-800">Total Income</span>
+                <div className="budget-stats grid grid-cols-2 gap-4 text-center">
+                  <div className="income-stat bg-blue-50 p-3 rounded-lg border border-blue-100">
+                    <span className="stat-number block text-2xl font-bold text-blue-600">${dashboardData.budget.totalIncome.toFixed(2)}</span>
+                    <span className="stat-label text-xs text-blue-800">Total Income</span>
                   </div>
-                  <div className="bg-red-50 p-3 rounded-lg border border-red-100">
-                    <span className="block text-2xl font-bold text-red-600">${dashboardData.budget.totalExpenses.toFixed(2)}</span>
-                    <span className="text-xs text-red-800">Total Expenses</span>
+                  <div className="expense-stat bg-red-50 p-3 rounded-lg border border-red-100">
+                    <span className="stat-number block text-2xl font-bold text-red-600">${dashboardData.budget.totalExpenses.toFixed(2)}</span>
+                    <span className="stat-label text-xs text-red-800">Total Expenses</span>
                   </div>
                 </div>
               </div>
@@ -620,28 +618,27 @@ const DashboardWidgets = () => {
                 stats: `${dashboardData.wellness.totalEntries} wellness entries`
               }
             ].map((feature, index) => (
-              <div key={index} className={`bg-white tab-navigation rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group`}>
+              <div key={index} className={`feature-card bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group`}>
                 <div className="flex items-center justify-between mb-4">
-                  <div className={`${colorClasses[feature.color].lightBg} p-3 rounded-xl`}>
+                  <div className={`icon-container ${colorClasses[feature.color].lightBg} p-3 rounded-xl`}>
                     <feature.icon className={`h-6 w-6 ${colorClasses[feature.color].text}`} />
                   </div>
                   {feature.stats && (
-                    <span className={`text-xs font-medium ${colorClasses[feature.color].badge} px-2 py-1 rounded-full`}>
+                    <span className={`feature-badge text-xs font-medium ${colorClasses[feature.color].badge} px-2 py-1 rounded-full`}>
                       {feature.stats}
                     </span>
                   )}
                 </div>
-                <h4 className="text-lg font-semibold text-gray-800 mb-2">{feature.title}</h4>
-                <p className="text-gray-600 text-sm mb-4">{feature.description}</p>
+                <h4 className="feature-title text-lg font-semibold text-gray-800 mb-2">{feature.title}</h4>
+                <p className="feature-description text-gray-600 text-sm mb-4">{feature.description}</p>
                 <button
                   onClick={() => handleNavigateToFeature(feature.path)}
-                  className={`w-full py-2.5 text-white rounded-lg transition-all font-medium shadow-sm hover:shadow-md cursor-pointer ${colorClasses[feature.color].bg}`}
+                  className={`feature-button w-full py-2.5 text-white rounded-lg transition-all font-medium shadow-sm hover:shadow-md cursor-pointer ${colorClasses[feature.color].bg}`}
                 >
                   Explore
                 </button>
               </div>
             ))}
-
           </div>
         </>
       )}
@@ -650,7 +647,7 @@ const DashboardWidgets = () => {
           {/* Study Analytics */}
           <div className="bg-white tab-navigation rounded-2xl shadow-sm p-6 border border-gray-100">
             <h3 className="text-xl font-semibold text-gray-800 mb-6">Study Analytics</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
               {/* Weekly Study Hours Chart */}
               <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
                 <h4 className="font-medium text-gray-700 mb-4">Weekly Study Hours</h4>
@@ -665,24 +662,6 @@ const DashboardWidgets = () => {
                         ></div>
                         <span className="font-medium text-sm">{session.duration}h</span>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Subject-wise Distribution */}
-              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                <h4 className="font-medium text-gray-700 mb-4">Subject Focus</h4>
-                <div className="space-y-2">
-                  {Object.entries(
-                    dashboardData.weeklyData.studySessions.reduce((acc, session) => {
-                      acc[session.subject] = (acc[session.subject] || 0) + session.duration;
-                      return acc;
-                    }, {})
-                  ).map(([subject, hours]) => (
-                    <div key={subject} className="flex justify-between items-center text-sm">
-                      <span className="text-gray-700">{subject}</span>
-                      <span className="font-medium bg-blue-50 text-blue-700 px-2 py-1 rounded-full">{hours}h</span>
                     </div>
                   ))}
                 </div>
