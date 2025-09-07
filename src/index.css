@@ -2353,3 +2353,290 @@
     grid-template-columns: 1fr;
   }
 }
+/* Exam Q&A Generator Dark Mode Styles */
+[data-theme="dark"] .exam-generator {
+  background-color: rgb(31, 41, 55);
+  border: 1px solid rgb(55, 65, 81);
+}
+
+[data-theme="dark"] .generator-title {
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .generator-subtitle {
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .generator-form {
+  background: linear-gradient(to right, rgb(55, 65, 81), rgb(75, 85, 99));
+  border-color: rgb(75, 85, 99);
+}
+
+[data-theme="dark"] .control-item {
+  background-color: rgb(55, 65, 81);
+  border-color: rgb(75, 85, 99);
+}
+
+[data-theme="dark"] .control-icon {
+  color: rgb(129, 140, 248);
+}
+
+[data-theme="dark"] .control-select {
+  color: rgb(243, 244, 246);
+  background-color: rgb(55, 65, 81);
+}
+
+[data-theme="dark"] .control-select option {
+  background-color: rgb(31, 41, 55);
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .topic-field {
+  background-color: rgb(55, 65, 81);
+  border-color: rgb(75, 85, 99);
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .topic-field::placeholder {
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .progress-text {
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .progress-bar {
+  background-color: rgb(55, 65, 81);
+}
+
+[data-theme="dark"] .question-card {
+  background-color: rgb(55, 65, 81);
+  border-color: rgb(75, 85, 99);
+}
+
+[data-theme="dark"] .question-number {
+  background-color: rgb(67, 56, 202);
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .question-text {
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .option-button {
+  background-color: rgb(55, 65, 81);
+  border-color: rgb(75, 85, 99);
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .option-button:hover {
+  background-color: rgb(75, 85, 99);
+}
+
+[data-theme="dark"] .option-button.bg-indigo-100 {
+  background-color: rgba(79, 70, 229, 0.3);
+  border-color: rgb(99, 102, 241);
+}
+
+[data-theme="dark"] .option-key.bg-gray-200 {
+  background-color: rgb(75, 85, 99);
+  color: rgb(209, 213, 219);
+}
+
+[data-theme="dark"] .true-button,
+[data-theme="dark"] .false-button {
+  background-color: rgb(55, 65, 81);
+  border-color: rgb(75, 85, 99);
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .true-button:hover,
+[data-theme="dark"] .false-button:hover {
+  background-color: rgb(75, 85, 99);
+}
+
+[data-theme="dark"] .true-button.bg-green-100 {
+  background-color: rgba(34, 197, 94, 0.3);
+  border-color: rgb(74, 222, 128);
+}
+
+[data-theme="dark"] .false-button.bg-red-100 {
+  background-color: rgba(239, 68, 68, 0.3);
+  border-color: rgb(248, 113, 113);
+}
+
+[data-theme="dark"] .answer-section {
+  background-color: rgba(79, 70, 229, 0.2);
+  border-color: rgb(99, 102, 241);
+}
+
+[data-theme="dark"] .answer-label,
+[data-theme="dark"] .explanation-label {
+  color: rgb(199, 210, 254);
+}
+
+[data-theme="dark"] .answer-text,
+[data-theme="dark"] .explanation-text {
+  color: rgb(209, 213, 219);
+}
+
+[data-theme="dark"] .prev-btn {
+  background-color: rgb(55, 65, 81);
+  color: rgb(209, 213, 219);
+  border-color: rgb(75, 85, 99);
+}
+
+[data-theme="dark"] .prev-btn:hover {
+  background-color: rgb(75, 85, 99);
+}
+
+[data-theme="dark"] .toggle-answer-btn {
+  background-color: rgba(79, 70, 229, 0.3);
+  color: rgb(199, 210, 254);
+  border-color: rgb(99, 102, 241);
+}
+
+[data-theme="dark"] .toggle-answer-btn:hover {
+  background-color: rgba(99, 102, 241, 0.4);
+}
+
+[data-theme="dark"] .keyboard-hint kbd {
+  background-color: rgb(55, 65, 81);
+  color: rgb(209, 213, 219);
+  border-color: rgb(75, 85, 99);
+}
+
+[data-theme="dark"] .results-container {
+  background-color: rgb(55, 65, 81);
+  border-color: rgb(75, 85, 99);
+}
+
+[data-theme="dark"] .results-title {
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .results-message {
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .result-item {
+  background-color: rgb(55, 65, 81);
+}
+
+[data-theme="dark"] .result-question {
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .option-result.bg-green-100 {
+  background-color: rgba(34, 197, 94, 0.2);
+}
+
+[data-theme="dark"] .option-result.bg-red-100 {
+  background-color: rgba(239, 68, 68, 0.2);
+}
+
+[data-theme="dark"] .option-result.bg-gray-100 {
+  background-color: rgb(75, 85, 99);
+}
+
+[data-theme="dark"] .user-answer,
+[data-theme="dark"] .correct-answer {
+  color: rgb(209, 213, 219);
+}
+
+[data-theme="dark"] .explanation-box {
+  background-color: rgba(79, 70, 229, 0.2);
+}
+
+[data-theme="dark"] .explanation-label {
+  color: rgb(199, 210, 254);
+}
+
+[data-theme="dark"] .explanation-text {
+  color: rgb(209, 213, 219);
+}
+
+[data-theme="dark"] .empty-icon {
+  background-color: rgb(55, 65, 81);
+}
+
+[data-theme="dark"] .empty-text {
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .empty-hint {
+  color: rgb(107, 114, 128);
+}
+
+/* Enhanced Styles */
+.generate-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.generate-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.generate-btn:hover::before {
+  left: 100%;
+}
+
+.option-button,
+.true-button,
+.false-button {
+  transition: all 0.3s ease;
+}
+
+.option-button:hover,
+.true-button:hover,
+.false-button:hover {
+  transform: translateY(-1px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .exam-generator {
+    padding: 1rem;
+  }
+  
+  .control-buttons {
+    justify-content: center;
+  }
+  
+  .control-item {
+    flex: 1;
+    min-width: 120px;
+  }
+  
+  .options-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .truefalse-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .navigation-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* Smooth transitions */
+.exam-generator * {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}

@@ -211,7 +211,7 @@ const ClassTracker = () => {
 
   if (loading && classes.length === 0) {
     return (
-      <div className="min-h-screen dashboard-main flex items-center justify-center">
+      <div className="min-h-screen budget-tracker flex items-center justify-center">
         <div className="flex flex-col items-center space-y-4">
           <div className="relative">
             <div className="w-16 h-16 border-4 border-blue-200 rounded-full animate-spin"></div>
@@ -224,7 +224,7 @@ const ClassTracker = () => {
   }
 
   return (
-    <div className="min-h-screen dashboard-main p-4 lg:p-8">
+    <div className="min-h-screen budget-tracker p-4 lg:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="schedule-header bg-white rounded-3xl shadow-sm border border-gray-100 p-8 mb-8">
