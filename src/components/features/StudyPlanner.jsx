@@ -382,13 +382,17 @@ const StudyPlanner = () => {
           </div>
         ) : (
           <div className="tasks-container bg-white rounded-3xl shadow border border-gray-100 overflow-hidden">
-            <div className="tasks-header p-8">
-              <div className="flex items-center gap-3 mb-6">
-                <FiCalendar className="calendar-icon text-indigo-600" size={24} />
-                <h2 className="tasks-title text-2xl font-bold text-gray-800">Your Study Tasks</h2>
-                <span className="pending-count text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+            <div className="tasks-header md:p-8 p-4">
+              <div className="flex items-center justify-between mb-6">
+               <div className='flex items-center md:gap-3 gap-1'>
+                 <FiCalendar className="calendar-icon text-indigo-600" size={24} />
+                <h2 className="tasks-title md:text-2xl text-xl font-bold text-gray-800">Your Study Tasks</h2>
+               </div>
+               <div>
+                 <span className="pending-count text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
                   {tasks.filter(t => t.status === 'pending').length} pending
                 </span>
+               </div>
               </div>
 
               <div className="tasks-list space-y-4">
@@ -409,8 +413,9 @@ const StudyPlanner = () => {
                         }`}
                     >
                       <div className="flex items-start justify-between gap-4">
-                        <div className="flex items-start gap-4 flex-1">
+                        <div className=" items-start gap-4 flex-1">
                           {/* Status Toggle */}
+                          <div className='flex items-center gap-3'>
                           <button
                             onClick={() => toggleTaskStatus(taskItem._id, taskItem.status)}
                             className={`status-toggle flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${taskItem.status === 'completed'
@@ -422,15 +427,15 @@ const StudyPlanner = () => {
                               <FiCheckCircle size={14} />
                             )}
                           </button>
-
-                          <div className="task-content flex-1">
-                            <h3 className={`task-title text-xl font-semibold mb-2 ${taskItem.status === 'completed'
-                              ? 'text-gray-500 line-through'
+                             <h3 className={`task-title text-xl font-semibold mb-2 ${taskItem.status === 'completed'
+                              ? 'text-gray-500'
                               : 'text-gray-800'
                               }`}>
                               {taskItem.title}
                             </h3>
+                          </div>
 
+                          <div>
                             {taskItem.description && (
                               <p className={`task-description text-sm mb-3 ${taskItem.status === 'completed'
                                 ? 'text-gray-400'
@@ -440,12 +445,12 @@ const StudyPlanner = () => {
                               </p>
                             )}
 
-                            <div className="task-meta flex flex-wrap gap-3 text-sm">
-                              <div className={`due-date flex items-center gap-1 ${overdue && taskItem.status !== 'completed'
+                            <div className="flex flex-wrap gap-3 text-sm">
+                              <div className={`due-date flex sm:items-center gap-1 ${overdue && taskItem.status !== 'completed'
                                 ? 'text-red-600 font-medium'
                                 : 'text-gray-500'
                                 }`}>
-                                <FiCalendar size={14} />
+                                <FiCalendar size={16} />
                                 {formatDueDate(taskItem.dueDate)}
                               </div>
 
@@ -486,7 +491,7 @@ const StudyPlanner = () => {
 
       {/* Enhanced Modal */}
       {isModalOpen && (
-        <div className="modal-overlay fixed inset-0 bg-gray-600/70 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div className="modal-overlay fixed inset-0 bg-gray-600/70 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 md:p-4">
           <div className="modal-container bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="modal-header sticky top-0 bg-white border-b border-gray-200 px-8 py-6 rounded-t-3xl">
               <div className="flex items-center justify-between">

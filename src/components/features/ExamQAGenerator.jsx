@@ -228,9 +228,9 @@ const ExamQAGenerator = () => {
     <p className="generator-subtitle text-gray-600">Enter a topic and let AI generate exam-style questions!</p>
   </div>
 
-  <form onSubmit={handleGenerateQnA} className="generator-form bg-gradient-to-r from-indigo-50 to-purple-50 p-6 rounded-xl mb-8 border border-indigo-100">
+  <form onSubmit={handleGenerateQnA} className="generator-form bg-gradient-to-r from-indigo-50 to-purple-50 md:p-6 p-4 rounded-xl mb-8 border border-indigo-100">
     <div className="form-controls flex flex-col md:flex-row gap-4 items-center mb-4">
-      <div className="control-buttons flex flex-wrap gap-4">
+      <div className="control-buttons flex flex-wrap gap-2">
         <div className="control-item flex items-center bg-white px-3 py-2 rounded-lg shadow-sm border border-indigo-100">
           <FiHelpCircle className="control-icon text-indigo-600" />
           <select

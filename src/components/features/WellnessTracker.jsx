@@ -79,7 +79,7 @@ const WellnessTracker = () => {
 );
 
 return (
-  <div className="wellness-tracker min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
+  <div className="wellness-tracker min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 md:p-6 p-4">
     <div className="max-w-4xl mx-auto">
       {/* Header */}
       <div className="wellness-header bg-white rounded-2xl shadow-sm p-6 mb-6 border border-gray-100">

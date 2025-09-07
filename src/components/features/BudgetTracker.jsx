@@ -431,9 +431,9 @@ const BudgetTracker = () => {
         {/* Recent Transactions */}
         <div className="transactions-container bg-white rounded-3xl shadow-xl border border-gray-100 p-4 md:p-8">
           <div className="transactions-header flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center md:gap-3 gap-1">
               <FiFilter className="filter-icon text-blue-600" size={24} />
-              <h2 className="transactions-title text-2xl font-bold text-gray-800">Recent Transactions</h2>
+              <h2 className="transactions-title md:text-2xl text-xl font-bold text-gray-800">Recent Transactions</h2>
             </div>
             <p className="transactions-count text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded flex gap-1">
               <span>{currentMonthEntries.length}</span><span>entries</span>
@@ -498,7 +498,7 @@ const BudgetTracker = () => {
 
   {/* Enhanced Modal */}
   {isModalOpen && (
-    <div className="modal-overlay fixed inset-0 bg-gray-600/70 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="modal-overlay fixed inset-0 bg-gray-600/70 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 md:p-4">
       <div className="modal-container bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         <div className="modal-header sticky top-0 bg-white border-b border-gray-200 px-8 py-6 rounded-t-3xl z-50">
           <div className="flex items-center justify-between">

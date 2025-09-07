@@ -1151,10 +1151,6 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .analytics-section {
-    padding: 1rem;
-  }
-  
   .study-analytics-card,
   .financial-analytics-card {
     padding: 1rem;
@@ -2406,28 +2402,6 @@
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .summary-cards {
-    grid-template-columns: 1fr;
-  }
-  
-  .tasks-header {
-    padding: 1.5rem;
-  }
-  
-  .task-item {
-    padding: 1rem;
-  }
-  
-  .task-title {
-    font-size: 1.125rem;
-  }
-  
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-}
 /* Exam Q&A Generator Dark Mode Styles */
 [data-theme="dark"] .exam-generator {
   background-color: rgb(31, 41, 55);
@@ -2693,7 +2667,6 @@
   
   .control-item {
     flex: 1;
-    min-width: 120px;
   }
   
   .options-grid {
