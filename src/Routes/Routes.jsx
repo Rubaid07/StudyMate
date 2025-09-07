@@ -12,11 +12,13 @@ import StudyPlanner from '../components/features/StudyPlanner';
 import BudgetTracker from '../components/features/BudgetTracker';
 import WellnessTracker from "../components/features/WellnessTracker";
 import Home from "../components/home/Home";
+import NotFoundPage from "../pages/NotFoundPage";
 
 
 export const router = createBrowserRouter([
   {
     path: "/",
+    errorElement: <NotFoundPage></NotFoundPage>,
     element: <ProtectedRoute publicOnly={true}><MainLayout /></ProtectedRoute>,
     children: [
       {
@@ -27,6 +29,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/",
+    errorElement: <NotFoundPage></NotFoundPage>,
     element: <AuthLayout />,
     children: [
       {
@@ -41,6 +44,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/dashboard',
+    errorElement: <NotFoundPage></NotFoundPage>,
     element: <ProtectedRoute><DashboardLayout /></ProtectedRoute>,
     children: [
       {

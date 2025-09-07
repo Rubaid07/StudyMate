@@ -21,7 +21,7 @@ const LandingPageNavbar = () => {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <div className="h-10 w-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center transition-transform hover:scale-105">
+            <div className="h-10 w-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
               <p className="font-bold text-white text-xl">S</p>
             </div>
             <h1 className="text-2xl font-bold text-indigo-800 transition-colors">

@@ -1,16 +1,13 @@
 import React, { useContext } from 'react';
 import { Navigate, useLocation } from 'react-router';
 import { AuthContext } from '../../context/AuthContext';
+import LogoLoading from './LogoLoading';
 const ProtectedRoute = ({ children, publicOnly = false }) => {
   const { user, loading } = useContext(AuthContext);
   const location = useLocation();
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <span className="loading loading-spinner text-primary"></span>
-      </div>
-    );
+    return <LogoLoading></LogoLoading>
   }
 
 

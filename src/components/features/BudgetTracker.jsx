@@ -445,7 +445,7 @@ const BudgetTracker = () => {
               <h2 className="transactions-title text-2xl font-bold text-gray-800">Recent Transactions</h2>
             </div>
             <p className="transactions-count text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded flex gap-1">
-              <p>{currentMonthEntries.length}</p><p>entries</p>
+              <span>{currentMonthEntries.length}</span><span>entries</span>
             </p>
           </div>
           <div className="transactions-list space-y-4 max-h-96 overflow-y-auto">

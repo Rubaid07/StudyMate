@@ -18,6 +18,7 @@ import {
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { AuthContext } from '../../context/AuthContext';
 import { FiAward, FiClock } from 'react-icons/fi';
+import Loading from '../common/Loading';
 
 const DashboardWidgets = () => {
   const navigate = useNavigate();
@@ -233,12 +234,7 @@ const DashboardWidgets = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center  dashboard-main">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-cyan-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading your dashboard...</p>
-        </div>
-      </div>
+      <Loading></Loading>
     );
   }
 
