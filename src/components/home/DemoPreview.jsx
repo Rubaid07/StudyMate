@@ -159,7 +159,7 @@ const DemoPreview = () => {
 
         {/* Device Selector */}
         <div className="flex justify-center mb-12">
-          <div className="device-selector bg-base-300 rounded-2xl p-2 flex space-x-2">
+          <div className="device-selector bg-base-300 rounded-2xl p-2 flex ">
             {[
               { key: 'desktop', icon: <FiMonitor className="w-5 h-5" />, label: 'Desktop' },
               { key: 'tablet', icon: <FiTablet className="w-5 h-5" />, label: 'Tablet' },

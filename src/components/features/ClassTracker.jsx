@@ -3,6 +3,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../../context/AuthContext';
 import { FiEdit, FiTrash2, FiPlusCircle, FiX, FiClock, FiUser, FiCalendar, FiBookOpen } from 'react-icons/fi';
+import Swal from 'sweetalert2';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
@@ -128,9 +129,32 @@ const ClassTracker = () => {
   };
 
   const handleDeleteClass = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this class?')) {
+    // SweetAlert2 confirmation dialog
+    const result = await Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+      reverseButtons: true,
+      background: document.documentElement.getAttribute('data-theme') === 'dark' ? '#1f2937' : '#ffffff',
+      color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#e5e7eb' : '#374151',
+      customClass: {
+        popup: 'sweet-alert-popup',
+        title: 'sweet-alert-title',
+        content: 'sweet-alert-content',
+        confirmButton: 'sweet-alert-confirm-btn',
+        cancelButton: 'sweet-alert-cancel-btn'
+      }
+    });
+
+    if (!result.isConfirmed) {
       return;
     }
+
     setLoading(true);
     setError('');
     try {
@@ -140,12 +164,44 @@ const ClassTracker = () => {
           'Authorization': `Bearer ${localStorage.getItem('access-token')}`
         },
       });
-      toast.success('Class deleted successfully!');
+
+      // Success notification
+      await Swal.fire({
+        title: 'Deleted!',
+        text: 'Class has been deleted successfully.',
+        icon: 'success',
+        timer: 2000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        background: document.documentElement.getAttribute('data-theme') === 'dark' ? '#1f2937' : '#ffffff',
+        color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#e5e7eb' : '#374151',
+        customClass: {
+          popup: 'sweet-alert-popup',
+          title: 'sweet-alert-title',
+          content: 'sweet-alert-content'
+        }
+      });
+
       fetchClasses();
     } catch (err) {
       console.error('Error deleting class:', err);
       setError('Failed to delete class.');
-      toast.error('Failed to delete class.');
+
+      // Error notification
+      await Swal.fire({
+        title: 'Error!',
+        text: 'Failed to delete class. Please try again.',
+        icon: 'error',
+        confirmButtonColor: '#3085d6',
+        background: document.documentElement.getAttribute('data-theme') === 'dark' ? '#1f2937' : '#ffffff',
+        color: document.documentElement.getAttribute('data-theme') === 'dark' ? '#e5e7eb' : '#374151',
+        customClass: {
+          popup: 'sweet-alert-popup',
+          title: 'sweet-alert-title',
+          content: 'sweet-alert-content',
+          confirmButton: 'sweet-alert-confirm-btn'
+        }
+      });
     } finally {
       setLoading(false);
     }
@@ -161,7 +217,7 @@ const ClassTracker = () => {
 
   if (loading && classes.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+      <div className="min-h-screen dashboard-main flex items-center justify-center">
         <div className="flex flex-col items-center space-y-4">
           <div className="relative">
             <div className="w-16 h-16 border-4 border-blue-200 rounded-full animate-spin"></div>
@@ -174,22 +230,22 @@ const ClassTracker = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 lg:p-8">
+    <div className="min-h-screen dashboard-main p-4 lg:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 mb-8">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-            <div>
-              <h1 className="md:text-4xl text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3">
+        <div className="schedule-header bg-white rounded-3xl shadow-sm border border-gray-100 p-8 mb-8">
+          <div className="header-content flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div className="header-text">
+              <h1 className="header-title md:text-4xl text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3">
                 Class Schedule Tracker
               </h1>
-              <p className="text-gray-600 text-lg">Organize and manage your academic schedule with ease</p>
+              <p className="header-description text-gray-600 text-lg">Organize and manage your academic schedule with ease</p>
             </div>
             <button
               onClick={() => { resetForm(); setIsModalOpen(true); }}
-              className="group relative px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center gap-3 w-max"
+              className="add-class-btn group relative px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center gap-3 w-max"
             >
-              <FiPlusCircle className="group-hover:rotate-90 transition-transform duration-200" size={20} />
+              <FiPlusCircle className="add-icon group-hover:rotate-90 transition-transform duration-200" size={20} />
               Add New Class
             </button>
           </div>
@@ -206,27 +262,27 @@ const ClassTracker = () => {
 
         {/* Classes Display */}
         {classes.length === 0 ? (
-          <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-12 text-center">
-            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <div className="empty-state bg-white rounded-3xl shadow-xl border border-gray-100 p-12 text-center">
+            <div className="empty-icon w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <FiBookOpen size={32} className="text-gray-400" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">No Classes Yet</h2>
-            <p className="text-gray-600 mb-8 max-w-md mx-auto">
+            <h2 className="empty-title text-2xl font-bold text-gray-800 mb-4">No Classes Yet</h2>
+            <p className="empty-description text-gray-600 mb-8 max-w-md mx-auto">
               Get started by adding your first class to keep track of your academic schedule.
             </p>
             <button
               onClick={() => { resetForm(); setIsModalOpen(true); }}
-              className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-3 mx-auto "
+              className="add-first-class-btn px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-3 mx-auto"
             >
               <FiPlusCircle size={20} />
               Add Your First Class
             </button>
           </div>
         ) : (
-          <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="classes-container bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
             {/* Desktop View */}
-            <div className="hidden lg:block">
-              <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-8 py-6 border-b border-gray-200">
+            <div className="desktop-view hidden lg:block">
+              <div className="table-header bg-gradient-to-r from-gray-50 to-gray-100 px-8 py-6 border-b border-gray-200">
                 <div className="grid grid-cols-6 gap-4 font-semibold text-gray-700 text-sm uppercase tracking-wide">
                   <div>Subject</div>
                   <div>Instructor</div>
@@ -236,48 +292,48 @@ const ClassTracker = () => {
                   <div className="text-center">Actions</div>
                 </div>
               </div>
-              <div className="divide-y divide-gray-100">
+              <div className="table-body divide-y divide-gray-100">
                 {classes.map((classItem, index) => (
-                  <div key={classItem._id} className="px-8 py-6 hover:bg-gray-50 transition-colors duration-150">
+                  <div key={classItem._id} className="class-row px-8 py-6 hover:bg-gray-50 transition-colors duration-150">
                     <div className="grid grid-cols-6 gap-4 items-center">
                       <div>
-                        <h3 className="font-bold text-gray-900 text-lg">{classItem.subject}</h3>
+                        <h3 className="subject-name font-bold text-gray-900 text-lg">{classItem.subject}</h3>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <FiUser size={16} className="text-gray-400" />
-                        <span className="text-gray-700">{classItem.instructor || 'N/A'}</span>
+                      <div className="instructor flex items-center gap-2">
+                        <FiUser size={16} className="instructor-icon text-gray-400" />
+                        <span className="instructor-name text-gray-700">{classItem.instructor || 'N/A'}</span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <FiCalendar size={16} className="text-gray-400" />
-                        <span className="text-gray-700 font-medium">{classItem.day}</span>
+                      <div className="schedule flex items-center gap-2">
+                        <FiCalendar size={16} className="calendar-icon text-gray-400" />
+                        <span className="day text-gray-700 font-medium">{classItem.day}</span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <FiClock size={16} className="text-gray-400" />
-                        <span className="text-gray-700">
+                      <div className="time flex items-center gap-2">
+                        <FiClock size={16} className="clock-icon text-gray-400" />
+                        <span className="time-range text-gray-700">
                           {formatTime(classItem.startTime)} - {formatTime(classItem.endTime)}
                         </span>
                       </div>
-                      <div>
+                      <div className="color-indicator">
                         <div
-                          className="w-8 h-8 rounded-full shadow-md border-2 border-white"
+                          className="color-dot w-8 h-8 rounded-full shadow-md border-2 border-white"
                           style={{ backgroundColor: classItem.color }}
                           title={classItem.color}
                         ></div>
                       </div>
-                      <div className="flex justify-center gap-2">
+                      <div className="actions flex justify-center gap-2">
                         <button
                           onClick={() => handleEditClick(classItem)}
-                          className="p-2 text-blue-500 hover:bg-blue-50 rounded-xl transition-colors duration-150 group"
+                          className="edit-btn p-2 text-blue-500 hover:bg-blue-50 rounded-xl transition-colors duration-150 group"
                           title="Edit class"
                         >
-                          <FiEdit size={18} className="group-hover:scale-110 transition-transform" />
+                          <FiEdit size={18} className="edit-icon group-hover:scale-110 transition-transform" />
                         </button>
                         <button
                           onClick={() => handleDeleteClass(classItem._id)}
-                          className="p-2 text-red-500 hover:bg-red-50 rounded-xl transition-colors duration-150 group"
+                          className="delete-btn p-2 text-red-500 hover:bg-red-50 rounded-xl transition-colors duration-150 group"
                           title="Delete class"
                         >
-                          <FiTrash2 size={18} className="group-hover:scale-110 transition-transform" />
+                          <FiTrash2 size={18} className="delete-icon group-hover:scale-110 transition-transform" />
                         </button>
                       </div>
                     </div>
@@ -287,47 +343,47 @@ const ClassTracker = () => {
             </div>
 
             {/* Mobile View */}
-            <div className="lg:hidden space-y-4 p-6">
+            <div className="mobile-view lg:hidden space-y-4 p-6">
               {classes.map((classItem, index) => (
                 <div
                   key={classItem._id}
-                  className="bg-gradient-to-r from-white to-gray-50 border border-gray-200 rounded-2xl p-6 shadow-md"
+                  className="mobile-class-card bg-gradient-to-r from-white to-gray-50 border border-gray-200 rounded-2xl p-6 shadow-md"
                 >
-                  <div className="flex items-start justify-between mb-4">
+                  <div className="card-header flex items-start justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <div
-                        className="w-4 h-4 rounded-full border-2 border-white shadow-md"
+                        className="color-indicator-mobile w-4 h-4 rounded-full border-2 border-white shadow-md"
                         style={{ backgroundColor: classItem.color }}
                       ></div>
-                      <h3 className="font-bold text-gray-900 text-xl">{classItem.subject}</h3>
+                      <h3 className="subject-name-mobile font-bold text-gray-900 text-xl">{classItem.subject}</h3>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="actions-mobile flex gap-2">
                       <button
                         onClick={() => handleEditClick(classItem)}
-                        className="p-2 text-blue-500 hover:bg-blue-50 rounded-xl transition-colors"
+                        className="edit-btn-mobile p-2 text-blue-500 hover:bg-blue-50 rounded-xl transition-colors"
                       >
                         <FiEdit size={18} />
                       </button>
                       <button
                         onClick={() => handleDeleteClass(classItem._id)}
-                        className="p-2 text-red-500 hover:bg-red-50 rounded-xl transition-colors"
+                        className="delete-btn-mobile p-2 text-red-500 hover:bg-red-50 rounded-xl transition-colors"
                       >
                         <FiTrash2 size={18} />
                       </button>
                     </div>
                   </div>
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-2 text-gray-600">
-                      <FiUser size={16} />
-                      <span>{classItem.instructor || 'No instructor assigned'}</span>
+                  <div className="card-details space-y-3">
+                    <div className="detail-item flex items-center gap-2 text-gray-600">
+                      <FiUser size={16} className="detail-icon" />
+                      <span className="detail-text">{classItem.instructor || 'No instructor assigned'}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-gray-600">
-                      <FiCalendar size={16} />
-                      <span className="font-medium">{classItem.day}</span>
+                    <div className="detail-item flex items-center gap-2 text-gray-600">
+                      <FiCalendar size={16} className="detail-icon" />
+                      <span className="detail-text font-medium">{classItem.day}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-gray-600">
-                      <FiClock size={16} />
-                      <span>{formatTime(classItem.startTime)} - {formatTime(classItem.endTime)}</span>
+                    <div className="detail-item flex items-center gap-2 text-gray-600">
+                      <FiClock size={16} className="detail-icon" />
+                      <span className="detail-text">{formatTime(classItem.startTime)} - {formatTime(classItem.endTime)}</span>
                     </div>
                   </div>
                 </div>
@@ -339,142 +395,142 @@ const ClassTracker = () => {
 
       {/* Enhanced Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-600/70 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-8 py-6 rounded-t-3xl">
-              <div className="flex items-center justify-between">
-                <h2 className="text-3xl font-bold text-gray-800">
-                  {editingClassId ? 'Edit Class' : 'Add New Class'}
-                </h2>
-                <button
-                  onClick={() => setIsModalOpen(false)}
-                  className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-colors"
-                >
-                  <FiX size={24} />
-                </button>
-              </div>
+  <div className="modal-overlay fixed inset-0 bg-gray-600/70 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div className="modal-container bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+      <div className="modal-header sticky top-0 bg-white border-b border-gray-200 px-8 py-6 rounded-t-3xl">
+        <div className="flex items-center justify-between">
+          <h2 className="modal-title text-3xl font-bold text-gray-800">
+            {editingClassId ? 'Edit Class' : 'Add New Class'}
+          </h2>
+          <button
+            onClick={() => setIsModalOpen(false)}
+            className="modal-close-btn p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-colors"
+          >
+            <FiX size={24} />
+          </button>
+        </div>
+      </div>
+
+      <div className="modal-body px-8 py-6">
+        <form onSubmit={handleAddOrUpdateClass} className="space-y-6">
+          <div className="form-group">
+            <label className="form-label block text-gray-700 font-semibold mb-2">Subject *</label>
+            <input
+              type="text"
+              name="subject"
+              value={formData.subject}
+              onChange={handleFormChange}
+              placeholder="e.g., Advanced Mathematics, Physics Lab"
+              className="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label block text-gray-700 font-semibold mb-2">Instructor</label>
+            <input
+              type="text"
+              name="instructor"
+              value={formData.instructor}
+              onChange={handleFormChange}
+              placeholder="e.g., Dr. Sarah Johnson"
+              className="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label block text-gray-700 font-semibold mb-2">Day *</label>
+            <select
+              name="day"
+              value={formData.day}
+              onChange={handleFormChange}
+              className="form-select w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+              required
+            >
+              <option value="" disabled>Select a day</option>
+              {daysOfWeek.map((day) => (
+                <option key={day} value={day}>{day}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="time-inputs grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="form-group">
+              <label className="form-label block text-gray-700 font-semibold mb-2">Start Time *</label>
+              <input
+                type="time"
+                name="startTime"
+                value={formData.startTime}
+                onChange={handleFormChange}
+                className="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                required
+              />
             </div>
-            
-            <div className="px-8 py-6">
-              <form onSubmit={handleAddOrUpdateClass} className="space-y-6">
-                <div>
-                  <label className="block text-gray-700 font-semibold mb-2">Subject *</label>
-                  <input
-                    type="text"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleFormChange}
-                    placeholder="e.g., Advanced Mathematics, Physics Lab"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-gray-700 font-semibold mb-2">Instructor</label>
-                  <input
-                    type="text"
-                    name="instructor"
-                    value={formData.instructor}
-                    onChange={handleFormChange}
-                    placeholder="e.g., Dr. Sarah Johnson"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-gray-700 font-semibold mb-2">Day *</label>
-                  <select
-                    name="day"
-                    value={formData.day}
-                    onChange={handleFormChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                    required
-                  >
-                    <option value="" disabled>Select a day</option>
-                    {daysOfWeek.map((day) => (
-                      <option key={day} value={day}>{day}</option>
-                    ))}
-                  </select>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-gray-700 font-semibold mb-2">Start Time *</label>
-                    <input
-                      type="time"
-                      name="startTime"
-                      value={formData.startTime}
-                      onChange={handleFormChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-gray-700 font-semibold mb-2">End Time *</label>
-                    <input
-                      type="time"
-                      name="endTime"
-                      value={formData.endTime}
-                      onChange={handleFormChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                      required
-                    />
-                  </div>
-                </div>
-                
-                <div>
-                  <label className="block text-gray-700 font-semibold mb-3">Class Color</label>
-                  <div className="flex flex-wrap gap-3 items-center">
-                    {defaultColors.map((color) => (
-                      <button
-                        key={color}
-                        type="button"
-                        onClick={() => setFormData((prev) => ({ ...prev, color }))}
-                        className={`w-10 h-10 rounded-full border-4 transition-all duration-200 ${
-                          formData.color === color 
-                            ? 'border-gray-800 scale-110 shadow-lg' 
-                            : 'border-gray-300 hover:scale-105'
-                        }`}
-                        style={{ backgroundColor: color }}
-                        title={color}
-                      ></button>
-                    ))}
-                    <div className="relative">
-                      <input
-                        type="color"
-                        name="color"
-                        value={formData.color}
-                        onChange={handleFormChange}
-                        className="w-10 h-10 rounded-full border-4 border-gray-300 cursor-pointer overflow-hidden"
-                        title="Custom Color"
-                      />
-                      <div className="absolute -bottom-1 -right-1 bg-gray-600 text-white text-xs px-1 py-0.5 rounded">+</div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="flex gap-4 pt-4">
-                  <button
-                    type="button"
-                    onClick={() => setIsModalOpen(false)}
-                    className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-colors"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:transform-none disabled:cursor-not-allowed"
-                    disabled={loading}
-                  >
-                    {loading ? 'Saving...' : (editingClassId ? 'Save Changes' : 'Add Class')}
-                  </button>
-                </div>
-              </form>
+            <div className="form-group">
+              <label className="form-label block text-gray-700 font-semibold mb-2">End Time *</label>
+              <input
+                type="time"
+                name="endTime"
+                value={formData.endTime}
+                onChange={handleFormChange}
+                className="form-input w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                required
+              />
             </div>
           </div>
-        </div>
-      )}
+
+          <div className="form-group">
+            <label className="form-label block text-gray-700 font-semibold mb-3">Class Color</label>
+            <div className="color-picker flex flex-wrap gap-3 items-center">
+              {defaultColors.map((color) => (
+                <button
+                  key={color}
+                  type="button"
+                  onClick={() => setFormData((prev) => ({ ...prev, color }))}
+                  className={`color-option w-10 h-10 rounded-full border-4 transition-all duration-200 ${
+                    formData.color === color
+                      ? 'border-gray-800 scale-110 shadow-lg'
+                      : 'border-gray-300 hover:scale-105'
+                  }`}
+                  style={{ backgroundColor: color }}
+                  title={color}
+                ></button>
+              ))}
+              <div className="custom-color relative">
+                <input
+                  type="color"
+                  name="color"
+                  value={formData.color}
+                  onChange={handleFormChange}
+                  className="color-input w-10 h-10 rounded-full border-4 border-gray-300 cursor-pointer overflow-hidden"
+                  title="Custom Color"
+                />
+                <div className="color-badge absolute -bottom-1 -right-1 bg-gray-600 text-white text-xs px-1 py-0.5 rounded">+</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="modal-actions flex gap-4 pt-4">
+            <button
+              type="button"
+              onClick={() => setIsModalOpen(false)}
+              className="cancel-btn flex-1 px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="submit-btn flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:transform-none disabled:cursor-not-allowed"
+              disabled={loading}
+            >
+              {loading ? 'Saving...' : (editingClassId ? 'Save Changes' : 'Add Class')}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 };

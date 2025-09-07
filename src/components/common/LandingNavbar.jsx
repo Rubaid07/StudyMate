@@ -51,7 +51,7 @@ const LandingPageNavbar = () => {
 
             <Link
               to="/login"
-              className="signin-btn text-sm font-medium py-2 px-5 rounded-md text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-purple-600 hover:to-indigo-600 transition-all duration-150 shadow-md hover:shadow-lg"
+              className="signin-btn text-sm font-medium py-2 px-5 rounded-md text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-purple-600 hover:to-indigo-600 transition duration-250 shadow-md hover:shadow-lg"
             >
               Sign In
             </Link>
