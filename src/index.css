@@ -1888,3 +1888,216 @@
     width: 100%;
   }
 }
+/* Budget Tracker Dark Mode Styles */
+[data-theme="dark"] .budget-tracker {
+  background: linear-gradient(to bottom right, rgb(17, 24, 39), rgb(31, 41, 55));
+}
+
+[data-theme="dark"] .budget-header,
+[data-theme="dark"] .income-card,
+[data-theme="dark"] .expense-card,
+[data-theme="dark"] .balance-card,
+[data-theme="dark"] .empty-state,
+[data-theme="dark"] .chart-container,
+[data-theme="dark"] .transactions-container {
+  background-color: rgb(31, 41, 55);
+  border-color: rgb(55, 65, 81);
+}
+
+[data-theme="dark"] .header-description {
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .month-selector,
+[data-theme="dark"] .year-selector {
+  background-color: rgb(55, 65, 81);
+  border-color: rgb(75, 85, 99);
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .calendar-icon {
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .error-alert {
+  background-color: rgba(254, 226, 226, 0.1);
+  border-color: rgb(239, 68, 68);
+}
+
+[data-theme="dark"] .error-message {
+  color: rgb(254, 202, 202);
+}
+
+[data-theme="dark"] .card-label {
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .card-value {
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .icon-container {
+  background: linear-gradient(to bottom right, rgb(55, 65, 81), rgb(75, 85, 99));
+}
+
+[data-theme="dark"] .empty-title {
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .empty-description {
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .empty-icon {
+  background-color: rgb(55, 65, 81);
+}
+
+[data-theme="dark"] .chart-title,
+[data-theme="dark"] .transactions-title {
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .transactions-count {
+  background-color: rgb(55, 65, 81);
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .transaction-item {
+  background: linear-gradient(to right, rgb(55, 65, 81), rgb(75, 85, 99));
+  border-color: rgb(75, 85, 99);
+}
+
+[data-theme="dark"] .transaction-name {
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .transaction-category {
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .transaction-date {
+  color: rgb(107, 114, 128);
+}
+
+[data-theme="dark"] .edit-btn:hover {
+  background-color: rgba(59, 130, 246, 0.2);
+}
+
+[data-theme="dark"] .delete-btn:hover {
+  background-color: rgba(239, 68, 68, 0.2);
+}
+
+/* Modal Dark Mode Styles */
+[data-theme="dark"] .modal-container {
+  background-color: rgb(31, 41, 55);
+  border-color: rgb(55, 65, 81);
+}
+
+[data-theme="dark"] .modal-header {
+  background-color: rgb(31, 41, 55);
+  border-color: rgb(55, 65, 81);
+}
+
+[data-theme="dark"] .modal-title {
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .modal-close-btn {
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .modal-close-btn:hover {
+  color: rgb(209, 213, 219);
+  background-color: rgb(55, 65, 81);
+}
+
+[data-theme="dark"] .form-label {
+  color: rgb(209, 213, 219);
+}
+
+[data-theme="dark"] .form-input,
+[data-theme="dark"] .form-select,
+[data-theme="dark"] .form-textarea {
+  background-color: rgb(55, 65, 81);
+  border-color: rgb(75, 85, 99);
+  color: rgb(243, 244, 246);
+}
+
+[data-theme="dark"] .form-input::placeholder,
+[data-theme="dark"] .form-textarea::placeholder {
+  color: rgb(156, 163, 175);
+}
+
+[data-theme="dark"] .type-button {
+  background-color: rgb(55, 65, 81);
+  color: rgb(209, 213, 219);
+}
+
+[data-theme="dark"] .type-button.bg-green-100 {
+  background-color: rgba(34, 197, 94, 0.2);
+  color: rgb(74, 222, 128);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+[data-theme="dark"] .type-button.bg-red-100 {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: rgb(248, 113, 113);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+[data-theme="dark"] .cancel-btn {
+  background-color: transparent;
+  border-color: rgb(75, 85, 99);
+  color: rgb(209, 213, 219);
+}
+
+[data-theme="dark"] .cancel-btn:hover {
+  background-color: rgb(55, 65, 81);
+  border-color: rgb(107, 114, 128);
+}
+
+/* Enhanced Styles */
+.add-entry-btn,
+.add-first-entry-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.add-entry-btn::before,
+.add-first-entry-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.add-entry-btn:hover::before,
+.add-first-entry-btn:hover::before {
+  left: 100%;
+}
+
+.add-icon {
+  transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+/* Card Hover Effects */
+.income-card,
+.expense-card,
+.balance-card {
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .income-card:hover,
+[data-theme="dark"] .expense-card:hover,
+[data-theme="dark"] .balance-card:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+}

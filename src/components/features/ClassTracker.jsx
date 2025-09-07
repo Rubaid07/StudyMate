@@ -129,7 +129,6 @@ const ClassTracker = () => {
   };
 
   const handleDeleteClass = async (id) => {
-    // SweetAlert2 confirmation dialog
     const result = await Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -164,8 +163,6 @@ const ClassTracker = () => {
           'Authorization': `Bearer ${localStorage.getItem('access-token')}`
         },
       });
-
-      // Success notification
       await Swal.fire({
         title: 'Deleted!',
         text: 'Class has been deleted successfully.',
@@ -181,13 +178,10 @@ const ClassTracker = () => {
           content: 'sweet-alert-content'
         }
       });
-
       fetchClasses();
     } catch (err) {
       console.error('Error deleting class:', err);
       setError('Failed to delete class.');
-
-      // Error notification
       await Swal.fire({
         title: 'Error!',
         text: 'Failed to delete class. Please try again.',
