@@ -1,4 +1,3 @@
-// src/layouts/DashboardLayout.jsx
 import React, { useEffect, useState } from 'react';
 import { Outlet, useNavigation } from 'react-router';
 import Navbar from '../components/common/Navbar'; 
@@ -6,6 +5,7 @@ import Sidebar from '../components/common/Sidebar';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase/firebase';
 import LogoLoading from '../components/common/LogoLoading';
+import ScrollToTop from '../components/common/ScrollToTop';
 
 const DashboardLayout = () => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -21,18 +21,13 @@ const DashboardLayout = () => {
         });
         return unsubscribe;
     }, []);
-
-    useEffect(() => {
-        if (navigation.state === 'idle') {
-            window.scrollTo(0, 0);
-        }
-    }, [navigation.state]);
     if (authChecking || navigation.state === "loading") {
         return <LogoLoading />;
     }
   
   return (
-    <div className="flex h-screen"> 
+    <div className="flex h-screen">
+      <ScrollToTop></ScrollToTop>
       <Sidebar 
         isMobileOpen={isMobileSidebarOpen} 
         toggleMobileSidebar={toggleMobileSidebar} 

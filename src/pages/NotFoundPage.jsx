@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { FiHome, FiArrowLeft, FiAlertTriangle } from "react-icons/fi";
+import { Home, ArrowLeft, AlertTriangle } from "lucide-react";
 
 const NotFoundPage = () => {
   return (
@@ -8,7 +8,7 @@ const NotFoundPage = () => {
         {/* Icon */}
         <div className="mb-8">
           <div className="not-found-icon inline-flex items-center justify-center w-24 h-24 bg-white rounded-3xl shadow-lg border border-gray-100 mb-6">
-            <FiAlertTriangle className="w-12 h-12 text-yellow-500" />
+            <AlertTriangle className="w-12 h-12 text-yellow-500" />
           </div>
         </div>
 
@@ -27,14 +27,14 @@ const NotFoundPage = () => {
             to="/"
             className="home-btn flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl shadow-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105"
           >
-            <FiHome className="w-5 h-5" />
+            <Home className="w-5 h-5" />
             Go Home
           </Link>
           <button
             onClick={() => window.history.back()}
             className="back-btn flex items-center justify-center gap-2 px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-all duration-200"
           >
-            <FiArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-5 h-5" />
             Go Back
           </button>
         </div>

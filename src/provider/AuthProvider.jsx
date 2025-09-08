@@ -1,4 +1,3 @@
-// src/provider/AuthProvider.jsx
 import React, { useEffect, useState } from 'react';
 import {
     createUserWithEmailAndPassword,
@@ -42,7 +41,6 @@ const AuthProvider = ({ children }) => {
         return signInWithPopup(auth, googleProvider);
     };
 
-    // Observe Auth State & Token
     useEffect(() => {
         let refreshTokenInterval;
 

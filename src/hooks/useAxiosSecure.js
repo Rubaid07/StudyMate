@@ -1,4 +1,3 @@
-// src/hooks/useAxiosSecure.jsx
 import React, { useMemo, useEffect } from "react";
 import axios from "axios";
 import useAuth from './useAuth';

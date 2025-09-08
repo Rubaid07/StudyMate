@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../../context/AuthContext';
-import { FiEdit, FiTrash2, FiPlusCircle, FiX, FiClock, FiUser, FiCalendar, FiBookOpen } from 'react-icons/fi';
+import { Edit, Trash2, PlusCircle, X, Clock, User, Calendar, BookOpen } from 'lucide-react';
 import Swal from 'sweetalert2';
 import Loading from '../common/Loading';
 
@@ -219,7 +219,7 @@ const ClassTracker = () => {
   return (
     <div className="min-h-screen budget-tracker bg-gradient-to-br from-blue-50 to-indigo-100 p-4 lg:p-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header Section */}
+        {/* header */}
         <div className="schedule-header bg-white rounded-3xl shadow-sm border border-gray-100 p-8 mb-8">
           <div className="header-content flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             <div className="header-text">
@@ -232,7 +232,7 @@ const ClassTracker = () => {
               onClick={() => { resetForm(); setIsModalOpen(true); }}
               className="add-class-btn group relative px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-2xl shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center gap-3 w-max"
             >
-              <FiPlusCircle className="add-icon group-hover:rotate-90 transition-transform duration-200" size={20} />
+              <PlusCircle className="add-icon group-hover:rotate-90 transition-transform duration-200" size={20} />
               Add New Class
             </button>
           </div>
@@ -247,11 +247,11 @@ const ClassTracker = () => {
           </div>
         )}
 
-        {/* Classes Display */}
+        {/* classes */}
         {classes.length === 0 ? (
           <div className="empty-state bg-white rounded-3xl shadow-xl border border-gray-100 p-12 text-center">
             <div className="empty-icon w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <FiBookOpen size={32} className="text-gray-400" />
+              <BookOpen size={32} className="text-gray-400" />
             </div>
             <h2 className="empty-title text-2xl font-bold text-gray-800 mb-4">No Classes Yet</h2>
             <p className="empty-description text-gray-600 mb-8 max-w-md mx-auto">
@@ -261,13 +261,13 @@ const ClassTracker = () => {
               onClick={() => { resetForm(); setIsModalOpen(true); }}
               className="add-first-class-btn px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-3 mx-auto"
             >
-              <FiPlusCircle size={20} />
+              <PlusCircle size={20} />
               Add Your First Class
             </button>
           </div>
         ) : (
           <div className="classes-container bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-            {/* Desktop View */}
+            {/* desktop view */}
             <div className="desktop-view hidden lg:block">
               <div className="table-header bg-gradient-to-r from-gray-50 to-gray-100 px-8 py-6 border-b border-gray-200">
                 <div className="grid grid-cols-6 gap-4 font-semibold text-gray-700 text-sm uppercase tracking-wide">
@@ -287,15 +287,15 @@ const ClassTracker = () => {
                         <h3 className="subject-name font-bold text-gray-900 text-lg">{classItem.subject}</h3>
                       </div>
                       <div className="instructor flex items-center gap-2">
-                        <FiUser size={16} className="instructor-icon text-gray-400" />
+                        <User size={16} className="instructor-icon text-gray-400" />
                         <span className="instructor-name text-gray-700">{classItem.instructor || 'N/A'}</span>
                       </div>
                       <div className="schedule flex items-center gap-2">
-                        <FiCalendar size={16} className="calendar-icon text-gray-400" />
+                        <Calendar size={16} className="calendar-icon text-gray-400" />
                         <span className="day text-gray-700 font-medium">{classItem.day}</span>
                       </div>
                       <div className="time flex items-center gap-2">
-                        <FiClock size={16} className="clock-icon text-gray-400" />
+                        <Clock size={16} className="clock-icon text-gray-400" />
                         <span className="time-range text-gray-700">
                           {formatTime(classItem.startTime)} - {formatTime(classItem.endTime)}
                         </span>
@@ -313,14 +313,14 @@ const ClassTracker = () => {
                           className="edit-btn p-2 text-blue-500 hover:bg-blue-50 rounded-xl transition-colors duration-150 group"
                           title="Edit class"
                         >
-                          <FiEdit size={18} className="edit-icon group-hover:scale-110 transition-transform" />
+                          <Edit size={18} className="edit-icon group-hover:scale-110 transition-transform" />
                         </button>
                         <button
                           onClick={() => handleDeleteClass(classItem._id)}
                           className="delete-btn p-2 text-red-500 hover:bg-red-50 rounded-xl transition-colors duration-150 group"
                           title="Delete class"
                         >
-                          <FiTrash2 size={18} className="delete-icon group-hover:scale-110 transition-transform" />
+                          <Trash2 size={18} className="delete-icon group-hover:scale-110 transition-transform" />
                         </button>
                       </div>
                     </div>
@@ -329,9 +329,9 @@ const ClassTracker = () => {
               </div>
             </div>
 
-            {/* Mobile View */}
+            {/* mobile view */}
             <div className="mobile-view lg:hidden space-y-4 p-6">
-              {classes.map((classItem, index) => (
+              {classes.map((classItem) => (
                 <div
                   key={classItem._id}
                   className="mobile-class-card bg-gradient-to-r from-white to-gray-50 border border-gray-200 rounded-2xl p-6 shadow-md"
@@ -349,27 +349,27 @@ const ClassTracker = () => {
                         onClick={() => handleEditClick(classItem)}
                         className="edit-btn-mobile p-2 text-blue-500 hover:bg-blue-50 rounded-xl transition-colors"
                       >
-                        <FiEdit size={18} />
+                        <Edit size={18} />
                       </button>
                       <button
                         onClick={() => handleDeleteClass(classItem._id)}
                         className="delete-btn-mobile p-2 text-red-500 hover:bg-red-50 rounded-xl transition-colors"
                       >
-                        <FiTrash2 size={18} />
+                        <Trash2 size={18} />
                       </button>
                     </div>
                   </div>
                   <div className="card-details space-y-3">
                     <div className="detail-item flex items-center gap-2 text-gray-600">
-                      <FiUser size={16} className="detail-icon" />
+                      <User size={16} className="detail-icon" />
                       <span className="detail-text">{classItem.instructor || 'No instructor assigned'}</span>
                     </div>
                     <div className="detail-item flex items-center gap-2 text-gray-600">
-                      <FiCalendar size={16} className="detail-icon" />
+                      <Calendar size={16} className="detail-icon" />
                       <span className="detail-text font-medium">{classItem.day}</span>
                     </div>
                     <div className="detail-item flex items-center gap-2 text-gray-600">
-                      <FiClock size={16} className="detail-icon" />
+                      <Clock size={16} className="detail-icon" />
                       <span className="detail-text">{formatTime(classItem.startTime)} - {formatTime(classItem.endTime)}</span>
                     </div>
                   </div>
@@ -380,7 +380,7 @@ const ClassTracker = () => {
         )}
       </div>
 
-      {/* Enhanced Modal */}
+      {/* modal */}
       {isModalOpen && (
         <div className="modal-overlay fixed inset-0 bg-gray-600/70 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 md:p-4">
           <div className="modal-container bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -393,7 +393,7 @@ const ClassTracker = () => {
                   onClick={() => setIsModalOpen(false)}
                   className="modal-close-btn p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-colors"
                 >
-                  <FiX size={24} />
+                  <X size={24} />
                 </button>
               </div>
             </div>

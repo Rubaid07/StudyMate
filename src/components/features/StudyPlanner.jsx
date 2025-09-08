@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../../context/AuthContext';
-import { FiEdit, FiTrash2, FiPlusCircle, FiX, FiCheckCircle, FiClock, FiCalendar, FiTarget, FiBookOpen, FiAlertTriangle } from 'react-icons/fi';
+import { Edit, Trash2, PlusCircle, X, CheckCircle, Clock, Calendar, Target, BookOpen, AlertTriangle   } from 'lucide-react';
 import Swal from 'sweetalert2';
 import Loading from '../common/Loading';
 
@@ -216,7 +216,7 @@ const StudyPlanner = () => {
           color: 'text-red-600',
           bgColor: 'bg-red-100',
           borderColor: 'border-red-200',
-          icon: FiAlertTriangle,
+          icon: AlertTriangle  ,
           label: 'High Priority'
         };
       case 'medium':
@@ -224,7 +224,7 @@ const StudyPlanner = () => {
           color: 'text-orange-600',
           bgColor: 'bg-orange-100',
           borderColor: 'border-orange-200',
-          icon: FiTarget,
+          icon: Target,
           label: 'Medium Priority'
         };
       case 'low':
@@ -232,7 +232,7 @@ const StudyPlanner = () => {
           color: 'text-blue-600',
           bgColor: 'bg-blue-100',
           borderColor: 'border-blue-200',
-          icon: FiClock,
+          icon: Clock,
           label: 'Low Priority'
         };
       default:
@@ -240,7 +240,7 @@ const StudyPlanner = () => {
           color: 'text-gray-600',
           bgColor: 'bg-gray-100',
           borderColor: 'border-gray-200',
-          icon: FiTarget,
+          icon: Target,
           label: 'Medium Priority'
         };
     }
@@ -293,7 +293,7 @@ const StudyPlanner = () => {
   return (
     <div className="budget-tracker min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 lg:p-8">
       <div className="max-w-6xl mx-auto">
-        {/* Header Section */}
+        {/* header */}
         <div className="budget-header bg-white rounded-3xl shadow border border-gray-100 p-8 mb-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             <div className='header-content'>
@@ -306,7 +306,7 @@ const StudyPlanner = () => {
               onClick={() => { resetForm(); setIsModalOpen(true); }}
               className="add-entry-btn group relative px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-3"
             >
-              <FiPlusCircle className="group-hover:rotate-90 transition-transform duration-200" size={20} />
+              <PlusCircle className="group-hover:rotate-90 transition-transform duration-200" size={20} />
               Add New Task
             </button>
           </div>
@@ -321,13 +321,13 @@ const StudyPlanner = () => {
           </div>
         )}
 
-        {/* Progress Overview */}
+        {/* progress section */}
         {totalTasks > 0 && (
           <div className="summary-cards grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div className="completed-card bg-white rounded-3xl shadow border border-gray-100 p-6 relative overflow-hidden">
               <div className="card-content flex items-center gap-4">
                 <div className="icon-container p-3 bg-gradient-to-br from-green-100 to-green-200 rounded-2xl">
-                  <FiCheckCircle className="completed-icon text-green-600" size={24} />
+                  <CheckCircle className="completed-icon text-green-600" size={24} />
                 </div>
                 <div className="card-text">
                   <p className="card-label text-sm font-medium text-gray-500 uppercase tracking-wide">Completed</p>
@@ -339,7 +339,7 @@ const StudyPlanner = () => {
             <div className="total-card bg-white rounded-3xl shadow border border-gray-100 p-6 relative overflow-hidden">
               <div className="card-content flex items-center gap-4">
                 <div className="icon-container p-3 bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl">
-                  <FiBookOpen className="total-icon text-blue-600" size={24} />
+                  <BookOpen className="total-icon text-blue-600" size={24} />
                 </div>
                 <div className="card-text">
                   <p className="card-label text-sm font-medium text-gray-500 uppercase tracking-wide">Total Tasks</p>
@@ -351,7 +351,7 @@ const StudyPlanner = () => {
             <div className="progress-card bg-white rounded-3xl shadow border border-gray-100 p-6 relative overflow-hidden">
               <div className="card-content flex items-center gap-4">
                 <div className="icon-container p-3 bg-gradient-to-br from-purple-100 to-purple-200 rounded-2xl">
-                  <FiTarget className="progress-icon text-purple-600" size={24} />
+                  <Target className="progress-icon text-purple-600" size={24} />
                 </div>
                 <div className="card-text">
                   <p className="card-label text-sm font-medium text-gray-500 uppercase tracking-wide">Progress</p>
@@ -362,11 +362,11 @@ const StudyPlanner = () => {
           </div>
         )}
 
-        {/* Tasks Display */}
+        {/* tasks */}
         {tasks.length === 0 ? (
           <div className="empty-state bg-white rounded-3xl shadow-xl border border-gray-100 p-12 text-center">
             <div className="empty-icon w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <FiBookOpen size={32} className="text-gray-400" />
+              <BookOpen size={32} className="text-gray-400" />
             </div>
             <h2 className="empty-title text-2xl font-bold text-gray-800 mb-4">Ready to Start Studying?</h2>
             <p className="empty-description text-gray-600 mb-8 max-w-md mx-auto">
@@ -376,7 +376,7 @@ const StudyPlanner = () => {
               onClick={() => { resetForm(); setIsModalOpen(true); }}
               className="create-first-btn px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center gap-3 mx-auto"
             >
-              <FiPlusCircle size={20} />
+              <PlusCircle size={20} />
               Create Your First Task
             </button>
           </div>
@@ -385,7 +385,7 @@ const StudyPlanner = () => {
             <div className="tasks-header md:p-8 p-4">
               <div className="flex items-center justify-between mb-6">
                <div className='flex items-center md:gap-3 gap-1'>
-                 <FiCalendar className="calendar-icon text-indigo-600" size={24} />
+                 <Calendar className="calendar-icon text-indigo-600" size={24} />
                 <h2 className="tasks-title md:text-2xl text-xl font-bold text-gray-800">Your Study Tasks</h2>
                </div>
                <div>
@@ -414,7 +414,6 @@ const StudyPlanner = () => {
                     >
                       <div className="flex items-start justify-between gap-4">
                         <div className=" items-start gap-4 flex-1">
-                          {/* Status Toggle */}
                           <div className='flex items-center gap-3'>
                           <button
                             onClick={() => toggleTaskStatus(taskItem._id, taskItem.status)}
@@ -424,7 +423,7 @@ const StudyPlanner = () => {
                               }`}
                           >
                             {taskItem.status === 'completed' && (
-                              <FiCheckCircle size={14} />
+                              <CheckCircle size={14} />
                             )}
                           </button>
                              <h3 className={`task-title text-xl font-semibold mb-2 ${taskItem.status === 'completed'
@@ -450,7 +449,7 @@ const StudyPlanner = () => {
                                 ? 'text-red-600 font-medium'
                                 : 'text-gray-500'
                                 }`}>
-                                <FiCalendar size={16} />
+                                <Calendar size={16} />
                                 {formatDueDate(taskItem.dueDate)}
                               </div>
 
@@ -462,21 +461,20 @@ const StudyPlanner = () => {
                           </div>
                         </div>
 
-                        {/* Action Buttons */}
                         <div className="action-buttons md:opacity-0 md:group-hover:opacity-100 transition-opacity flex gap-2">
                           <button
                             onClick={() => handleEditClick(taskItem)}
                             className="edit-btn p-2 text-blue-500 hover:bg-blue-50 rounded-xl transition-colors"
                             title="Edit task"
                           >
-                            <FiEdit size={18} />
+                            <Edit size={18} />
                           </button>
                           <button
                             onClick={() => handleDeleteTask(taskItem._id)}
                             className="delete-btn p-2 text-red-500 hover:bg-red-50 rounded-xl transition-colors"
                             title="Delete task"
                           >
-                            <FiTrash2 size={18} />
+                            <Trash2 size={18} />
                           </button>
                         </div>
                       </div>
@@ -489,7 +487,7 @@ const StudyPlanner = () => {
         )}
       </div>
 
-      {/* Enhanced Modal */}
+      {/* modal */}
       {isModalOpen && (
         <div className="modal-overlay fixed inset-0 bg-gray-600/70 bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 md:p-4">
           <div className="modal-container bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -502,7 +500,7 @@ const StudyPlanner = () => {
                   onClick={() => setIsModalOpen(false)}
                   className="modal-close-btn p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-colors"
                 >
-                  <FiX size={24} />
+                  <X size={24} />
                 </button>
               </div>
             </div>

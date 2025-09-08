@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FiPlus, FiMinus } from "react-icons/fi";
+import { Plus, Minus } from "lucide-react";
 
 const FAQ = () => {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -52,9 +52,9 @@ const FAQ = () => {
               >
                 <span className="text-lg faq-question font-medium text-gray-900">{faq.question}</span>
                 {activeIndex === index ? (
-                  <FiMinus className="w-5 h-5 text-indigo-600" />
+                  <Minus className="w-5 h-5 text-indigo-600" />
                 ) : (
-                  <FiPlus className="w-5 h-5 text-indigo-600" />
+                  <Plus className="w-5 h-5 text-indigo-600" />
                 )}
               </button>
               

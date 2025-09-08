@@ -24,13 +24,12 @@ const DashboardWidgets = () => {
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
   const { user } = useContext(AuthContext);
-
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
-  const [dailyMotivation, setDailyMotivation] = useState('');
+  const [dailyMotive, setDailyMotive] = useState('');
   const [quoteLoading, setQuoteLoading] = useState(true);
   const [quizStats, setQuizStats] = useState({ totalQuizzes: 0, averageScore: 0, bestScore: 0 });
   const [recentQuizzes, setRecentQuizzes] = useState([]);
@@ -72,8 +71,8 @@ const DashboardWidgets = () => {
     "The best way to predict your future is to create it. - Abraham Lincoln"
   ];
 
-  // Fetch motivational quote from ZenQuotes API
-  const fetchMotivationalQuote = async () => {
+  // motivational quote from ZenQuotes API
+  const fetchQuote = async () => {
     try {
       setQuoteLoading(true);
 
@@ -82,25 +81,21 @@ const DashboardWidgets = () => {
       const savedQuote = localStorage.getItem('dailyQuote');
       const lastQuoteIndex = parseInt(localStorage.getItem('lastQuoteIndex') || '0');
 
-      // If we have a saved quote from today, use it
       if (lastQuoteDate === today && savedQuote) {
-        setDailyMotivation(savedQuote);
+        setDailyMotive(savedQuote);
         setQuoteLoading(false);
         return;
       }
 
       let newQuote;
 
-      // Try multiple quote APIs with fallback
       try {
-        // Try Quotable API first (more reliable)
         const response = await fetch('https://api.quotable.io/random?tags=education|success|motivational|inspirational');
         const data = await response.json();
         newQuote = `${data.content} - ${data.author}`;
       } catch (apiError) {
         console.log('Quotable API failed, trying ZenQuotes...');
 
-        // Fallback to ZenQuotes
         try {
           const zenResponse = await fetch('https://zenquotes.io/api/random');
           const zenData = await zenResponse.json();
@@ -110,7 +105,6 @@ const DashboardWidgets = () => {
             throw new Error('ZenQuotes failed');
           }
         } catch (zenError) {
-          // Use fallback quotes with sequential rotation
           const nextIndex = (lastQuoteIndex + 1) % fallbackQuotes.length;
           newQuote = fallbackQuotes[nextIndex];
           localStorage.setItem('lastQuoteIndex', nextIndex.toString());
@@ -118,31 +112,29 @@ const DashboardWidgets = () => {
       }
 
       // Save quote for today
-      setDailyMotivation(newQuote);
+      setDailyMotive(newQuote);
       localStorage.setItem('dailyQuote', newQuote);
       localStorage.setItem('lastQuoteDate', today);
 
     } catch (error) {
       console.error('Error fetching motivational quote:', error);
-      // Final fallback - random quote from array
       const randomIndex = Math.floor(Math.random() * fallbackQuotes.length);
-      setDailyMotivation(fallbackQuotes[randomIndex]);
+      setDailyMotive(fallbackQuotes[randomIndex]);
     } finally {
       setQuoteLoading(false);
     }
   };
 
-  // Manual refresh function for quotes
-  const refreshQuoteManually = async () => {
-    // Clear stored quote to force a new fetch
+  // refresh quotes
+  const refreshQuote = async () => {
     localStorage.removeItem('lastQuoteDate');
     localStorage.removeItem('dailyQuote');
-    await fetchMotivationalQuote();
+    await fetchQuote();
   };
 
   useEffect(() => {
     fetchDashboardData();
-    fetchMotivationalQuote();
+    fetchQuote();
 
     const interval = setInterval(fetchDashboardData, 5 * 60 * 1000);
     return () => clearInterval(interval);
@@ -258,7 +250,7 @@ const DashboardWidgets = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Header with Motivational Quote */}
+      {/* header */}
       <div className="bg-white feature-item rounded-2xl shadow-sm md:p-6 p-4 mb-6">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between">
           <div className="flex-1">
@@ -269,7 +261,6 @@ const DashboardWidgets = () => {
               Here's your overview for {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
             </p>
           </div>
-
           <button
             onClick={() => {
               handleRefresh();
@@ -281,7 +272,7 @@ const DashboardWidgets = () => {
             Refresh Data
           </button>
         </div>
-        {/* Motivational Quote Section */}
+        {/* motivational Quote */}
         <div className="flex items-start p-4 rounded-lg dark-quote mb-3 dashboard-quote">
           <Quote className="h-5 w-5 text-indigo-400 mr-3 mt-0.5 flex-shrink-0" />
           {quoteLoading ? (
@@ -290,29 +281,26 @@ const DashboardWidgets = () => {
             </div>
           ) : (
             <p className="text-indigo-400 text-sm italic">
-              "{dailyMotivation}"
+              "{dailyMotive}"
             </p>
           )}
         </div>
-
-        {/* Quote Info */}
-       <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 faq-answer">
-  <div className="flex mb-2 sm:mb-0">
-    <Calendar className="h-3 w-3 mr-1 mt-1" />
-    <span>Daily motivation • Updates every 24 hours</span>
-  </div>
-  <button
-    onClick={refreshQuoteManually}
-    className="flex items-center text-indigo-400 hover:text-indigo-500 cursor-pointer text-xs font-medium"
-  >
-    <RefreshCw className="h-3 w-3 mr-1" />
-    New quote
-  </button>
-</div>
-
+        <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 faq-answer">
+          <div className="flex mb-2 sm:mb-0">
+            <Calendar className="h-3 w-3 mr-1 mt-1" />
+            <span>Daily motivation • Updates every 24 hours</span>
+          </div>
+          <button
+            onClick={refreshQuote}
+            className="flex items-center text-indigo-400 hover:text-indigo-500 cursor-pointer text-xs font-medium"
+          >
+            <RefreshCw className="h-3 w-3 mr-1" />
+            New quote
+          </button>
+        </div>
       </div>
 
-      {/* Tab Navigation */}
+      {/* tab navigation */}
       <div className="tab-navigation bg-white rounded-2xl shadow-sm p-4 mb-6 border border-gray-100">
         <div className="flex w-full md:w-lg gap-2">
           {[
@@ -336,9 +324,9 @@ const DashboardWidgets = () => {
       </div>
       {activeTab === 'overview' && (
         <>
-          {/* Summary Cards Grid */}
+          {/* summary cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {/* Classes Card */}
+            {/* class card */}
             <div className="dashboard-card bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="icon-container bg-blue-100 p-3 rounded-xl">
@@ -357,7 +345,7 @@ const DashboardWidgets = () => {
               )}
             </div>
 
-            {/* Budget Card */}
+            {/* budget card */}
             <div className="dashboard-card bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="icon-container bg-green-100 p-3 rounded-xl">
@@ -380,7 +368,7 @@ const DashboardWidgets = () => {
               </div>
             </div>
 
-            {/* Tasks Card */}
+            {/* tasks card */}
             <div className="dashboard-card bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="icon-container bg-orange-100 p-3 rounded-xl">
@@ -401,7 +389,7 @@ const DashboardWidgets = () => {
               </div>
             </div>
 
-            {/* Study Time Card */}
+            {/* study time card */}
             <div className="dashboard-card bg-white rounded-2xl shadow-sm p-6 hover:shadow-md transition-all border border-gray-100 group">
               <div className="flex items-center justify-between mb-4">
                 <div className="icon-container bg-purple-100 p-3 rounded-xl">
@@ -415,7 +403,7 @@ const DashboardWidgets = () => {
               </p>
             </div>
 
-            {/* Quiz Performance Summary */}
+            {/* quiz performance */}
             <div className="dashboard-card bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="card-title text-lg font-semibold text-gray-800">Quiz Performance</h3>
@@ -437,7 +425,7 @@ const DashboardWidgets = () => {
               </div>
             </div>
 
-            {/* Recent Quiz Results */}
+            {/* recent quiz */}
             <div className="dashboard-card bg-white rounded-2xl shadow-sm p-6 border border-gray-100 md:col-span-2">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="card-title text-lg font-semibold text-gray-800">Recent Quiz Results</h3>
@@ -446,7 +434,6 @@ const DashboardWidgets = () => {
               <div className="recent-quizzes space-y-3">
                 {recentQuizzes.length > 0 ? (
                   recentQuizzes.map((result, index) => {
-                    // Define label & style based on percentage
                     let performanceLabel = "";
                     let performanceClass = "";
                     if (result.percentage >= 80) {
@@ -488,9 +475,8 @@ const DashboardWidgets = () => {
             </div>
           </div>
 
-          {/* progress Section */}
+          {/* progress section */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            {/* Task Progress */}
             <div className="task-progress-card bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="task-progress-title text-xl font-semibold text-gray-800">Task Progress</h3>
@@ -525,8 +511,6 @@ const DashboardWidgets = () => {
                 </div>
               </div>
             </div>
-
-            {/* Budget Progress */}
             <div className="budget-progress-card bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="budget-title text-xl font-semibold text-gray-800">Budget Overview</h3>
@@ -627,13 +611,12 @@ const DashboardWidgets = () => {
           </div>
         </>
       )}
+      {/* Study Analytics */}
       {activeTab === 'analytics' && (
         <div className="analytics-section space-y-6">
-          {/* Study Analytics */}
           <div className="study-analytics-card bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
             <h3 className="analytics-title text-xl font-semibold text-gray-800 mb-6">Study Analytics</h3>
             <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
-              {/* Weekly Study Hours Chart */}
               <div className="chart-container bg-gray-50 p-4 rounded-lg border border-gray-200">
                 <h4 className="chart-title font-medium text-gray-700 mb-4">Weekly Study Hours</h4>
                 <div className="chart-content space-y-3">
@@ -658,7 +641,6 @@ const DashboardWidgets = () => {
           <div className="financial-analytics-card bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
             <h3 className="analytics-title text-xl font-semibold text-gray-800 mb-6">Financial Analytics</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Expense Categories */}
               <div className="expense-categories-container bg-gray-50 p-4 rounded-lg border border-gray-200">
                 <h4 className="chart-title font-medium text-gray-700 mb-4">Expense Categories</h4>
                 <div className="categories-list space-y-2">
@@ -683,10 +665,9 @@ const DashboardWidgets = () => {
           </div>
         </div>
       )}
-
+  {/* Academic Performance */}
       {activeTab === 'performance' && (
         <div className="performance-section space-y-6">
-          {/* Academic Performance */}
           <div className="academic-performance-card bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
             <h3 className="performance-title text-xl font-semibold text-gray-800 mb-6">Academic Performance</h3>
             <div className="performance-stats grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -704,8 +685,6 @@ const DashboardWidgets = () => {
               </div>
             </div>
           </div>
-
-          {/* Productivity Metrics */}
           <div className="productivity-card bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
             <h3 className="performance-title text-xl font-semibold text-gray-800 mb-6">Productivity Metrics</h3>
             <div className="metrics-space space-y-4">
@@ -737,7 +716,7 @@ const DashboardWidgets = () => {
             </div>
           </div>
 
-          {/* Wellness Tracking */}
+          {/* wellness tracking */}
           <div className="wellness-card bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
             <h3 className="performance-title text-xl font-semibold text-gray-800 mb-6">Wellness & Balance</h3>
             <div className="wellness-stats grid grid-cols-1 md:grid-cols-3 gap-4">

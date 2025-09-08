@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { FiArrowRight } from "react-icons/fi";
+import { ArrowRight } from "lucide-react";
 
 const CTA = () => {
   return (
@@ -16,7 +16,7 @@ const CTA = () => {
             to="/register"
             className="px-8 py-4 bg-white text-indigo-600 font-semibold rounded-lg flex items-center justify-center gap-2 shadow-lg hover:bg-gray-100 transition duration-300"
           >
-            Get Started Free <FiArrowRight />
+            Get Started Free <ArrowRight />
           </Link>
         </div>
         <p className="mt-6 text-sm faq-answer">

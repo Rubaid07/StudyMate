@@ -1,10 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { Eye, EyeOff } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
-import logo from '../assets/logo.png';
 import toast from 'react-hot-toast';
-import useAxiosSecure from '../hooks/useAxiosSecure';
 import axios from 'axios';
 
 const Login = () => {
@@ -12,7 +10,6 @@ const Login = () => {
   const { signIn, signInWithGoogle } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
-  const axiosSecure = useAxiosSecure();
 
   const togglePasswordShowHide = () => {
     setShowPassword(!showPassword);
@@ -102,7 +99,7 @@ const Login = () => {
                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
-                {showPassword ? <FiEye size={18} /> : <FiEyeOff size={18} />}
+                {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
               </button>
             </div>
           </div>

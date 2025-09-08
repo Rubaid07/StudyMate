@@ -19,7 +19,7 @@ const LandingPageNavbar = () => {
     <nav className="landing-navbar py-2 bg-indigo-50/90 border-b border-gray-200 sticky top-0 z-50">
       <div className="relative z-10 w-full px-4 lg:px-12">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Logo */}
+          {/* logo */}
           <Link to="/" className="flex items-center gap-2">
             <div className="h-10 w-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
               <p className="font-bold text-white text-xl">S</p>
@@ -30,7 +30,6 @@ const LandingPageNavbar = () => {
           </Link>
 
           <div className="flex items-center md:gap-4 gap-2">
-            {/* Enhanced Theme Toggle */}
             <button
               onClick={handleToggle}
               className="theme-toggle-btn relative w-14 h-7 flex items-center rounded-full p-1 bg-gray-200 transition-all duration-300"

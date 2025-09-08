@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { FiMenu, FiBell } from "react-icons/fi";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Menu } from "lucide-react";
 import { AuthContext } from "../../context/AuthContext";
 import { Link } from "react-router";
 
@@ -23,13 +22,12 @@ const Navbar = ({ toggleMobileSidebar }) => {
   return (
     <div className="p-3 landing-navbar bg-white border-b border-gray-100 shadow-sm sticky top-0 z-40">
       <div className="w-full mx-auto px- flex items-center justify-between">
-        {/* left side */}
         <div className="flex items-center">
           <button
             className="lg:hidden mr-3 p-2 rounded-md text-gray-500 hover:bg-indigo-50 transition-colors cursor-pointer"
             onClick={toggleMobileSidebar}
           >
-            <FiMenu size={20} />
+            <Menu size={20} />
           </button>
           
           <Link to="/dashboard" className="flex gap-2 items-center lg:hidden">
@@ -40,7 +38,6 @@ const Navbar = ({ toggleMobileSidebar }) => {
           </Link>
         </div>
 
-        {/* right side */}
         <div className="flex items-center gap-4">
           <button
               onClick={handleToggle}

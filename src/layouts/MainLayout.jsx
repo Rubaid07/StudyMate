@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router';
 import Footer from '../components/common/Footer';
 import LandingPageNavbar from '../components/common/LandingNavbar';
-import ScrollToTop from '../components/common/ScrollToTop';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase/firebase';
 import { useEffect, useState } from 'react';
@@ -20,7 +19,6 @@ const MainLayout = () => {
     }
     return (
         <div>
-            <ScrollToTop></ScrollToTop>
             <LandingPageNavbar></LandingPageNavbar>
             <div>
                 <Outlet></Outlet>

@@ -25,23 +25,15 @@ const LogoLoading = ({ size = 'medium', text = "Loading..." }) => {
 
   return (
     <div className="logo-loading flex flex-col items-center justify-center min-h-screen">
-      {/* Animated Logo */}
       <div className={`relative ${sizeClasses[size]} mb-6`}>
-        {/* Outer Circle */}
         <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full animate-ping opacity-75"></div>
-        
-        {/* Main Logo */}
         <div className="relative flex items-center justify-center w-full h-full bg-white rounded-full shadow-lg border-4 border-indigo-100">
           <div className="h-8 w-8 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
             <p className="font-bold text-white text-xl">S</p>
           </div>
         </div>
-
-        {/* Spinner Ring */}
         <div className="absolute inset-0 border-4 border-transparent border-t-indigo-600 border-r-purple-600 rounded-full animate-spin"></div>
       </div>
-
-      {/* Loading Text */}
       <div className="text-center">
         <p className={`font-semibold text-gray-700 ${textSizes[size]} mb-2`}>
           {text}
@@ -50,8 +42,6 @@ const LogoLoading = ({ size = 'medium', text = "Loading..." }) => {
           StudyMate{dots}
         </p>
       </div>
-
-      {/* Progress Bar (Optional) */}
       <div className="w-48 bg-gray-200 rounded-full h-2 mt-6 overflow-hidden">
         <div 
           className="bg-gradient-to-r from-indigo-500 to-purple-500 h-2 rounded-full transition-all duration-1000 animate-progress"

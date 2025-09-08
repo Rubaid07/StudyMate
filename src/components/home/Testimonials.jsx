@@ -1,7 +1,7 @@
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from "react-slick";
-import { FiStar } from "react-icons/fi";
+import { Star } from "lucide-react";
 
 const Testimonials = () => {
   const testimonials = [
@@ -41,7 +41,7 @@ const Testimonials = () => {
 
   const renderStars = (rating) =>
     Array.from({ length: 5 }, (_, i) => (
-      <FiStar
+      <Star
         key={i}
         className={`w-5 h-5 ${
           i < rating ? "text-yellow-400 fill-current" : "text-gray-300"
@@ -49,7 +49,6 @@ const Testimonials = () => {
       />
     ));
 
-  // slick settings
   const settings = {
     dots: true,
     infinite: true,
@@ -71,7 +70,6 @@ const Testimonials = () => {
   return (
     <section className="testimonials-section py-20 bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-6xl mx-auto px-4">
-        {/* Section Header */}
         <div className="text-center mb-14">
           <h2 className="testimonials-title text-3xl md:text-4xl font-bold text-gray-900 mb-3">
             What <span className='text-indigo-500'>Students Say</span>
@@ -82,7 +80,7 @@ const Testimonials = () => {
           </p>
         </div>
 
-        {/* Slick Slider */}
+        {/* slider */}
         <Slider {...settings}>
           {testimonials.map((t) => (
             <div key={t.id} className="px-4">
@@ -95,18 +93,12 @@ const Testimonials = () => {
                     className="testimonial-image w-20 h-20 rounded-full object-cover border-4 border-indigo-100 shadow-md"
                   />
                 </div>
-
-                {/* Stars */}
                 <div className="flex justify-center mb-4">
                   {renderStars(t.rating)}
                 </div>
-
-                {/* Text */}
                 <p className="testimonial-text text-gray-700 italic text-lg leading-relaxed mb-6">
                   “{t.text}”
                 </p>
-
-                {/* Author */}
                 <div>
                   <h4 className="testimonial-name font-bold text-gray-900 text-lg">{t.name}</h4>
                   <p className="testimonial-role text-gray-500 text-sm">{t.role}</p>

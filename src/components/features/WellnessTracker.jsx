@@ -23,10 +23,10 @@ const WellnessTracker = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchWellnessHistory();
+    fetchWellness();
   }, []);
 
-  const fetchWellnessHistory = async () => {
+  const fetchWellness = async () => {
     try {
       const response = await axiosSecure.get('/summary/wellness-history');
       setHistory(response.data);
@@ -43,7 +43,7 @@ const WellnessTracker = () => {
       await axiosSecure.post('/summary/mood-track', wellnessData);
       toast.success('Wellness entry recorded successfully!');
       setWellnessData({ mood: 3, sleepHours: 7, studyHours: 4, notes: '' });
-      fetchWellnessHistory();
+      fetchWellness();
     } catch (error) {
       toast.error('Failed to record wellness entry');
       console.error('Error:', error);
@@ -81,7 +81,7 @@ const WellnessTracker = () => {
 return (
   <div className="wellness-tracker min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 md:p-6 p-4">
     <div className="max-w-4xl mx-auto">
-      {/* Header */}
+      {/* header */}
       <div className="wellness-header bg-white rounded-2xl shadow-sm p-6 mb-6 border border-gray-100">
         <div className="flex items-center justify-between">
           <div className="header-content">
@@ -95,12 +95,10 @@ return (
       </div>
 
       <div className="wellness-content grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Wellness Form */}
         <div className="wellness-form bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
           <h2 className="form-title text-xl font-semibold text-gray-800 mb-6">How are you feeling today?</h2>
           
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Mood Selection */}
             <div className="mood-section">
               <label className="mood-label block text-sm font-medium text-gray-700 mb-4">
                 Mood Level (1-5)
@@ -108,7 +106,6 @@ return (
               <MoodSelector />
             </div>
 
-            {/* Sleep Hours */}
             <div className="sleep-section">
               <label className="sleep-label block text-sm font-medium text-gray-700 mb-2">
                 Sleep Hours Last Night
@@ -127,7 +124,6 @@ return (
               </div>
             </div>
 
-            {/* Study Hours */}
             <div className="study-section">
               <label className="study-label block text-sm font-medium text-gray-700 mb-2">
                 Study Hours Today
@@ -146,7 +142,6 @@ return (
               </div>
             </div>
 
-            {/* Notes */}
             <div className="notes-section">
               <label className="notes-label block text-sm font-medium text-gray-700 mb-2">
                 Additional Notes
@@ -170,7 +165,6 @@ return (
           </form>
         </div>
 
-        {/* Wellness Statistics */}
         <div className="wellness-stats bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
           <h2 className="stats-title text-xl font-semibold text-gray-800 mb-6">Wellness Overview</h2>
           
@@ -223,7 +217,6 @@ return (
             </div>
           </div>
 
-          {/* Recent Entries */}
           <div className="recent-entries">
             <h3 className="entries-title font-medium text-gray-700 mb-4">Recent Entries</h3>
             <div className="entries-list space-y-3">

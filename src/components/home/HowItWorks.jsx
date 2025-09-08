@@ -1,11 +1,10 @@
 import {
-  FiCalendar,
-  FiDollarSign,
-  FiBook,
-  FiHelpCircle,
-  FiHeart,
-  FiArrowRight,
-} from "react-icons/fi";
+  Calendar,
+  DollarSign,
+  Book,
+  HelpCircle,
+  Heart,
+} from "lucide-react";
 
 const HowItWorks = () => {
   const steps = [
@@ -14,7 +13,7 @@ const HowItWorks = () => {
       title: "Class Schedule Management",
       description:
         "Add your classes with subject, time, day, and instructor details. Color-code subjects for better organization and never miss a lecture.",
-      icon: <FiCalendar className="text-xl" />,
+      icon: <Calendar className="text-xl" />,
       color: "from-blue-500 to-blue-600",
       feature: "Class Tracker",
     },
@@ -23,7 +22,7 @@ const HowItWorks = () => {
       title: "Budget Tracking",
       description:
         "Track your income and expenses, categorize spending, and visualize your financial health with interactive charts and graphs.",
-      icon: <FiDollarSign className="text-xl" />,
+      icon: <DollarSign className="text-xl" />,
       color: "from-green-500 to-green-600",
       feature: "Budget Tracker",
     },
@@ -32,7 +31,7 @@ const HowItWorks = () => {
       title: "Study Planning",
       description:
         "Break down big study goals into manageable tasks, set priorities and deadlines, and allocate time slots for each subject.",
-      icon: <FiBook className="text-xl" />,
+      icon: <Book className="text-xl" />,
       color: "from-purple-500 to-purple-600",
       feature: "Study Planner",
     },
@@ -41,7 +40,7 @@ const HowItWorks = () => {
       title: "Exam Preparation",
       description:
         "Generate practice questions (MCQs, short answers, true/false) with customizable difficulty levels for effective exam preparation.",
-      icon: <FiHelpCircle className="text-xl" />,
+      icon: <HelpCircle className="text-xl" />,
       color: "from-orange-500 to-orange-600",
       feature: "Q&A Generator",
     },
@@ -50,7 +49,7 @@ const HowItWorks = () => {
       title: "Wellness Tracking",
       description:
         "Monitor your mood, sleep patterns, study hours, and overall wellness to maintain a healthy study-life balance.",
-      icon: <FiHeart className="text-xl" />,
+      icon: <Heart className="text-xl" />,
       color: "from-pink-500 to-pink-600",
       feature: "Wellness Tracker",
     },

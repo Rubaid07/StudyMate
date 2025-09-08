@@ -7,7 +7,6 @@ import {
   Calendar,
   HelpCircle,
   LogOut,
-  User,
   X,
   Smile,
 } from "lucide-react";
@@ -63,7 +62,6 @@ const Sidebar = ({ isMobileOpen, toggleMobileSidebar }) => {
     },
   ];
 
-  // Check if a menu item is active
   const isActive = (path) => {
     if (path === "/dashboard") {
       return location.pathname === path;
@@ -73,7 +71,7 @@ const Sidebar = ({ isMobileOpen, toggleMobileSidebar }) => {
 
   return (
     <>
-      {/* Mobile overlay */}
+      {/* mobile overlay */}
       {isMobileOpen && (
         <div
           className="fixed inset-0 bg-gray-600/70 bg-opacity-50 backdrop-blur-sm z-40 lg:hidden"
@@ -86,7 +84,7 @@ const Sidebar = ({ isMobileOpen, toggleMobileSidebar }) => {
           isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
-        {/* Logo */}
+        {/* logo */}
         <Link 
           to="/dashboard" 
           className="flex items-center gap-3 mb-8"
@@ -104,7 +102,7 @@ const Sidebar = ({ isMobileOpen, toggleMobileSidebar }) => {
           </button>
         </Link>
 
-        {/* User card */}
+        {/* user info */}
         <div className="bg-indigo-50 feature-item rounded-xl p-4 mb-6 flex items-center gap-3">
           <div className="h-12 w-12 rounded-full overflow-hidden border-2 border-white shadow-sm">
             <img
@@ -122,7 +120,7 @@ const Sidebar = ({ isMobileOpen, toggleMobileSidebar }) => {
           </div>
         </div>
 
-        {/* Menu */}
+        {/* menu */}
         <nav className="flex-1">
           <ul className="space-y-1">
             {menuItems.map((item) => {
@@ -152,7 +150,6 @@ const Sidebar = ({ isMobileOpen, toggleMobileSidebar }) => {
           </ul>
         </nav>
 
-        {/* Bottom section */}
         <div className="pt-2 border-t singin-divider border-gray-200">
           <button
             onClick={handleLogout}
