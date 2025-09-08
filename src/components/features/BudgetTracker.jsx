@@ -98,6 +98,7 @@ const BudgetTracker = () => {
     try {
       const dataToSend = {
         ...formData,
+        type: formData.type || "expense",
         amount: Number(formData.amount),
       };
 

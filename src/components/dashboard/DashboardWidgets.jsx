@@ -14,10 +14,10 @@ import {
   Bookmark,
   BarChart3,
   Quote,
+  Award,
 } from 'lucide-react';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { AuthContext } from '../../context/AuthContext';
-import { FiAward, FiClock } from 'react-icons/fi';
 import Loading from '../common/Loading';
 
 const DashboardWidgets = () => {
@@ -407,7 +407,7 @@ const DashboardWidgets = () => {
             <div className="dashboard-card bg-white rounded-2xl shadow-sm p-6 border border-gray-100">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="card-title text-lg font-semibold text-gray-800">Quiz Performance</h3>
-                <FiAward className="h-6 w-6 text-purple-600" />
+                <Award className="h-6 w-6 text-purple-600" />
               </div>
               <div className="quiz-stats space-y-3">
                 <div className="flex justify-between">
@@ -429,7 +429,7 @@ const DashboardWidgets = () => {
             <div className="dashboard-card bg-white rounded-2xl shadow-sm p-6 border border-gray-100 md:col-span-2">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="card-title text-lg font-semibold text-gray-800">Recent Quiz Results</h3>
-                <FiClock className="h-6 w-6 text-indigo-600" />
+                <Clock className="h-6 w-6 text-indigo-600" />
               </div>
               <div className="recent-quizzes space-y-3">
                 {recentQuizzes.length > 0 ? (
