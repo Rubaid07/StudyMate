@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router';
 import { Eye, EyeOff } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../context/AuthContext';
-import useAxiosSecure from '../hooks/useAxiosSecure';
 import axios from 'axios';
 
 const Register = () => {
@@ -11,7 +10,6 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const axiosSecure = useAxiosSecure();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -35,11 +33,14 @@ const Register = () => {
       const token = await user.getIdToken();
       localStorage.setItem("access-token", token);
 
-      await axiosSecure.put(`/users/${email}`, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/users/${email}`, {
         name,
         email,
         photo: "https://i.ibb.co/5GzXkwq/user.png",
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
       });
+
 
       toast.success("Sign up successful");
       navigate("/dashboard");
@@ -77,7 +78,7 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-57px)] flex items-center justify-center px-4 my-6 md:my-0">
+    <div className="min-h-[calc(100vh-57px)] flex items-center justify-center px-4 py-6 md:py-0">
       <div className="w-full max-w-md bg-white feature-card p-8 rounded-xl shadow-sm border border-gray-200">
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold">Create your account</h2>

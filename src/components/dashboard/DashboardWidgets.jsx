@@ -44,7 +44,7 @@ const DashboardWidgets = () => {
       setQuizStats(response.data.stats || {});
       setRecentQuizzes(response.data.recentResults || []);
     } catch (error) {
-      console.error('Error fetching quiz results:', error);
+      console.error(error);
     }
   };
 
@@ -93,8 +93,8 @@ const DashboardWidgets = () => {
         const response = await fetch('https://api.quotable.io/random?tags=education|success|motivational|inspirational');
         const data = await response.json();
         newQuote = `${data.content} - ${data.author}`;
-      } catch (apiError) {
-        console.log('Quotable API failed, trying ZenQuotes...');
+      } catch (err) {
+        console.log(err);
 
         try {
           const zenResponse = await fetch('https://zenquotes.io/api/random');
@@ -117,7 +117,7 @@ const DashboardWidgets = () => {
       localStorage.setItem('lastQuoteDate', today);
 
     } catch (error) {
-      console.error('Error fetching motivational quote:', error);
+      console.error(error);
       const randomIndex = Math.floor(Math.random() * fallbackQuotes.length);
       setDailyMotive(fallbackQuotes[randomIndex]);
     } finally {
@@ -152,7 +152,6 @@ const DashboardWidgets = () => {
         throw new Error('Invalid response from server');
       }
     } catch (error) {
-      console.error('Error fetching dashboard data:', error);
       if (error.response?.status === 401 || error.response?.status === 403) {
         setError('Authentication required. Please log in again.');
         return;
