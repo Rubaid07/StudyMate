@@ -446,11 +446,6 @@
 }
 
 @media (max-width: 768px) {
-  .testimonial-card {
-    height: auto;
-    min-height: 355px;
-    padding: 1.5rem;
-  }
 
   .slick-prev,
   .slick-next {
@@ -693,16 +688,6 @@
   background-color: rgba(30, 42, 68, 0.95);
 }
 
-/* DashboardPage */
-[data-theme="dark"] .dashboard-loading {
-  background: linear-gradient(to bottom right, rgb(17, 24, 39), rgb(31, 41, 55));
-}
-
-[data-theme="dark"] .loading-spinner {
-  border-color: rgb(99, 102, 241);
-  border-top-color: transparent;
-}
-
 [data-theme="dark"] .loading-text {
   color: rgb(209, 213, 219);
 }
@@ -716,7 +701,6 @@
   background-image: linear-gradient(to bottom right, #eff6ff, #e0e7ff);
 }
 
-.dashboard-loading,
 .dashboard-main {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
