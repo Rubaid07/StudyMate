@@ -1,12 +1,66 @@
-# React + Vite
+# 🎓 StudyMate - Student Life Toolkit
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![StudyMate Banner](https://i.postimg.cc/3R0thjNz/Screenshot-3.png)
 
-Currently, two official plugins are available:
+StudyMate is an all-in-one web application designed to make student life easier and more organized. It combines essential academic tools with productivity features to help students manage their studies, finances, and overall wellness.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+### Class Schedule Tracker
+- Add, edit, and delete classes with subject details
+- Color-coding system for different subjects
+- Daily and weekly view options
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Budget Tracker
+- Track income and expenses effortlessly
+- Visual charts and graphs for financial overview
+- Categorize transactions (food, transport, books, etc.)
+- Set monthly budgets and savings goals
+
+### Study Planner
+- Break down study goals into manageable tasks
+- Set priorities and deadlines
+- Allocate time slots for each subject
+- Track progress and completion
+
+### Exam Q&A Generator
+- Generate practice questions (MCQs, short answers, true/false)
+- Customizable difficulty levels (easy, medium, hard)
+- AI-powered question generation
+- Subject-specific quiz creation
+
+### Wellness Tracker
+- Monitor mood and mental health
+- Track sleep patterns and study hours
+- Maintain study-life balance
+- Personalized wellness insights
+
+## Getting Started
+
+### Prerequisites
+- Node.js (v14 or higher)
+- npm or yarn
+- Firebase account
+- MongoDB Atlas account
+
+## Technologies Used
+### Frontend
+- React.js v19
+- Tailwind CSS
+- React Router
+- Firebase Authentication
+- SweetAlert2
+- React Hot Toast
+- axios
+- recharts
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB
+- Firebase Admin SDK
+- Google Gemini API
+- node cache
+- helmet
+- express-rate-limit
+- express-async-handler
